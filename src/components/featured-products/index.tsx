@@ -1,82 +1,56 @@
-import React from "react";
+"use client";
+import { useProducts } from "@/hooks/useProducts";
 import styles from "./styles.module.scss";
-import Product from "../product";
-import pistola1 from "../../../public/img/pistola 1.png";
-import pistola2 from "../../../public/img/pistola 2.png";
-import pistola3 from "../../../public/img/pistola 3.png";
+import Image from "next/image";
 
-const products = [
-  {
-    image: pistola1,
-    name: "Pistola Glock G19 Gen5",
-    price: "R$ 4.950,00",
-    rating: 4.5,
-    reviews: 154,
-    isNew: true,
-    description: "A Glock G19 Gen5 é uma pistola compacta, ideal para defesa pessoal e uso policial. Possui alta precisão, durabilidade e fácil manutenção.",
-  },
-  {
-    image: pistola2,
-    name: "Pistola Taurus TX22",
-    price: "R$ 3277.50",
-    rating: 4.0,
-    reviews: 76,
-    isNew: true,
-    discount: "-5%",
-    description: "A Taurus TX22 é uma pistola moderna, leve e ergonômica, perfeita para prática esportiva e lazer.",
-  },
-  {
-    image: pistola3,
-    name: "Revólver Smith & Wesson 686",
-    price: "R$ 5301.00",
-    rating: 4.7,
-    reviews: 89,
-    discount: "-10%",
-    description: "O revólver Smith & Wesson 686 é reconhecido por sua robustez, precisão e confiabilidade, sendo uma escolha clássica para atiradores.",
-  },
-  {
-    image: pistola3,
-    name: "Revólver Smith & Wesson 686",
-    price: "R$ 5301.00",
-    rating: 4.7,
-    reviews: 89,
-    discount: "-10%",
-    description: "O revólver Smith & Wesson 686 é reconhecido por sua robustez, precisão e confiabilidade, sendo uma escolha clássica para atiradores.",
-  },
-  {
-    image: pistola3,
-    name: "Revólver Smith & Wesson 686",
-    price: "R$ 5301.00",
-    rating: 4.7,
-    reviews: 89,
-    discount: "-10%",
-    description: "O revólver Smith & Wesson 686 é reconhecido por sua robustez, precisão e confiabilidade, sendo uma escolha clássica para atiradores.",
-  },
-  {
-    image: pistola3,
-    name: "Revólver Smith & Wesson 686",
-    price: "R$ 5301.00",
-    rating: 4.7,
-    reviews: 89,
-    discount: "-10%",
-    description: "O revólver Smith & Wesson 686 é reconhecido por sua robustez, precisão e confiabilidade, sendo uma escolha clássica para atiradores.",
-  },
-];
+export function FeaturedProducts() {
+  const { products, loading } = useProducts('destaques');
 
-export default function FeaturedProducts() {
+  if (loading) {
+    return <div className={styles.loading}>Carregando produtos...</div>;
+  }
+
+  if (!products.length) {
+    return null;
+  }
+
   return (
-    <section className={styles.featuredSection}>
-      <div className={styles.header}>
-        <h2>Produtos em Destaque</h2>
-        <button className={styles.filterBtn}>Filtros</button>
-      </div>
-      <div className={styles.productsGrid}>
-        {products.map((p, i) => (
-          <Product key={i} {...p} />
+    <section className={styles.container}>
+      <h2 className={styles.title}>Produtos em Destaque</h2>
+      <div className={styles.grid}>
+        {products.map((product) => (
+          <div key={product.id} className={styles.card}>
+            <div className={styles.imageContainer}>
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={200}
+                height={200}
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+            <div className={styles.content}>
+              <h3 className={styles.productName}>{product.name}</h3>
+              <div className={styles.specs}>
+                {Object.entries(product.specifications).map(([key, value]) => (
+                  <div key={key} className={styles.spec}>
+                    <span className={styles.specLabel}>{key}</span>
+                    <span className={styles.specValue}>{value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.price}>
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(product.price)}
+              </div>
+              <button className={styles.buyButton}>
+                Comprar
+              </button>
+            </div>
+          </div>
         ))}
-      </div>
-      <div className={styles.moreBtnWrapper}>
-        <button className={styles.moreBtn}>Ver mais produtos</button>
       </div>
     </section>
   );

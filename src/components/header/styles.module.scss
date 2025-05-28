@@ -219,3 +219,30 @@
     min-height: 120px;
   }
 }
+
+.rightArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.loginButton {
+  background: #ffec70;
+  color: #222;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #ffd966;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}

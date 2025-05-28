@@ -3,60 +3,30 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import logo from "../../../public/img/Frame 99.png";
-import pistola1 from "../../../public/img/pistola 1.png";
-import pistola2 from "../../../public/img/pistola 2.png";
-import pistola3 from "../../../public/img/pistola 3.png";
-//import mira from "../../../public/img/mira.png";
 import { useRouter } from "next/navigation";
+import { useProducts, Product } from "../../hooks/useProducts";
 
 const menuItems = [
   { label: "Loja" },
-  { label: "Pistolas" },
-  { label: "Revólveres" },
-  { label: "Espingardas" },
-  { label: "Acessórios" },
+  { label: "Pistolas", category: "pistolas" },
+  { label: "Revólveres", category: "revolveres" },
+  { label: "Espingardas", category: "espingardas" },
+  { label: "Acessórios", category: "acessorios" },
   { label: "Treinamento" },
   { label: "Contato" },
 ];
 
-const pistolas = [
-  {
-    nome: "Pistola 9mm",
-    img: pistola1,
-    preco: "R$ 4.950,00",
-  },
-  {
-    nome: "Pistola .40",
-    img: pistola2,
-    preco: "R$ 5.200,00",
-  },
-  {
-    nome: "Pistola .45",
-    img: pistola3,
-    preco: "R$ 5.800,00",
-  },
-  {
-    nome: "Pistolas Compactas",
-    img: pistola1,
-    preco: "R$ 4.700,00",
-  },
-  {
-    nome: "Pistolas Full-Size",
-    img: pistola2,
-    preco: "R$ 5.600,00",
-  },
-];
-
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hoveredPistola, setHoveredPistola] = useState<number | null>(null);
+  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
+  const [hoveredPistola, setHoveredPistola] = useState<Product | null>(null);
   const router = useRouter();
+  const { getProductsByCategory, loading } = useProducts();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!target.closest(`.${styles.dropdownWrapper}`)) {
-        setIsOpen(false);
+        setOpenMenuIndex(null);
       }
     };
 
@@ -66,9 +36,8 @@ export default function Header() {
     };
   }, []);
 
-  const handleMenuClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
+  const handleMenuClick = (index: number) => {
+    setOpenMenuIndex(openMenuIndex === index ? null : index);
   };
 
   return (
@@ -77,43 +46,53 @@ export default function Header() {
         <Image src={logo} alt="Logo" width={260} height={60} quality={100} className={styles.logoImg} />
       </div>
       <nav className={styles.menu}>
-        {menuItems.map((item) => {
-          if (item.label === "Pistolas") {
+        {menuItems.map((item, index) => {
+          if (item.category) {
+            const products = getProductsByCategory(item.category as Product['category']);
             return (
               <div key={item.label} className={styles.dropdownWrapper}>
                 <div
-                  className={styles.menuItem + (isOpen ? ' ' + styles.active : '')}
-                  onClick={handleMenuClick}
+                  className={styles.menuItem + (openMenuIndex === index ? ' ' + styles.active : '')}
+                  onClick={() => handleMenuClick(index)}
                 >
-                  {item.label} <span className={styles.arrow}>{isOpen ? "▲" : "▼"}</span>
+                  {item.label} <span className={styles.arrow}>{openMenuIndex === index ? "▲" : "▼"}</span>
                 </div>
-                {isOpen && (
+                {openMenuIndex === index && (
                   <div className={styles.dropdown} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.dropdownContent}>
                       <div className={styles.pistolasList}>
-                        <div className={styles.pistolasTitle}><span>🪖</span> Todas as Pistolas</div>
+                        <div className={styles.pistolasTitle}>
+                          <span>🪖</span> Todas as {item.label}
+                        </div>
                         <div className={styles.pistolasDivider}></div>
-                        {pistolas.map((p, idx) => (
+                        {products.map((product) => (
                           <div
-                            key={p.nome}
-                            className={styles.pistolaItem + (hoveredPistola === idx ? ' ' + styles.pistolaItemActive : '')}
-                            onMouseEnter={() => setHoveredPistola(idx)}
+                            key={product.id}
+                            className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
+                            onMouseEnter={() => setHoveredPistola(product)}
                             onMouseLeave={() => setHoveredPistola(null)}
                           >
-                            {p.nome}
+                            {product.name}
                           </div>
                         ))}
                       </div>
                       <div className={styles.pistolaPreview}>
                         {hoveredPistola === null ? (
                           <div className={styles.previewDefault}>
-                            {/*<Image src={mira} alt="Mira" width={60} height={60} />*/}
                             <span>Passe o mouse sobre um produto</span>
                           </div>
                         ) : (
                           <div className={styles.previewProduto}>
-                            <Image src={pistolas[hoveredPistola].img} alt={pistolas[hoveredPistola].nome} width={180} height={120} />
-                            <div className={styles.previewPreco}>{pistolas[hoveredPistola].preco}</div>
+                            <Image 
+                              src={hoveredPistola.image} 
+                              alt={hoveredPistola.name} 
+                              width={180} 
+                              height={120}
+                              style={{ objectFit: 'contain' }}
+                            />
+                            <div className={styles.previewPreco}>
+                              R$ {hoveredPistola.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </div>
                           </div>
                         )}
                       </div>
@@ -130,13 +109,21 @@ export default function Header() {
           );
         })}
       </nav>
-      <div className={styles.searchArea}>
-        <span className={styles.searchIcon}>🔍</span>
-        <input
-          className={styles.searchInput}
-          type="text"
-          placeholder="Buscar produtos..."
-        />
+      <div className={styles.rightArea}>
+        <div className={styles.searchArea}>
+          <span className={styles.searchIcon}>🔍</span>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="Buscar produtos..."
+          />
+        </div>
+        <button 
+          className={styles.loginButton}
+          onClick={() => router.push("/login")}
+        >
+          Entrar
+        </button>
       </div>
     </header>
   );
