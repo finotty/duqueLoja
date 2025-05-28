@@ -1,0 +1,98 @@
+.section {
+  background: #f5f6f7;
+  border-radius: 12px;
+  margin: 32px auto 0 auto;
+  max-width: 1200px;
+  padding: 32px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  color: #23262b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.grid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 18px 24px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+  min-height: 180px;
+  position: relative;
+}
+.badgeNew {
+  background: #e6e800;
+  color: #23262b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 10px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+.badgeDiscount {
+  background: #ff4d4f;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 10px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+.productImg {
+  margin-bottom: 12px;
+}
+.name {
+  color: #23262b;
+  font-size: 1.08rem;
+  font-weight: 600;
+  text-align: center;
+}
+.addBtn {
+  margin-top: 10px;
+  background: #e6e800;
+  color: #23262b;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.addBtn:hover {
+  background: #bfc900;
+  color: #fff;
+}
+.price {
+  color: #f0b63d;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin: 8px 0 0 0;
+}
+@media (max-width: 900px) {
+  .grid {
+    gap: 16px;
+  }
+  .card {
+    min-width: 160px;
+    padding: 12px 10px;
+  }
+} 
