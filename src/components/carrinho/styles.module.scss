@@ -132,39 +132,86 @@
   color: #23262b;
 }
 .checkoutBox {
-  margin-left: 8px;
+  background: #3a3d42;
+  border-radius: 12px;
+  padding: 24px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+
+  h2 {
+    color: #ffec70;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    border-bottom: 1px solid #4f545c;
+    padding-bottom: 10px;
+  }
+}
+.authOptions {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   align-items: center;
-  justify-content: flex-start;
 }
 .authBtns {
   display: flex;
   gap: 16px;
-  margin-bottom: 12px;
+  width: 100%;
+  justify-content: center;
 }
-.loginBtn, .registerBtn {
-  background: #e6e80022;
-  color: #ffb300;
-  border: 1.5px solid #ffb300;
-  border-radius: 6px;
-  padding: 8px 22px;
-  font-size: 1rem;
+.loginBtn,
+.registerBtn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
   font-weight: 600;
-  transition: background 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex: 1;
+  text-align: center;
 }
-.loginBtn:hover, .registerBtn:hover {
-  background: #ffb300;
+.loginBtn {
+  background: #555;
   color: #fff;
+
+  &:hover {
+    background: #666;
+  }
+}
+.registerBtn {
+  background: #ffec70;
+  color: #222;
+
+  &:hover {
+    background: #ffd966;
+  }
 }
 .infoMsg {
-  color: #a0a0a0;
-  font-size: 1rem;
+  color: #b0b0b0;
+  font-size: 0.9rem;
   text-align: center;
-  margin-top: 8px;
+}
+.checkoutButton {
+   width: 100%;
+   background: #ffec70;
+   color: #222;
+   border: none;
+   border-radius: 8px;
+   padding: 14px 28px;
+   font-size: 1.1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s;
+   margin-top: 20px;
+
+   &:hover {
+     background: #ffd966;
+   }
+
+   &:active {
+     transform: translateY(1px);
+   }
 }
 .emptyCartMsg {
   padding: 32px 0;
