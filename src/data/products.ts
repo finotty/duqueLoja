@@ -100,5 +100,20 @@ export const preConfiguredProducts: Product[] = [
     }, 
     price: 0
   },
- 
+  {
+    id: 'pistola-alfa-proj-brno-cz3035-635mm-1',
+    name: 'Pistola Alfa Proj Brno CZ3035 635mm',
+    category: 'pistolas',
+    image: '/img/products/pistola-alfa-proj-brno-cz3035-635mm_1_12001.jpg',
+    specifications: {
+      calibre: '9mm',
+      capacidade: '17',
+      peso: '1.1kg',
+      comprimento: '180mm',
+      material: 'Aço inoxidável'
+    },
+    price: 0
+  },
+
+  
 ]; 

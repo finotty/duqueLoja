@@ -30,6 +30,7 @@
   justify-content: center;
   margin: 32px 0 0 0;
   width: 100%;
+  height: 350px;
 }
 .cartBox, .checkoutBox {
   background: #fff;
@@ -51,6 +52,7 @@
   margin-bottom: 18px;
 }
 .cartItem {
+  //min-width: 400px;
   display: flex;
   align-items: center;
   gap: 18px;
@@ -243,5 +245,225 @@
   .removeBtn {
     margin-left: 4px;
     padding: 2px 6px;
+  }
+}
+
+.cartSectionProfissional {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 32px auto 0 auto;
+ // background: red;
+}
+.productBox {
+  display: flex;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 32px 32px 32px 32px;
+  gap: 32px;
+  //height: 500px;
+  width: 100%;
+  margin-bottom: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.productImageArea {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.productImageGrande {
+  border-radius: 12px;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+.productInfoArea {
+  flex: 2 1 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 260px;
+}
+.productName {
+  color: #23262b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.ratingArea {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.reviews {
+  color: #bdbdbd;
+  font-size: 1em;
+  margin-left: 8px;
+}
+.productCode {
+  color: #888;
+  font-size: 1.05rem;
+  margin-bottom: 2px;
+}
+.productPrice {
+  color: #f0b63d;
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin: 8px 0 2px 0;
+}
+.productInstallments {
+  color: #23262b;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.qtyControlProfissional {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f5f6f7;
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+}
+.checkoutButtonGrande {
+  background: #ffec70;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 32px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+.checkoutButtonGrande:hover {
+  background: #ffd966;
+}
+
+.productDescriptionBox {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 28px 32px;
+  margin: 0 auto 24px auto;
+  max-width: 900px;
+}
+.productDescriptionBox h3 {
+  color: #23262b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.productDescriptionBox p {
+  color: #444;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.faqBox {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 28px 32px;
+  margin: 0 auto 24px auto;
+  max-width: 900px;
+}
+.faqBox h3 {
+  color: #23262b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.faqItem {
+  margin-bottom: 10px;
+}
+.faqQuestion {
+  background: none;
+  border: none;
+  color: #3a3d42;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 6px 0;
+  transition: color 0.2s;
+}
+.faqQuestion:hover {
+  color: #f0b63d;
+}
+.faqAnswer {
+  color: #444;
+  font-size: 1.05rem;
+  margin-left: 8px;
+  margin-bottom: 6px;
+}
+
+.avaliacoesBox {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 28px 32px;
+  margin: 0 auto 24px auto;
+  max-width: 900px;
+}
+.avaliacoesBox h3 {
+  color: #23262b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.avaliacoesList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.avaliacaoItem {
+  background: #f5f6f7;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.avaliacaoNome {
+  color: #23262b;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+.avaliacaoNota {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.avaliacaoComentario {
+  color: #444;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 900px) {
+  .productBox {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 8px;
+  }
+  .productImageArea {
+    justify-content: center;
+  }
+  .productInfoArea {
+    min-width: 0;
+    width: 100%;
+  }
+  .productDescriptionBox, .faqBox, .avaliacoesBox {
+    padding: 16px 4vw;
   }
 } 
