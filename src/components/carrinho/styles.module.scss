@@ -317,11 +317,35 @@
   font-size: 1.7rem;
   font-weight: bold;
   margin: 8px 0 2px 0;
+  display: flex;
+  //align-items: center;
+  flex-direction: column;
+  span{
+    color: #23262b;
+    font-size: 1.1rem;
+  }
 }
 .productInstallments {
   color: #23262b;
   font-size: 1.1rem;
   margin-bottom: 8px;
+  select.selectParcelas {
+    margin: 0 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #ffec70;
+    background: #fffbe6;
+    color: #23262b;
+    font-size: 1.05rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: border 0.2s;
+  }
+  select.selectParcelas:focus {
+    border: 1.5px solid #f0b63d;
+    background: #fffde0;
+  }
 }
 .qtyControlProfissional {
   display: flex;
@@ -331,6 +355,22 @@
   border-radius: 6px;
   padding: 4px 12px;
   margin-bottom: 8px;
+  width: 100px;
+  span{
+    color: #23262b;
+  }
+  button{
+    background: #e6e80022;
+    border: 1px solid #ffb300;
+    color: #23262b;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+  }
 }
 .checkoutButtonGrande {
   background: #ffec70;
@@ -354,7 +394,8 @@
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   padding: 28px 32px;
   margin: 0 auto 24px auto;
-  max-width: 900px;
+  max-width: 1280px;
+  width: 90vw;
 }
 .productDescriptionBox h3 {
   color: #23262b;
@@ -374,7 +415,8 @@
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   padding: 28px 32px;
   margin: 0 auto 24px auto;
-  max-width: 900px;
+  max-width: 1280px;
+  width: 90vw;
 }
 .faqBox h3 {
   color: #23262b;
@@ -413,7 +455,8 @@
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   padding: 28px 32px;
   margin: 0 auto 24px auto;
-  max-width: 900px;
+  max-width: 1280px;
+  width: 90vw;
 }
 .avaliacoesBox h3 {
   color: #23262b;
@@ -447,6 +490,11 @@
 .avaliacaoComentario {
   color: #444;
   font-size: 1.05rem;
+}
+.productInfoAreaTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media (max-width: 900px) {

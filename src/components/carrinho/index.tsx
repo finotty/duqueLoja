@@ -52,14 +52,18 @@ export default function Carrinho() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
+  const [parcelasSelecionadas, setParcelasSelecionadas] = useState<{[key: number]: number}>({});
 
   const total = cart.reduce((acc, item) => {
-    let priceStr = String(item.price).replace(/[^\d,\.]/g, '');
-    if (priceStr.includes(',')) {
-      priceStr = priceStr.replace(/\./g, '').replace(',', '.');
-    }
-    const price = parseFloat(priceStr);
-    return acc + (isNaN(price) ? 0 : price * item.quantity);
+    let valorNumerico = typeof item.price === 'number'
+      ? item.price
+      : parseFloat(String(item.price)
+          .replace('R$', '')
+          .trim()
+          .replace(/\./g, '')  // Remove pontos de milhar
+          .replace(',', '.')); // Substitui vírgula por ponto
+    const price = isNaN(valorNumerico) ? 0 : valorNumerico * item.quantity;
+    return acc + price;
   }, 0);
 
   if (authLoading) {
@@ -79,26 +83,53 @@ export default function Carrinho() {
           ) : (
             cart.map((item, idx) => {
               const productData = getProductDataByName(item.name);
+              let valorNumerico = typeof item.price === 'number'
+                ? item.price
+                : parseFloat(String(item.price)
+                    .replace('R$', '')
+                    .trim()
+                    .replace(/\./g, '')  // Remove pontos de milhar
+                    .replace(',', '.')); // Substitui vírgula por ponto
+              const parcelas = parcelasSelecionadas[idx] || 10;
               return (
                 <div className={styles.productBox} key={idx}>
                   <div className={styles.productImageArea}>
                     <Image src={item.image} alt={item.name} width={520} height={420} className={styles.productImageGrande} />
                   </div>
                   <div className={styles.productInfoArea}>
-                    <h2 className={styles.productName}>{item.name}</h2>
+                    <div className={styles.productInfoAreaTop}>
+                      <h2 className={styles.productName}>{item.name}</h2>
+                      <button className={styles.removeBtn} title="Remover" onClick={() => removeFromCart(idx)}>🗑️</button>
+                    </div>
                     <div className={styles.ratingArea}>
                       {[1,2,3,4,5].map(i => i <= 4 ? <FaStar key={i} color="#f0b63d" /> : <FaRegStar key={i} color="#f0b63d" />)}
                       <span className={styles.reviews}>(12 avaliações)</span>
                     </div>
                     <div className={styles.productCode}>Cód: {productData?.id || '---'}</div>
-                    <div className={styles.productPrice}>{item.price}</div>
-                    <div className={styles.productInstallments}>Em até 10x de {(parseFloat(String(item.price).replace(/[^\d,\.]/g, '').replace(',', '.'))/10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} sem juros</div>
+                    <div className={styles.productPrice}>
+                      <span>Por Apenas:</span>
+                      {item.price}
+                    </div>
+                    <div className={styles.productInstallments}>
+                      Em até
+                      <select
+                        value={parcelas}
+                        onChange={e => setParcelasSelecionadas({ ...parcelasSelecionadas, [idx]: Number(e.target.value) })}
+                        className={styles.selectParcelas}
+                      >
+                        {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
+                          <option key={num} value={num}>
+                            {num}x de { (valorNumerico/num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }
+                          </option>
+                        ))}
+                      </select>
+                      sem juros
+                    </div>
                     <div className={styles.qtyControlProfissional}>
                       <button type="button" onClick={() => handleQty(idx, -1)} disabled={item.quantity <= 1}>-</button>
                       <span>{item.quantity}</span>
                       <button type="button" onClick={() => handleQty(idx, 1)}>+</button>
                     </div>
-                    <button className={styles.removeBtn} title="Remover" onClick={() => removeFromCart(idx)}>🗑️ Remover</button>
                     <button className={styles.checkoutButtonGrande}>Finalizar Compra</button>
                   </div>
                 </div>
@@ -106,6 +137,7 @@ export default function Carrinho() {
             })
           )}
         </div>
+        
         {/* Descrição do produto */}
         {cart.length > 0 && (
           <div className={styles.productDescriptionBox}>
@@ -143,7 +175,7 @@ export default function Carrinho() {
             ))}
           </div>
         </div>
-        <ProdutosQuePodemInteressar />
+        <ProdutosQuePodemInteressar/>
       </div>
     );
   }
@@ -197,7 +229,7 @@ export default function Carrinho() {
           </div>
         </div>
       </div>
-      <ProdutosQuePodemInteressar />
+      
     </div>
   );
 } 
