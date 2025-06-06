@@ -111,7 +111,7 @@ export default function Carrinho() {
                       {item.price}
                     </div>
                     <div className={styles.productInstallments}>
-                      Em até
+                      <span className={styles.installment1}>Em até</span>
                       <select
                         value={parcelas}
                         onChange={e => setParcelasSelecionadas({ ...parcelasSelecionadas, [idx]: Number(e.target.value) })}
@@ -119,17 +119,29 @@ export default function Carrinho() {
                       >
                         {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
                           <option key={num} value={num}>
-                            {num}x de { (valorNumerico/num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }
+                            <span className={styles.installment}>{num}x</span> de { (valorNumerico/num).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }
                           </option>
                         ))}
                       </select>
-                      sem juros
+                      <span className={styles.installment1}>sem juros</span>
                     </div>
+                    <div className={styles.pix}>
+                      <span className={styles.pixText}>ou </span>
+                      <span className={styles.pixValue}>
+                        {((valorNumerico * 0.85).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))} 
+                      </span>
+                      <span className={styles.pixText}> no Pix, Boleto ou transferência à vista (15% desconto)</span>
+                    </div>
+                    <div className={styles.imgText}>
+                      <span>IMAGENS MERAMENTE ILUSTRATIVAS.</span>
+                    </div>
+                   {/**
                     <div className={styles.qtyControlProfissional}>
                       <button type="button" onClick={() => handleQty(idx, -1)} disabled={item.quantity <= 1}>-</button>
                       <span>{item.quantity}</span>
                       <button type="button" onClick={() => handleQty(idx, 1)}>+</button>
                     </div>
+                    */}
                     <button className={styles.checkoutButtonGrande}>Finalizar Compra</button>
                   </div>
                 </div>
@@ -141,7 +153,7 @@ export default function Carrinho() {
         {/* Descrição do produto */}
         {cart.length > 0 && (
           <div className={styles.productDescriptionBox}>
-            <h3>Descrição do Produto</h3>
+            <h3 className={styles.productDescriptionBoxTitle}>Descrição do Produto</h3>
             <p>{getProductDataByName(cart[0].name)?.specifications?.material ? `Material: ${getProductDataByName(cart[0].name)?.specifications?.material}` : 'Produto de alta qualidade, com garantia e procedência.'}</p>
             <p>Calibre: {getProductDataByName(cart[0].name)?.specifications?.calibre || '---'}</p>
             <p>Peso: {getProductDataByName(cart[0].name)?.specifications?.peso || '---'}</p>
@@ -150,7 +162,7 @@ export default function Carrinho() {
         )}
         {/* Perguntas Frequentes */}
         <div className={styles.faqBox}>
-          <h3>Perguntas Frequentes</h3>
+          <h3 className={styles.faqBoxTitle}>Perguntas Frequentes</h3>
           {perguntasFrequentes.map((faq, i) => (
             <div key={i} className={styles.faqItem}>
               <button className={styles.faqQuestion} onClick={() => setFaqOpen(faqOpen === i ? null : i)}>
@@ -162,7 +174,7 @@ export default function Carrinho() {
         </div>
         {/* Avaliações dos Clientes */}
         <div className={styles.avaliacoesBox}>
-          <h3>Avaliações dos Clientes</h3>
+          <h3 className={styles.avaliacoesBoxTitle}>Avaliações dos Clientes</h3>
           <div className={styles.avaliacoesList}>
             {avaliacoesMock.map((av, i) => (
               <div key={i} className={styles.avaliacaoItem}>

@@ -292,7 +292,7 @@
 }
 .productName {
   color: #23262b;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -329,6 +329,11 @@
   color: #23262b;
   font-size: 1.1rem;
   margin-bottom: 8px;
+  border-width: 1px;
+  border-color: #ffec70;
+  border-style: solid;
+  border-radius: 6px;
+  padding: 4px 10px;
   select.selectParcelas {
     margin: 0 8px;
     padding: 4px 10px;
@@ -346,6 +351,26 @@
     border: 1.5px solid #f0b63d;
     background: #fffde0;
   }
+  .installment{
+    color: #23262b;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+}
+.pixValue{
+  color: #23262b;
+  font-size: 1.30rem;
+  font-weight: 600;
+}
+.pixText{
+  color: #23262b;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.imgText{
+  color: #23262b;
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 .qtyControlProfissional {
   display: flex;
@@ -396,6 +421,11 @@
   margin: 0 auto 24px auto;
   max-width: 1280px;
   width: 90vw;
+  .productDescriptionBoxTitle{
+    font-size: 1.8rem;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
 }
 .productDescriptionBox h3 {
   color: #23262b;
@@ -417,6 +447,11 @@
   margin: 0 auto 24px auto;
   max-width: 1280px;
   width: 90vw;
+  .faqBoxTitle{
+    font-size: 1.8rem;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
 }
 .faqBox h3 {
   color: #23262b;
@@ -457,6 +492,11 @@
   margin: 0 auto 24px auto;
   max-width: 1280px;
   width: 90vw;
+  .avaliacoesBoxTitle{
+    font-size: 1.8rem;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
 }
 .avaliacoesBox h3 {
   color: #23262b;
