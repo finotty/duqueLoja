@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import ProdutosQuePodemInteressar from "../produtos-que-podem-interessar";
 import Image from "next/image";
@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from "../../context/AuthContext";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import * as produtosData from "../../data/products";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 function getProductDataByName(name: string) {
   return produtosData.preConfiguredProducts.find((p: any) => p.name === name);
@@ -53,6 +55,34 @@ export default function Carrinho() {
   const router = useRouter();
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [parcelasSelecionadas, setParcelasSelecionadas] = useState<{[key: number]: number}>({});
+  const [nomeCompleto, setNomeCompleto] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserData = async () => {
+        try {
+          console.log('Iniciando busca dos dados do usuário...');
+          console.log('User UID:', user.uid);
+          
+          const dados = getFirestore(db.app);
+          const userDoc = doc(dados, "users", user.uid);
+          const userSnapshot = await getDoc(userDoc);
+          
+          console.log('Dados encontrados:', userSnapshot.exists());
+          if (userSnapshot.exists()) {
+            const userData = userSnapshot.data();
+            console.log('Dados do usuário:', userData);
+            setNomeCompleto(userData.nomeCompleto);
+          } else {
+            console.log('Documento do usuário não encontrado');
+          }
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error);
+        }
+      };
+      fetchUserData();
+    }
+  }, [user]);
 
   const total = cart.reduce((acc, item) => {
     let valorNumerico = typeof item.price === 'number'
@@ -66,6 +96,15 @@ export default function Carrinho() {
     return acc + price;
   }, 0);
 
+  const handleCheckout = () => {
+    if (!user) {
+      router.push('/login');
+    } else {
+      // Prosseguir com o processo de compra
+      console.log('Usuário logado, prosseguindo com a compra.');
+    }
+  };
+
   if (authLoading) {
     return <div className={styles.loading}>Carregando...</div>;
   }
@@ -74,6 +113,12 @@ export default function Carrinho() {
     // Se o usuário já estiver logado, mostre a tela final de compra/checkout
     return (
       <div className={styles.wrapper}>
+        {/* Exibir o nome completo do usuário logado */}
+        {user && nomeCompleto && (
+          <div className={styles.userInfo}>
+            <p>Bem-vindo, {nomeCompleto}!</p>
+          </div>
+        )}
         <div className={styles.header}>
           <h1>Finalizar Compra</h1>
         </div>
@@ -142,7 +187,9 @@ export default function Carrinho() {
                       <button type="button" onClick={() => handleQty(idx, 1)}>+</button>
                     </div>
                     */}
-                    <button className={styles.checkoutButtonGrande}>Finalizar Compra</button>
+                    <button className={styles.checkoutButtonGrande} onClick={handleCheckout}>
+                      Finalizar Compra
+                    </button>
                   </div>
                 </div>
               );
@@ -186,6 +233,24 @@ export default function Carrinho() {
               </div>
             ))}
           </div>
+        </div>
+        {/* Novo: Seção de Procedimento para Compra de Arma de Fogo */}
+        <div className={styles.purchaseProcedureSection}>
+          <h2>Procedimento Compra de Arma de Fogo</h2>
+          <ol>
+            <li>
+              <strong>Compra:</strong> O primeiro processo é o de compra, onde o usuário poderá escolher o modelo da arma desejada e aguardar as informações contratuais e da loja para prosseguir com a autorização de compra. Antes de realizar a compra da arma o cliente deverá entrar em contato e confirmar a disponibilidade de envio da arma para sua região.
+            </li>
+            <li>
+              <strong>Autorização Deferida:</strong> Após receber o contrato e os dados, o cliente iniciará o processo de autorização de compras junto ao órgão de sua escolha responsável por realizar esse procedimento. Uma vez que a autorização for DEFERIDA, o cliente deverá nos enviar uma cópia nítida escaneada da mesma através do e-mail CONTATO@PESCAECIAARMAS.COM.BR.
+            </li>
+            <li>
+              <strong>Nota:</strong> Ao recebermos a AUTORIZAÇÃO DE COMPRAS e verificarmos se está correta, encaminharemos o pedido ao setor responsável pela emissão das notas fiscais, que será processada em até 07 dias úteis. Com a nota fiscal em mãos, o cliente poderá dar continuidade ao processo de registro da arma de fogo.
+            </li>
+            <li>
+              <strong>Registro Deferido:</strong> Após o deferimento do registro, o cliente deverá enviar, via e-mail para CONTATO@PESCAECIAARMAS.COM.BR, uma cópia escaneada e nítida do seu registro emitido pelo Exército ou Polícia Federal, juntamente com um documento de identificação com foto, como RG, CNH ou documento funcional. Após o envio dos documentos, o cliente aguardará o contato do SETOR RESPONSÁVEL, que ocorrerá em até 24 horas, via WhatsApp ou e-mail. Esse contato será feito para organizar todas as questões referentes ao envio da arma.
+            </li>
+          </ol>
         </div>
         <ProdutosQuePodemInteressar/>
       </div>
@@ -244,4 +309,4 @@ export default function Carrinho() {
       
     </div>
   );
-} 
+}
