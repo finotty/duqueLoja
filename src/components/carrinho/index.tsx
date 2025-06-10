@@ -11,6 +11,8 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import * as produtosData from "../../data/products";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 function getProductDataByName(name: string) {
   return produtosData.preConfiguredProducts.find((p: any) => p.name === name);
@@ -57,13 +59,19 @@ export default function Carrinho() {
   const [parcelasSelecionadas, setParcelasSelecionadas] = useState<{[key: number]: number}>({});
   const [nomeCompleto, setNomeCompleto] = useState<string | null>(null);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/');
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       const fetchUserData = async () => {
         try {
-          console.log('Iniciando busca dos dados do usuário...');
-          console.log('User UID:', user.uid);
-          
           const dados = getFirestore(db.app);
           const userDoc = doc(dados, "users", user.uid);
           const userSnapshot = await getDoc(userDoc);
@@ -114,14 +122,24 @@ export default function Carrinho() {
     return (
       <div className={styles.wrapper}>
         {/* Exibir o nome completo do usuário logado */}
-        {user && nomeCompleto && (
-          <div className={styles.userInfo}>
-            <p>Bem-vindo, {nomeCompleto}!</p>
-          </div>
-        )}
-        <div className={styles.header}>
+        {/**
+         user && nomeCompleto && (
+           <div className={styles.userInfo}>
+             <p>Bem-vindo, {nomeCompleto}!</p>
+             <button onClick={handleLogout} className={styles.logoutButton}>
+               Sair
+             </button>
+           </div>
+         )
+         * 
+         */
+        }
+        {/*
+          <div className={styles.header}>
           <h1>Finalizar Compra</h1>
-        </div>
+          </div>
+        */
+        }
         <div className={styles.cartSectionProfissional}>
           {cart.length === 0 ? (
             <div className={styles.emptyCartMsg}>Seu carrinho está vazio.</div>

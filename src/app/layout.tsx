@@ -5,6 +5,7 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { CartProvider } from "../context/CartContext";
 import { AuthProvider } from "../context/AuthContext";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body className={inter.variable}>
         <AuthProvider>
           <CartProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
+            <FavoritesProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </FavoritesProvider>
           </CartProvider>
         </AuthProvider>
       </body>
