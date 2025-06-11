@@ -6,6 +6,9 @@
   flex-direction: column;
   justify-content: center;
 }
+.section{
+  margin-top: 1.2rem;
+}
 .header {
   display: flex;
   align-items: center;
@@ -84,8 +87,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
-  max-width: 1200px;
+  max-width: 98%;
   margin: 0 auto;
+  padding-left: 10px;
 }
 
 .card {
@@ -163,8 +167,8 @@
 
 .favoriteButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 5px;
+  right: 10px;
   background: none;
   border: none;
   font-size: 1.2rem;
@@ -175,6 +179,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+  
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);

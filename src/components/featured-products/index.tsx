@@ -69,30 +69,23 @@ export function FeaturedProducts() {
                 alt={product.name}
                 width={200}
                 height={200}
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'contain',zIndex:10 }}
               />
-            </div>
-            <div className={styles.content}>
-              <h3 className={styles.productName}>{product.name}</h3>
-              <div className={styles.specs}>
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className={styles.spec}>
-                    <span className={styles.specLabel}>{key}</span>
-                    <span className={styles.specValue}>{value}</span>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.price}>{formatPrice(product.price)}</div>
-              <div className={styles.installments}>
-                Em até 10x de {formatPrice(product.price / 10)} sem juros
-              </div>
               <button 
                 className={styles.favoriteButton}
                 onClick={(e) => handleFavorite(e, product.id)}
                 title={isFavorite(product.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
               >
-                {isFavorite(product.id) ? <FaHeart color="#e74c3c" /> : <FaRegHeart />}
+                {isFavorite(product.id) ? <FaHeart color="#e74c3c" /> : <FaRegHeart color="#000" />}
               </button>
+            </div>
+            <div className={styles.content}>
+              <h3 className={styles.productName}>{product.name}</h3>
+             
+              <div className={styles.price}>{formatPrice(product.price)}</div>
+              <div className={styles.installments}>
+                Em até 10x de {formatPrice(product.price / 10)} sem juros
+              </div>
             </div>
           </div>
         ))}

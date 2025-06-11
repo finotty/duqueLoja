@@ -48,6 +48,7 @@ export default function Header() {
             const userData = userSnapshot.data();
             if (userData.nomeCompleto) {
               setPrimeiroNome(extrairPrimeiroNome(userData.nomeCompleto));
+              console.log(userData.nomeCompleto);
             }
           }
         } catch (error) {

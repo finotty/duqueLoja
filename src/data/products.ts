@@ -18,7 +18,7 @@ export interface Product {
 export const preConfiguredProducts: Product[] = [
   {
     id: 'pistola-9mm-1',
-    name: 'Pistola 9mm Taurus PT92',
+    name: 'Pistola Beretta m9a4 cal9mm 18 tiros cano 5 polegadas',
     category: 'pistolas',
     image: '/img/products/pistola-beretta-m9a4-cal9mm-18-tiros-cano-5polegadas_1_200.jpg',
     specifications: {
@@ -31,13 +31,13 @@ export const preConfiguredProducts: Product[] = [
     price: 0
   },
   {
-    id: 'pistola-40-1',
-    name: 'Pistola .40 Taurus PT100',
+    id: 'pistola-glock-g17',
+    name: 'Pistola- Glock g17 gen3 cal 9mm Oxidada 17 Tiros',
     category: 'pistolas',
-    image: '/img/products/pistola-40-1.jpg',
+    image: '/img/products/pistola-glock-g17-gen3-cal-9mm-oxidada-17-tiros_1_200.jpg',
     specifications: {
-      calibre: '.40 S&W',
-      capacidade: '15+1',
+      calibre: '.9mm',
+      capacidade: '17',
       peso: '1020g',
       comprimento: '216mm',
       material: 'Aço inoxidável'
@@ -60,9 +60,9 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-12-1',
-    name: 'Espingarda 12 Taurus T4',
+    name: 'Espingarda Semi Automatica Huglu xr7 Calibre 12 18 Polegadas Black',
     category: 'espingardas',
-    image: '/img/products/espingarda-12-1.jpg',
+    image: '/img/products/espingarda-semi-automatica-huglu-xr7-calibre12-18polegadas-black_1_200.jpg',
     specifications: {
       calibre: '12',
       capacidade: '4+1',

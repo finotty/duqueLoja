@@ -1,15 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import logo from "../../../public/img/Frame 99.png";
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const { signIn } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +20,12 @@ export default function Login() {
     
     try {
       await signIn(email, senha);
+      // Após o login bem-sucedido, verificar se há um caminho de redirecionamento
+      const redirectPath = localStorage.getItem('redirectAfterLogin');
+      if (redirectPath) {
+        localStorage.removeItem('redirectAfterLogin'); // Limpar após usar
+        window.location.href = redirectPath;
+      }
     } catch (error: any) {
       setError(
         error.code === "auth/invalid-credential"
@@ -59,7 +68,7 @@ export default function Login() {
           </button>
           <div className={styles.links}>
             <a href="#">Esqueceu a senha?</a>
-            <a href="#">Criar conta</a>
+            <Link href="/register">Criar conta</Link>
           </div>
         </form>
       </div>
