@@ -8,7 +8,7 @@ import { useProducts, Product } from "../../hooks/useProducts";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog } from "react-icons/fa";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
@@ -29,7 +29,7 @@ export default function Header() {
   const [primeiroNome, setPrimeiroNome] = useState<string>('');
   const router = useRouter();
   const { getProductsByCategory, loading } = useProducts();
-  const { user } = useAuth();
+  const { user, setRedirectPath, isAdmin } = useAuth();
 
   // Função para extrair o primeiro nome
   const extrairPrimeiroNome = (nomeCompleto: string) => {
@@ -208,6 +208,14 @@ export default function Header() {
                 }}>
                   <FaHeart /> Favoritos
                 </button>
+                {isAdmin && (
+                  <button onClick={() => {
+                    router.push('/admin');
+                    setUserMenuOpen(false);
+                  }}>
+                    <FaCog /> Painel Admin
+                  </button>
+                )}
                 <button onClick={() => {
                   handleLogout();
                   setUserMenuOpen(false);
@@ -220,7 +228,10 @@ export default function Header() {
         ) : (
           <button 
             className={styles.loginButton}
-            onClick={() => router.push("/login")}
+            onClick={() => {
+              setRedirectPath('/');
+              router.push("/login");
+            }}
           >
             Entrar
           </button>

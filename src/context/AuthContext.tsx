@@ -20,6 +20,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   redirectPath: string;
   setRedirectPath: (path: string) => void;
+  isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,12 +29,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [redirectPath, setRedirectPath] = useState<string>('/');
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
   const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setIsAdmin(user?.email === 'admin@admin.com');
       setLoading(false);
     });
 
@@ -114,7 +117,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signUp, 
       logout, 
       redirectPath, 
-      setRedirectPath: handleSetRedirectPath 
+      setRedirectPath: handleSetRedirectPath,
+      isAdmin 
     }}>
       {children}
     </AuthContext.Provider>

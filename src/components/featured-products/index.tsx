@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ export function FeaturedProducts() {
   const { products, loading } = useProducts('destaques');
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const { user, setRedirectPath } = useAuth();
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const router = useRouter();
 
@@ -24,6 +26,12 @@ export function FeaturedProducts() {
   }
 
   const handleBuy = (product: typeof products[0]) => {
+    if (!user) {
+      setRedirectPath('/carrinho');
+      router.push('/login');
+      return;
+    }
+
     addToCart({
       image: product.image,
       name: product.name,
@@ -39,6 +47,13 @@ export function FeaturedProducts() {
 
   const handleFavorite = async (e: React.MouseEvent, productId: string) => {
     e.stopPropagation();
+    
+    if (!user) {
+      setRedirectPath('/');
+      router.push('/login');
+      return;
+    }
+
     if (isFavorite(productId)) {
       await removeFromFavorites(productId);
     } else {

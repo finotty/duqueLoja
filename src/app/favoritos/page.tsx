@@ -105,6 +105,8 @@ export default function FavoritesPage() {
   const handleRemoveFromFavorites = async (productId: string) => {
     try {
       await removeFromFavorites(productId);
+      // Atualiza o estado local removendo o produto da lista
+      setFavoriteProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
     } catch (error) {
       console.error('Erro ao remover dos favoritos:', error);
     }

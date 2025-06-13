@@ -18,7 +18,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
-    } else if (!loading && !isAdmin) {
+    } else if (!loading && user && !isAdmin) {
       router.push("/");
     }
   }, [user, isAdmin, loading, router]);
@@ -47,8 +47,19 @@ export default function AdminPage() {
     return <div className={styles.loading}>Carregando...</div>;
   }
 
-  if (!user || !isAdmin) {
+  if (!user) {
     return null;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.accessDenied}>
+          <h1>Acesso Negado</h1>
+          <p>Você não tem permissão para acessar esta página.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
