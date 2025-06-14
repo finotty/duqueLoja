@@ -11,6 +11,9 @@ import { auth } from "../../config/firebase";
 import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog } from "react-icons/fa";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { useCart } from "../../context/CartContext";
+import { useFavorites } from "../../context/FavoritesContext";
+import { FaRegHeart } from "react-icons/fa";
 
 const menuItems = [
   { label: "Loja" },
@@ -27,9 +30,12 @@ export default function Header() {
   const [hoveredPistola, setHoveredPistola] = useState<Product | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [primeiroNome, setPrimeiroNome] = useState<string>('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const router = useRouter();
   const { getProductsByCategory, loading } = useProducts();
   const { user, setRedirectPath, isAdmin } = useAuth();
+  const { addToCart } = useCart();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
   // Função para extrair o primeiro nome
   const extrairPrimeiroNome = (nomeCompleto: string) => {
@@ -98,6 +104,79 @@ export default function Header() {
     }
   };
 
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setOpenMenuIndex(null);
+  };
+
+  const handleBuy = (product: Product) => {
+    if (!user) {
+      // Salva o produto no localStorage antes de redirecionar
+      localStorage.setItem('pendingProduct', JSON.stringify({
+        image: product.image,
+        name: product.name,
+        price: new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(product.price),
+        quantity: 1
+      }));
+      
+      // Fecha o modal antes de redirecionar
+      setSelectedProduct(null);
+      setRedirectPath('/carrinho');
+      router.push('/login');
+      return;
+    }
+
+    addToCart({
+      image: product.image,
+      name: product.name,
+      price: new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(product.price),
+      quantity: 1
+    });
+    setSelectedProduct(null);
+    router.push('/carrinho');
+  };
+
+  const handleFavorite = async (e: React.MouseEvent, productId: string) => {
+    e.stopPropagation();
+    
+    if (!user) {
+      console.log('Usuário não logado, salvando produto pendente:', productId);
+      // Salva apenas o ID do produto no localStorage
+      localStorage.setItem('pendingFavorite', productId);
+      
+      // Fecha o modal antes de redirecionar
+      setSelectedProduct(null);
+      setRedirectPath('/favoritos');
+      router.push('/login');
+      return;
+    }
+
+    try {
+      if (isFavorite(productId)) {
+        console.log('Removendo dos favoritos:', productId);
+        await removeFromFavorites(productId);
+      } else {
+        console.log('Adicionando aos favoritos:', productId);
+        await addToFavorites(productId);
+      }
+    } catch (error) {
+      console.error('Erro ao manipular favoritos:', error);
+    }
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(price);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logoArea} onClick={() => router.push("/")}>
@@ -129,6 +208,7 @@ export default function Header() {
                             className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
                             onMouseEnter={() => setHoveredPistola(product)}
                             onMouseLeave={() => setHoveredPistola(null)}
+                            onClick={() => handleProductClick(product)}
                           >
                             {product.name}
                           </div>
@@ -237,6 +317,58 @@ export default function Header() {
           </button>
         )}
       </div>
+      {selectedProduct && (
+        <div className={styles.modalOverlay} onClick={() => setSelectedProduct(null)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalImageContainer}>
+              <Image
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                width={300}
+                height={300}
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+            <div className={styles.modalContent}>
+              <h2 className={styles.modalTitle}>{selectedProduct.name}</h2>
+              <div className={styles.modalSpecs}>
+                {Object.entries(selectedProduct.specifications).map(([key, value]) => (
+                  <div key={key} className={styles.modalSpec}>
+                    <span className={styles.modalSpecLabel}>{key}</span>
+                    <span className={styles.modalSpecValue}>{value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.modalPrice}>
+                {formatPrice(selectedProduct.price)}
+              </div>
+              <div className={styles.modalInstallments}>
+                Em até 10x de {formatPrice(selectedProduct.price / 10)} sem juros
+              </div>
+              <button 
+                className={styles.modalBuyButton}
+                onClick={() => handleBuy(selectedProduct)}
+              >
+                Adicionar ao Carrinho
+              </button>
+              <button 
+                className={styles.modalFavoriteButton}
+                onClick={(e) => handleFavorite(e, selectedProduct.id)}
+                title={isFavorite(selectedProduct.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+              >
+                {isFavorite(selectedProduct.id) ? <FaHeart color="#e74c3c" /> : <FaRegHeart />}
+                {isFavorite(selectedProduct.id) ? " Remover dos Favoritos" : " Adicionar aos Favoritos"}
+              </button>
+            </div>
+            <button 
+              className={styles.modalCloseButton}
+              onClick={() => setSelectedProduct(null)}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

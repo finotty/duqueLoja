@@ -28,10 +28,14 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
           
           if (userSnapshot.exists()) {
             const userData = userSnapshot.data();
-            setFavorites(userData.favorites || []);
+            const userFavorites = userData.favorites || [];
+            setFavorites(userFavorites);
+          } else {
+            setFavorites([]);
           }
         } catch (error) {
           console.error('Erro ao buscar favoritos:', error);
+          setFavorites([]);
         }
       };
 
@@ -42,15 +46,29 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   const addToFavorites = async (productId: string) => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     try {
       const dados = getFirestore(db.app);
       const userDoc = doc(dados, "users", user.uid);
-      const updatedFavorites = [...favorites, productId];
+      
+      // Primeiro, vamos buscar os favoritos atuais
+      const userSnapshot = await getDoc(userDoc);
+      const currentFavorites = userSnapshot.exists() ? (userSnapshot.data().favorites || []) : [];
+      
+      // Verificar se o produto já está nos favoritos
+      if (currentFavorites.includes(productId)) {
+        return;
+      }
+      
+      // Adicionar o novo favorito
+      const updatedFavorites = [...currentFavorites, productId];
       
       await updateDoc(userDoc, { favorites: updatedFavorites });
       setFavorites(updatedFavorites);
+      console.log('Favorito adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar favorito:', error);
       throw error;
@@ -58,7 +76,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeFromFavorites = async (productId: string) => {
-    if (!user) return;
+    if (!user) {
+      console.log('Usuário não está logado, não é possível remover favorito');
+      return;
+    }
 
     try {
       const dados = getFirestore(db.app);

@@ -6,32 +6,76 @@ import logo from "../../../public/img/Frame 99.png";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useCart } from "../../context/CartContext";
+import { useFavorites } from "../../context/FavoritesContext";
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
-  const { signIn } = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const { signIn, user } = useAuth();
+  const { addToCart } = useCart();
+  const { addToFavorites } = useFavorites();
   const router = useRouter();
+
+  useEffect(() => {
+    const handlePostLogin = async () => {
+      if (user && isLoggingIn) {
+        
+        // Verificar se há um produto pendente no localStorage
+        const pendingProduct = localStorage.getItem('pendingProduct');
+        if (pendingProduct) {
+          // Adicionar o produto ao carrinho
+          addToCart(JSON.parse(pendingProduct));
+          // Limpar o produto pendente
+          localStorage.removeItem('pendingProduct');
+        }
+
+        // Verificar se há um favorito pendente no localStorage
+        const pendingFavorite = localStorage.getItem('pendingFavorite');
+        if (pendingFavorite) {
+          try {
+            // Usar o addToFavorites do contexto em vez de manipular o Firestore diretamente
+            await addToFavorites(pendingFavorite);
+            // Limpar o favorito pendente
+            localStorage.removeItem('pendingFavorite');
+          } catch (error) {
+            console.error('Erro ao adicionar favorito pendente:', error);
+          }
+        }
+
+        // Após processar as ações pendentes, verificar se há um caminho de redirecionamento
+        const redirectPath = localStorage.getItem('redirectAfterLogin');
+        if (redirectPath) {
+          localStorage.removeItem('redirectAfterLogin'); // Limpar após usar
+          window.location.href = redirectPath;
+        }
+
+        setIsLoggingIn(false);
+      }
+    };
+
+    handlePostLogin();
+  }, [user, isLoggingIn, addToCart, addToFavorites]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoggingIn(true);
     
     try {
       await signIn(email, senha);
-      // Após o login bem-sucedido, verificar se há um caminho de redirecionamento
-      const redirectPath = localStorage.getItem('redirectAfterLogin');
-      if (redirectPath) {
-        localStorage.removeItem('redirectAfterLogin'); // Limpar após usar
-        window.location.href = redirectPath;
-      }
     } catch (error: any) {
+      console.error('Erro no login:', error);
       setError(
         error.code === "auth/invalid-credential"
           ? "E-mail ou senha inválidos"
           : "Erro ao fazer login. Tente novamente."
       );
+      setIsLoggingIn(false);
     }
   };
 

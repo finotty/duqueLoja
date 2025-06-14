@@ -71,8 +71,6 @@ export default function FavoritesPage() {
           ...doc.data()
         })) as Product[];
 
-        console.log("Produtos: ", produtos);
-
         // Filtrar apenas os produtos que estão nos favoritos usando o id do produto
         const favoriteProducts = produtos.filter(product => 
           favoriteIds.includes(product.id)
@@ -88,7 +86,7 @@ export default function FavoritesPage() {
     };
 
     fetchFavoriteProducts();
-  }, [user]);
+  }, [user, favorites]);
 
   const handleAddToCart = (product: Product) => {
     addToCart({

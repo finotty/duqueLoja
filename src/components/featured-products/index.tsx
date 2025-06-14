@@ -84,7 +84,7 @@ export function FeaturedProducts() {
                 alt={product.name}
                 width={200}
                 height={200}
-                style={{ objectFit: 'contain',zIndex:10 }}
+                style={{ objectFit: 'contain' }}
               />
               <button 
                 className={styles.favoriteButton}

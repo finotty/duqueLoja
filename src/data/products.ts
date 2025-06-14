@@ -1,5 +1,6 @@
 export interface Product {
   id: string;
+  firestoreId?: string;
   name: string;
   category: 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios';
   image: string;
