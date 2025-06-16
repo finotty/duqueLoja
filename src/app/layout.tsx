@@ -6,6 +6,7 @@ import Footer from "../components/footer";
 import { CartProvider } from "../context/CartContext";
 import { AuthProvider } from "../context/AuthContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import FloatingWhatsApp from "../components/FloatingWhatsApp";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
               <Header />
               <main>{children}</main>
               <Footer />
+              <FloatingWhatsApp />
             </FavoritesProvider>
           </CartProvider>
         </AuthProvider>

@@ -7,6 +7,7 @@ import { db } from "../../config/firebase";
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
 import styles from "./styles.module.scss";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import ContactMessages from './components/ContactMessages';
 
 export default function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
@@ -363,6 +364,8 @@ export default function AdminPage() {
           <p>Visualizar e gerenciar pedidos</p>
         </div>
       </div>
+
+      <ContactMessages />
 
       {showEditModal && selectedProductForEdit && (
         <div className={styles.modalOverlay} onClick={() => setShowEditModal(false)}>

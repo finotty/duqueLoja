@@ -8,7 +8,7 @@ import { useProducts, Product } from "../../hooks/useProducts";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog } from "react-icons/fa";
+import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog, FaTachometerAlt } from "react-icons/fa";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useCart } from "../../context/CartContext";
@@ -16,13 +16,12 @@ import { useFavorites } from "../../context/FavoritesContext";
 import { FaRegHeart } from "react-icons/fa";
 
 const menuItems = [
-  { label: "Loja" },
   { label: "Pistolas", category: "pistolas" },
   { label: "Revólveres", category: "revolveres" },
   { label: "Espingardas", category: "espingardas" },
   { label: "Acessórios", category: "acessorios" },
   { label: "Treinamento" },
-  { label: "Contato" },
+  { label: "Contato", href: "/contato" },
 ];
 
 export default function Header() {
@@ -239,12 +238,23 @@ export default function Header() {
                 )}
               </div>
             );
+          } else if (item.href) {
+            return (
+              <div
+                key={item.label}
+                className={styles.menuItem}
+                onClick={() => router.push(item.href!)}
+              >
+                {item.label}
+              </div>
+            );
+          } else {
+            return (
+              <div key={item.label} className={styles.menuItem}>
+                {item.label}
+              </div>
+            );
           }
-          return (
-            <div key={item.label} className={styles.menuItem}>
-              {item.label} <span className={styles.arrow}>▼</span>
-            </div>
-          );
         })}
       </nav>
       <div className={styles.rightArea}>
@@ -270,38 +280,38 @@ export default function Header() {
                 className={styles.userMenu} 
                 onClick={(e) => e.stopPropagation()}
               >
-                <button onClick={() => {
-                  router.push('/perfil');
-                  setUserMenuOpen(false);
-                }}>
-                  <FaUser /> Informações Pessoais
-                </button>
-                <button onClick={() => {
+                <div className={styles.userInfo}>
+                  <div className={styles.avatar}>
+                    <FaUser size={20} />
+                  </div>
+                  <span>Olá, {primeiroNome}</span>
+                </div>
+                <div className={styles.menuItems}>
+                  {!isAdmin && <button onClick={() => router.push('/dashboard')}>
+                    <FaTachometerAlt /> Dashboard
+                  </button>}
+                  {isAdmin && (
+                    <button onClick={() => router.push('/admin')}>
+                      <FaCog /> Painel Admin
+                    </button>
+                  )}
+                  
+                  <button onClick={() => {
                   router.push('/carrinho');
                   setUserMenuOpen(false);
-                }}>
+                   }}>
                   <FaShoppingCart /> Carrinho
-                </button>
-                <button onClick={() => {
-                  router.push('/favoritos');
-                  setUserMenuOpen(false);
-                }}>
-                  <FaHeart /> Favoritos
-                </button>
-                {isAdmin && (
-                  <button onClick={() => {
-                    router.push('/admin');
-                    setUserMenuOpen(false);
-                  }}>
-                    <FaCog /> Painel Admin
                   </button>
-                )}
-                <button onClick={() => {
-                  handleLogout();
-                  setUserMenuOpen(false);
-                }}>
-                  <FaSignOutAlt /> Sair
-                </button>
+
+                  <button onClick={() => router.push('/favoritos')}>
+                    <FaHeart /> Favoritos
+                  </button>
+                   
+                  
+                  <button onClick={handleLogout}>
+                    <FaSignOutAlt /> Sair
+                  </button>
+                </div>
               </div>
             )}
           </div>
