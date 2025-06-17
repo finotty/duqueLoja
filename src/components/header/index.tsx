@@ -8,7 +8,7 @@ import { useProducts, Product } from "../../hooks/useProducts";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog, FaTachometerAlt } from "react-icons/fa";
+import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog, FaTachometerAlt, FaSearch } from "react-icons/fa";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useCart } from "../../context/CartContext";
@@ -30,8 +30,11 @@ export default function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [primeiroNome, setPrimeiroNome] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const router = useRouter();
-  const { getProductsByCategory, loading } = useProducts();
+  const { getProductsByCategory, loading, products } = useProducts();
   const { user, setRedirectPath, isAdmin } = useAuth();
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
@@ -176,6 +179,27 @@ export default function Header() {
     }).format(price);
   };
 
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    if (term.length >= 2) {
+      const filtered = products.filter(product => 
+        product.name.toLowerCase().includes(term.toLowerCase()) ||
+        product.category.toLowerCase().includes(term.toLowerCase())
+      );
+      setSearchResults(filtered);
+      setShowSearchResults(true);
+    } else {
+      setSearchResults([]);
+      setShowSearchResults(false);
+    }
+  };
+
+  const handleSearchResultClick = (product: Product) => {
+    setSelectedProduct(product);
+    setSearchTerm('');
+    setShowSearchResults(false);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logoArea} onClick={() => router.push("/")}>
@@ -259,12 +283,40 @@ export default function Header() {
       </nav>
       <div className={styles.rightArea}>
         <div className={styles.searchArea}>
-          <span className={styles.searchIcon}>🔍</span>
+          <FaSearch className={styles.searchIcon} />
           <input
             className={styles.searchInput}
             type="text"
             placeholder="Buscar produtos..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            onFocus={() => searchTerm.length >= 2 && setShowSearchResults(true)}
           />
+          {showSearchResults && searchResults.length > 0 && (
+            <div className={styles.searchResults}>
+              {searchResults.map((product) => (
+                <div
+                  key={product.id}
+                  className={styles.searchResultItem}
+                  onClick={() => handleSearchResultClick(product)}
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={40}
+                    height={40}
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <div className={styles.searchResultInfo}>
+                    <span className={styles.searchResultName}>{product.name}</span>
+                    <span className={styles.searchResultPrice}>
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         {user ? (
           <div className={styles.userMenuWrapper}>

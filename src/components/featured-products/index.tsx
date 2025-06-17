@@ -27,6 +27,17 @@ export function FeaturedProducts() {
 
   const handleBuy = (product: typeof products[0]) => {
     if (!user) {
+      localStorage.setItem('pendingProduct', JSON.stringify({
+        image: product.image,
+        name: product.name,
+        price: new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(product.price),
+        quantity: 1
+      }));
+      
+      setSelectedProduct(null);
       setRedirectPath('/carrinho');
       router.push('/login');
       return;

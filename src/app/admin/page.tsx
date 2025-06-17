@@ -24,6 +24,8 @@ export default function AdminPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+  const [searchSection, setSearchSection] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -76,31 +78,27 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedProduct) return;
+    if (!selectedProduct || !price || !displayLocation) {
+      alert('Por favor, preencha todos os campos');
+      return;
+    }
 
     try {
       const productData = {
         ...selectedProduct,
-        price: Number(price),
-        displayLocation
+        price: parseFloat(price),
+        displayLocation,
+        createdAt: new Date()
       };
 
-      // Removemos o id do produto pré-configurado antes de salvar
-      const { id, ...productDataWithoutId } = productData;
-
-      const docRef = await addDoc(collection(db, "products"), productDataWithoutId);
-      
-      // Atualizamos o documento com seu próprio ID
-      await updateDoc(docRef, {
-        firestoreId: docRef.id
-      });
-
-      setMessage({ text: "Produto cadastrado com sucesso!", type: "success" });
+      await addDoc(collection(db, 'products'), productData);
       setSelectedProduct(null);
-      setPrice("");
+      setPrice('');
+      setDisplayLocation('header');
       fetchRegisteredProducts();
+      setMessage({ text: "Produto cadastrado com sucesso!", type: "success" });
     } catch (error) {
-      console.error("Erro ao cadastrar produto:", error);
+      console.error('Erro ao adicionar produto:', error);
       setMessage({ text: "Erro ao cadastrar produto", type: "error" });
     }
   };
@@ -182,7 +180,8 @@ export default function AdminPage() {
   const filteredProducts = registeredProducts.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !searchCategory || product.category === searchCategory;
-    return matchesSearch && matchesCategory;
+    const matchesSection = !searchSection || product.displayLocation === searchSection;
+    return matchesSearch && matchesCategory && matchesSection;
   });
 
   const categories = Array.from(new Set(registeredProducts.map(p => p.category)));
@@ -218,14 +217,15 @@ export default function AdminPage() {
           <h2>Cadastrar Produto</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formGroup}>
-              <label>Produto</label>
+              <label htmlFor="product">Produto:</label>
               <select
+                id="product"
                 value={selectedProduct?.id || ""}
                 onChange={(e) => handleProductSelect(e.target.value)}
                 required
               >
                 <option value="">Selecione um produto</option>
-                {preConfiguredProducts.map(product => (
+                {preConfiguredProducts.map((product) => (
                   <option key={product.id} value={product.id}>
                     {product.name}
                   </option>
@@ -233,37 +233,48 @@ export default function AdminPage() {
               </select>
             </div>
 
+            <div className={styles.formGroup}>
+              <label htmlFor="price">Preço:</label>
+              <input
+                type="number"
+                id="price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Local de Exibição</label>
+              <select
+                value={displayLocation}
+                onChange={(e) => setDisplayLocation(e.target.value as any)}
+                required
+              >
+                <option value="header">Menu Principal</option>
+                <option value="destaques">Produtos em Destaque</option>
+                <option value="recomendados">Produtos Recomendados</option>
+              </select>
+            </div>
+
             {selectedProduct && (
               <>
-                <div className={styles.formGroup}>
-                  <label>Preço (R$)</label>
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="0.00"
-                    step="0.01"
-                    required
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label>Local de Exibição</label>
-                  <select
-                    value={displayLocation}
-                    onChange={(e) => setDisplayLocation(e.target.value as any)}
-                    required
-                  >
-                    <option value="header">Menu Principal</option>
-                    <option value="destaques">Produtos em Destaque</option>
-                    <option value="recomendados">Produtos Recomendados</option>
-                  </select>
-                </div>
-
                 <div className={styles.productPreview}>
                   <h3>Preview do Produto</h3>
                   <div className={styles.previewContent}>
-                    <img src={selectedProduct.image} alt={selectedProduct.name} />
+                    <div className={styles.productColumn}>
+                      <img src={selectedProduct.image} alt={selectedProduct.name} />
+                      <div className={styles.brandInfo}>
+                        <img 
+                          src={`/img/marcas/${selectedProduct.marca.toLowerCase().replace(/\s+/g, '-')}.jpg`} 
+                          alt={selectedProduct.marca}
+                          className={styles.brandImage}
+                        />
+                      </div>
+                    </div>
                     <div className={styles.previewDetails}>
                       <h4>{selectedProduct.name}</h4>
                       <div className={styles.specs}>
@@ -316,6 +327,16 @@ export default function AdminPage() {
                 </option>
               ))}
             </select>
+            <select
+              value={searchSection}
+              onChange={(e) => setSearchSection(e.target.value)}
+              className={styles.categorySelect}
+            >
+              <option value="">Todas as seções</option>
+              <option value="header">Menu Principal</option>
+              <option value="destaques">Produtos em Destaque</option>
+              <option value="recomendados">Produtos Recomendados</option>
+            </select>
           </div>
           <div className={styles.productsContainer}>
             <div className={styles.productsGrid}>
@@ -327,6 +348,13 @@ export default function AdminPage() {
                   <div className={styles.productInfo}>
                     <h3>{product.name}</h3>
                     <p className={styles.price}>{formatPrice(product.price)}</p>
+                    <p className={styles.section}>
+                      Seção: {
+                        product.displayLocation === 'header' ? 'Menu Principal' :
+                        product.displayLocation === 'destaques' ? 'Produtos em Destaque' :
+                        'Produtos Recomendados'
+                      }
+                    </p>
                     <div className={styles.actions}>
                       <button
                         className={styles.editButton}

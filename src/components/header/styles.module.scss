@@ -186,11 +186,13 @@
   border-radius: 2px;
   padding: 2px 8px;
   margin-left: 16px;
+  position: relative;
 }
 .searchIcon {
   color: #b0b0b0;
   font-size: 1.1em;
   margin-right: 4px;
+
 }
 .searchInput {
   background: transparent;
@@ -198,11 +200,64 @@
   outline: none;
   color: #fff;
   font-size: 1em;
-  width: 140px;
+  width: 180px;
+  height: 35px;
+  border-radius: 15px;
+  padding: 0 10px;
   &::placeholder {
     color: #b0b0b0;
     opacity: 1;
   }
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #3a3d42;
+  border: 1px solid #ffec70;
+  border-radius: 8px;
+  margin-top: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.searchResultItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #41444a;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #41444a;
+  }
+}
+
+.searchResultInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.searchResultName {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.searchResultPrice {
+  color: #ffec70;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {

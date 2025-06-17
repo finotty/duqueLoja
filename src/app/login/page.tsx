@@ -24,42 +24,37 @@ export default function Login() {
   useEffect(() => {
     const handlePostLogin = async () => {
       if (user && isLoggingIn) {
-        
-        // Verificar se há um produto pendente no localStorage
-        const pendingProduct = localStorage.getItem('pendingProduct');
-        if (pendingProduct) {
-          // Adicionar o produto ao carrinho
-          addToCart(JSON.parse(pendingProduct));
-          // Limpar o produto pendente
-          localStorage.removeItem('pendingProduct');
-        }
-
-        // Verificar se há um favorito pendente no localStorage
-        const pendingFavorite = localStorage.getItem('pendingFavorite');
-        if (pendingFavorite) {
-          try {
-            // Usar o addToFavorites do contexto em vez de manipular o Firestore diretamente
-            await addToFavorites(pendingFavorite);
-            // Limpar o favorito pendente
-            localStorage.removeItem('pendingFavorite');
-          } catch (error) {
-            console.error('Erro ao adicionar favorito pendente:', error);
+        try {
+          // Verificar se há um produto pendente no localStorage
+          const pendingProduct = localStorage.getItem('pendingProduct');
+          if (pendingProduct) {
+            // Adicionar o produto ao carrinho
+            addToCart(JSON.parse(pendingProduct));
+            // Limpar o produto pendente
+            localStorage.removeItem('pendingProduct');
+            // Redirecionar para o carrinho
+            router.push('/carrinho');
+            setIsLoggingIn(false);
+            return;
           }
-        }
 
-        // Após processar as ações pendentes, verificar se há um caminho de redirecionamento
-        const redirectPath = localStorage.getItem('redirectAfterLogin');
-        if (redirectPath) {
-          localStorage.removeItem('redirectAfterLogin'); // Limpar após usar
-          window.location.href = redirectPath;
-        }
+          // Verificar se há um favorito pendente no localStorage
+          const pendingFavorite = localStorage.getItem('pendingFavorite');
+          if (pendingFavorite) {
+            await addToFavorites(pendingFavorite);
+            localStorage.removeItem('pendingFavorite');
+          }
 
-        setIsLoggingIn(false);
+          setIsLoggingIn(false);
+        } catch (error) {
+          console.error('Erro ao processar ações pós-login:', error);
+          setIsLoggingIn(false);
+        }
       }
     };
 
     handlePostLogin();
-  }, [user, isLoggingIn, addToCart, addToFavorites]);
+  }, [user, isLoggingIn, addToCart, addToFavorites, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
