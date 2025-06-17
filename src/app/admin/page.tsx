@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { preConfiguredProducts, Product } from "../../data/products";
+import { preConfiguredProducts, tacticalEquipment, Product } from "../../data/products";
 import { db } from "../../config/firebase";
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
 import styles from "./styles.module.scss";
@@ -14,7 +14,7 @@ export default function AdminPage() {
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [price, setPrice] = useState("");
-  const [displayLocation, setDisplayLocation] = useState<'header' | 'destaques' | 'recomendados'>('header');
+  const [displayLocation, setDisplayLocation] = useState<'header' | 'destaques' | 'recomendados' | 'taticos'>('header');
   const [message, setMessage] = useState({ text: "", type: "" });
   const [registeredProducts, setRegisteredProducts] = useState<Product[]>([]);
   const [selectedProductForEdit, setSelectedProductForEdit] = useState<Product | null>(null);
@@ -26,6 +26,7 @@ export default function AdminPage() {
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [searchSection, setSearchSection] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedProductType, setSelectedProductType] = useState<'preConfigured' | 'tactical'>('preConfigured');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -55,7 +56,8 @@ export default function AdminPage() {
   };
 
   const handleProductSelect = (productId: string) => {
-    const product = preConfiguredProducts.find(p => p.id === productId);
+    const productList = selectedProductType === 'preConfigured' ? preConfiguredProducts : tacticalEquipment;
+    const product = productList.find(p => p.id === productId);
     if (!product) {
       setSelectedProduct(null);
       return;
@@ -215,92 +217,108 @@ export default function AdminPage() {
       <div className={styles.content}>
         <div className={styles.card}>
           <h2>Cadastrar Produto</h2>
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.formGroup}>
-              <label htmlFor="product">Produto:</label>
-              <select
-                id="product"
-                value={selectedProduct?.id || ""}
-                onChange={(e) => handleProductSelect(e.target.value)}
-                required
+          <div className={styles.productRegistration}>
+            <h2>Cadastro de Produtos</h2>
+            
+            <div className={styles.productTypeSelector}>
+              <button
+                className={`${styles.typeButton} ${selectedProductType === 'preConfigured' ? styles.active : ''}`}
+                onClick={() => setSelectedProductType('preConfigured')}
               >
-                <option value="">Selecione um produto</option>
-                {preConfiguredProducts.map((product) => (
-                  <option key={product.id} value={product.id}>
-                    {product.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="price">Preço:</label>
-              <input
-                type="number"
-                id="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label>Local de Exibição</label>
-              <select
-                value={displayLocation}
-                onChange={(e) => setDisplayLocation(e.target.value as any)}
-                required
+                Produtos Padrão
+              </button>
+              <button
+                className={`${styles.typeButton} ${selectedProductType === 'tactical' ? styles.active : ''}`}
+                onClick={() => setSelectedProductType('tactical')}
               >
-                <option value="header">Menu Principal</option>
-                <option value="destaques">Produtos em Destaque</option>
-                <option value="recomendados">Produtos Recomendados</option>
-              </select>
+                Equipamentos Táticos
+              </button>
             </div>
 
-            {selectedProduct && (
-              <>
-                <div className={styles.productPreview}>
-                  <h3>Preview do Produto</h3>
-                  <div className={styles.previewContent}>
-                    <div className={styles.productColumn}>
-                      <img src={selectedProduct.image} alt={selectedProduct.name} />
-                      <div className={styles.brandInfo}>
-                        <img 
-                          src={`/img/marcas/${selectedProduct.marca.toLowerCase().replace(/\s+/g, '-')}.jpg`} 
-                          alt={selectedProduct.marca}
-                          className={styles.brandImage}
-                        />
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label>Selecione o Produto:</label>
+                <select
+                  value={selectedProduct?.id || ""}
+                  onChange={(e) => handleProductSelect(e.target.value)}
+                  required
+                >
+                  <option value="">Selecione um produto</option>
+                  {(selectedProductType === 'preConfigured' ? preConfiguredProducts : tacticalEquipment).map((product) => (
+                    <option key={product.id} value={product.id}>
+                      {product.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Preço:</label>
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Digite o preço"
+                  required
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Local de Exibição:</label>
+                <select
+                  value={displayLocation}
+                  onChange={(e) => setDisplayLocation(e.target.value as 'header' | 'destaques' | 'recomendados' | 'taticos')}
+                  required
+                >
+                  <option value="header">Header</option>
+                  <option value="destaques">Destaques</option>
+                  <option value="recomendados">Recomendados</option>
+                  <option value="taticos">Equipamentos Táticos</option>
+                </select>
+              </div>
+
+              {selectedProduct && (
+                <>
+                  <div className={styles.productPreview}>
+                    <h3>Preview do Produto</h3>
+                    <div className={styles.previewContent}>
+                      <div className={styles.productColumn}>
+                        <img src={selectedProduct.image} alt={selectedProduct.name} />
+                        <div className={styles.brandInfo}>
+                          <img 
+                            src={`/img/marcas/${selectedProduct.marca.toLowerCase().replace(/\s+/g, '-')}.jpg`} 
+                            alt={selectedProduct.marca}
+                            className={styles.brandImage}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className={styles.previewDetails}>
-                      <h4>{selectedProduct.name}</h4>
-                      <div className={styles.specs}>
-                        {Object.entries(selectedProduct.specifications).map(([key, value]) => (
-                          <div key={key} className={styles.spec}>
-                            <span className={styles.specLabel}>{key}:</span>
-                            <span className={styles.specValue}>{value}</span>
-                          </div>
-                        ))}
+                      <div className={styles.previewDetails}>
+                        <h4>{selectedProduct.name}</h4>
+                        <div className={styles.specs}>
+                          {Object.entries(selectedProduct.specifications).map(([key, value]) => (
+                            <div key={key} className={styles.spec}>
+                              <span className={styles.specLabel}>{key}:</span>
+                              <span className={styles.specValue}>{value}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
+                </>
+              )}
+
+              {message.text && (
+                <div className={`${styles.message} ${styles[message.type]}`}>
+                  {message.text}
                 </div>
-              </>
-            )}
+              )}
 
-            {message.text && (
-              <div className={`${styles.message} ${styles[message.type]}`}>
-                {message.text}
-              </div>
-            )}
-
-            <button type="submit" className={styles.submitButton}>
-              Cadastrar Produto
-            </button>
-          </form>
+              <button type="submit" className={styles.submitButton}>
+                Cadastrar Produto
+              </button>
+            </form>
+          </div>
         </div>
 
         <div className={styles.card}>
@@ -352,6 +370,7 @@ export default function AdminPage() {
                       Seção: {
                         product.displayLocation === 'header' ? 'Menu Principal' :
                         product.displayLocation === 'destaques' ? 'Produtos em Destaque' :
+                        product.displayLocation === 'taticos' ? 'Equipamentos Táticos' :
                         'Produtos Recomendados'
                       }
                     </p>

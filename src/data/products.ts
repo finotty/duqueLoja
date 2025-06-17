@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   firestoreId?: string;
   name: string;
-  category: 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios';
+  category: 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos';
   image: string;
   marca: string;
   specifications: {
@@ -14,7 +14,7 @@ export interface Product {
     [key: string]: string | undefined;
   };
   price: number;
-  displayLocation?: 'header' | 'destaques' | 'recomendados';
+  displayLocation?: 'header' | 'destaques' | 'recomendados' | 'taticos';
 }
 
 export const preConfiguredProducts: Product[] = [
@@ -123,6 +123,127 @@ export const preConfiguredProducts: Product[] = [
     },
     price: 0
   },
+  {
+    id: 'pistola-springfield-hellcat-micro-compact-osp-cal9mm-13-tiros-cano-3polegadas',
+    name: 'Pistola Springfield Hellcat Micro Compact OSP Cal. 9mm 13',
+    category: 'pistolas',
+    image: '/img/products/Springfield.jpg',
+    marca: 'bersa',
+    specifications: {
+      calibre: '9mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+    price: 0
+  },
+];
 
-  
+export const tacticalEquipment: Product[] = [
+  {
+    id: 'tatico-1',
+    name: 'Coldre Int. Pol. Fobus APN19J Glock G19/G23/G25/G32',
+    image: '/img/acessorios/coldre-int-pol-fobus-apn19j-glock-g19-g23-g25-g3_1_200.jpg',
+    price: 299.90,
+    category: 'taticos',
+    marca: 'Glock',
+    specifications: {
+      'Marca': 'Fobus',
+      'Modelo': 'APN19J',
+      'Compatibilidade': 'Glock G19/G23/G25/G32',
+      'Material': 'Polímero',
+      'Tipo': 'Interno'
+    }
+  },
+  {
+    id: 'tatico-2',
+    name: 'Coldre de Cintura Fobus para Imbel/Colt',
+    image: '/img/acessorios/coldre-de-cintura-fobus-para-imbel-colt-kmspnd-ref239_1_200.jpg',
+    price: 249.90,
+    category: 'taticos',
+    marca: 'boito',
+    specifications: {
+      'Marca': 'Fobus',
+      'Modelo': 'KMSPND',
+      'Compatibilidade': 'Imbel/Colt',
+      'Material': 'Polímero',
+      'Tipo': 'Cintura'
+    }
+  },
+  {
+    id: 'tatico-3',
+    name: 'Coldre Ext. Magnum Glock G19/G25 Black Canhoto',
+    image: '/img/acessorios/coldre-ext-magnum-glock-g19-g25-black-canhoto_1_200.jpg',
+    price: 199.90,
+    category: 'taticos',
+    marca: 'hatsan',
+    specifications: {
+      'Marca': 'Magnum',
+      'Modelo': 'G19/G25',
+      'Compatibilidade': 'Glock G19/G25',
+      'Material': 'Nylon',
+      'Tipo': 'Externo'
+    }
+  },
+  {
+    id: 'tatico-4',
+    name: 'Relógio Glock Watch Global Chrono',
+    image: '/img/acessorios/relogio-glock-watch-global-chrono-set-gwc0003_4_200.jpg',
+    price: 1299.90,
+    category: 'taticos',
+    marca: 'Glock',
+    specifications: {
+      'Marca': 'Glock',
+      'Modelo': 'GWC0003',
+      'Tipo': 'Cronógrafo',
+      'Material': 'Aço Inox',
+      'Resistência': '200m'
+    }
+  },
+  {
+    id: 'tatico-5',
+    name: 'Coldre Neoprene Pistola Taurus PT840 Destro',
+    image: '/img/acessorios/coldre-neoprene-pistola-taurus-pt840-destro_1_200.jpg',
+    price: 179.90,
+    category: 'taticos',
+    marca: 'taurus',
+    specifications: {
+      'Marca': 'Taurus',
+      'Modelo': 'PT840',
+      'Compatibilidade': 'Taurus PT840',
+      'Material': 'Neoprene',
+      'Tipo': 'Cintura'
+    }
+  },
+  {
+    id: 'tatico-6',
+    name: 'Coldre Cobra Kydex Pist Taurus G2C Destro',
+    image: '/img/acessorios/coldre-cobra-kydex-pist-taurus-g2c-destro_1_200.jpg',
+    price: 229.90,
+    category: 'taticos',
+    marca: 'yildiz',
+    specifications: {
+      'Marca': 'Cobra',
+      'Modelo': 'G2C',
+      'Compatibilidade': 'Taurus G2C',
+      'Material': 'Kydex',
+      'Tipo': 'Cintura'
+    }
+  },
+  {
+    id: 'tatico-7',
+    name: 'Jet Loader 5T 520',
+    image: '/img/acessorios/jet-loader-5t-520_1_200.jpg',
+    price: 159.90,
+    category: 'taticos',
+    marca: 'Jet Loader',
+    specifications: {
+      'Marca': 'Jet Loader',
+      'Modelo': '5T 520',
+      'Capacidade': '5 munições',
+      'Material': 'Polímero',
+      'Tipo': 'Carregador Rápido'
+    }
+  }
 ]; 

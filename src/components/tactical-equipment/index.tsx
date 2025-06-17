@@ -9,8 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export function FeaturedProducts() {
-  const { products, loading } = useProducts('destaques');
+export function TacticalEquipment() {
+  const { products, loading } = useProducts('taticos');
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const { user, setRedirectPath } = useAuth();
@@ -21,7 +21,7 @@ export function FeaturedProducts() {
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const cardWidth = 300; // Largura base do card
-      const gap = 35; // Espaçamento entre cards (2rem = 32px)
+      const gap = 35; // Espaçamento entre cards
       const cardsPerView = 5; // Número máximo de cards visíveis
       const scrollAmount = (cardWidth + gap) * cardsPerView;
       
@@ -38,7 +38,7 @@ export function FeaturedProducts() {
   };
 
   if (loading) {
-    return <div className={styles.loading}>Carregando produtos...</div>;
+    return <div className={styles.loading}>Carregando equipamentos...</div>;
   }
 
   if (!products.length) {
@@ -101,7 +101,7 @@ export function FeaturedProducts() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Produtos em Destaque</h2>
+      <h2 className={styles.title}>Equipamentos Táticos</h2>
       <div className={styles.scrollContainer}>
         <button 
           className={`${styles.scrollButton} ${styles.leftButton}`}

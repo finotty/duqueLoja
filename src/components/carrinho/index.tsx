@@ -15,7 +15,9 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
 
 function getProductDataByName(name: string) {
-  return produtosData.preConfiguredProducts.find((p: any) => p.name === name);
+  const preConfigured = produtosData.preConfiguredProducts.find((p: any) => p.name === name);
+  const tactical = produtosData.tacticalEquipment.find((p: any) => p.name === name);
+  return preConfigured || tactical;
 }
 
 const perguntasFrequentes = [
@@ -199,10 +201,24 @@ export default function Carrinho() {
         {cart.length > 0 && (
           <div className={styles.productDescriptionBox}>
             <h3 className={styles.productDescriptionBoxTitle}>Descrição do Produto</h3>
-            <p>{getProductDataByName(cart[0].name)?.specifications?.material ? `Material: ${getProductDataByName(cart[0].name)?.specifications?.material}` : 'Produto de alta qualidade, com garantia e procedência.'}</p>
-            <p>Calibre: {getProductDataByName(cart[0].name)?.specifications?.calibre || '---'}</p>
-            <p>Peso: {getProductDataByName(cart[0].name)?.specifications?.peso || '---'}</p>
-            <p>Comprimento: {getProductDataByName(cart[0].name)?.specifications?.comprimento || '---'}</p>
+            {cart.map((item, idx) => {
+              const productData = getProductDataByName(item.name);
+              return (
+                <div key={idx} className={styles.productDescription}>
+                  <h4>{item.name}</h4>
+                  {productData?.specifications && (
+                    <div className={styles.specifications}>
+                      {Object.entries(productData.specifications).map(([key, value]) => (
+                        <div key={key} className={styles.specification}>
+                          <span className={styles.specLabel}>{key}:</span>
+                          <span className={styles.specValue}>{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
         {/* Perguntas Frequentes */}

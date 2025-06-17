@@ -623,3 +623,39 @@
   color: #23262b;
   font-weight: 600;
 }
+
+.productDescription {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #2a2d33;
+  border-radius: 8px;
+
+  h4 {
+    color: #f0b63d;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+.specifications {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.specification {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.specLabel {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.specValue {
+  color: #fff;
+  font-size: 1rem;
+}

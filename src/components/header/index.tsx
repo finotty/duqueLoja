@@ -208,7 +208,9 @@ export default function Header() {
       <nav className={styles.menu}>
         {menuItems.map((item, index) => {
           if (item.category) {
-            const products = getProductsByCategory(item.category as Product['category']);
+            const products = item.category === "acessorios"
+              ? [...getProductsByCategory("acessorios"), ...getProductsByCategory("taticos")]
+              : getProductsByCategory(item.category as Product['category']);
             return (
               <div key={item.label} className={styles.dropdownWrapper}>
                 <div

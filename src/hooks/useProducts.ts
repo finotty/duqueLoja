@@ -14,6 +14,8 @@ export interface Product {
   category: string;
 }
 
+type ProductCategory = 'destaques' | 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos';
+
 export function useProducts(location?: string) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);

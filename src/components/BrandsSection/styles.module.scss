@@ -14,7 +14,7 @@
 
 .scrollContainer {
   position: relative;
-  max-width: 1200px;
+  max-width: 89%;
   margin: 0 auto;
   padding: 0 3rem;
 }
@@ -27,6 +27,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 1rem 0;
+  justify-content: center;
 
   &::-webkit-scrollbar {
     display: none;
@@ -66,8 +67,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: #363b41;
   border: none;
