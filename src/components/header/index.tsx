@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import logo from "../../../public/img/Frame 99.png";
+import logo from "../../../public/img/logo black.png";
 import { useRouter } from "next/navigation";
 import { useProducts, Product } from "../../hooks/useProducts";
 import { useAuth } from "../../context/AuthContext";
@@ -20,6 +20,7 @@ const menuItems = [
   { label: "Revólveres", category: "revolveres" },
   { label: "Espingardas", category: "espingardas" },
   { label: "Acessórios", category: "acessorios" },
+  { label: "Esportivo", category: "esporte" },
   { label: "Treinamento" },
   { label: "Contato", href: "/contato" },
 ];
@@ -203,7 +204,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.logoArea} onClick={() => router.push("/")}>
-        <Image src={logo} alt="Logo" width={260} height={60} quality={100} className={styles.logoImg} />
+        <Image src={logo} alt="Logo" width={250} height={60} quality={100} className={styles.logoImg} />
       </div>
       <nav className={styles.menu}>
         {menuItems.map((item, index) => {
@@ -224,7 +225,7 @@ export default function Header() {
                     <div className={styles.dropdownContent}>
                       <div className={styles.pistolasList}>
                         <div className={styles.pistolasTitle}>
-                          <span>🪖</span> Todas as {item.label}
+                          <span>🪖</span> Todos em {item.label}
                         </div>
                         <div className={styles.pistolasDivider}></div>
                         {products.map((product) => (

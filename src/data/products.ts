@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   firestoreId?: string;
   name: string;
-  category: 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos';
+  category: 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos' | 'esporte';
   image: string;
   marca: string;
   specifications: {
@@ -246,4 +246,82 @@ export const tacticalEquipment: Product[] = [
       'Tipo': 'Carregador Rápido'
     }
   }
+]; 
+
+export const sportEquipment: Product[] = [
+  {
+    id: 'esporte-1',
+    name: 'Carabina de Pressao Gamo Big Cat 1000 IGT cal 55mm',
+    image: '/img/esportivo/carabina-de-pressao-gamo-big-cat-1000-igt-cal-55mm_1_200.jpg',
+    price: 299.90,
+    category: 'esporte',
+    marca: 'Glock',
+    specifications: {
+      calibre: '55mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+  },
+  {
+    id: 'esporte-2',
+    name: 'carabina de pressao gamo elite premium igt 55mm',
+    image: '/img/esportivo/carabina-de-pressao-gamo-elite-premium-igt-55mm_1_200.jpg',
+    price: 299.90,
+    category: 'esporte',
+    marca: 'Glock',
+    specifications: {
+      calibre: '55mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+  },
+  {
+    id: 'esporte-3',
+    name: 'Carpressao hatsan ht 95 sas 55mm gas ram',
+    image: '/img/esportivo/carpressao-hatsan-ht-95-sas-55mm-gas-ram_1_200.jpg',
+    price: 299.90,
+    category: 'esporte',
+    marca: 'Glock',
+    specifications: {
+      calibre: '55mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+  },
+  {
+    id: 'esporte-4',
+    name: 'Pistola umarex hecklerkoch usp co2 45mm 22 tiros',
+    image: '/img/esportivo/pistola-umarex-hecklerkoch-usp-co2-45mm-22-tiros_1_200.jpg',
+    price: 299.90,
+    category: 'esporte',
+    marca: 'Glock',
+    specifications: {
+      calibre: '55mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+  },
+  {
+    id: 'esporte-5',
+    name: 'Revolver umarex colt double duel co2 45mm 6t',
+    image: '/img/esportivo/revolver-umarex-colt-double-duel-co2-45mm-6t_1_200.jpg',
+    price: 299.90,
+    category: 'esporte',
+    marca: 'Glock',
+    specifications: {
+      calibre: '55mm',
+      capacidade: '13',
+      peso: '0.8kg',
+      comprimento: '160mm',
+      material: 'Aço inoxidável'
+    },
+  },
 ]; 

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { preConfiguredProducts, tacticalEquipment, Product } from "../../data/products";
+import { preConfiguredProducts, tacticalEquipment, Product, sportEquipment } from "../../data/products";
 import { db } from "../../config/firebase";
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
 import styles from "./styles.module.scss";
@@ -14,7 +14,7 @@ export default function AdminPage() {
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [price, setPrice] = useState("");
-  const [displayLocation, setDisplayLocation] = useState<'header' | 'destaques' | 'recomendados' | 'taticos'>('header');
+  const [displayLocation, setDisplayLocation] = useState<'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos'>('header');
   const [message, setMessage] = useState({ text: "", type: "" });
   const [registeredProducts, setRegisteredProducts] = useState<Product[]>([]);
   const [selectedProductForEdit, setSelectedProductForEdit] = useState<Product | null>(null);
@@ -26,7 +26,7 @@ export default function AdminPage() {
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [searchSection, setSearchSection] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedProductType, setSelectedProductType] = useState<'preConfigured' | 'tactical'>('preConfigured');
+  const [selectedProductType, setSelectedProductType] = useState<'preConfigured' | 'tactical' | 'esportivos'>('preConfigured');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -56,7 +56,7 @@ export default function AdminPage() {
   };
 
   const handleProductSelect = (productId: string) => {
-    const productList = selectedProductType === 'preConfigured' ? preConfiguredProducts : tacticalEquipment;
+    const productList = selectedProductType === 'preConfigured' ? preConfiguredProducts : (selectedProductType === 'tactical')? tacticalEquipment : sportEquipment;
     const product = productList.find(p => p.id === productId);
     if (!product) {
       setSelectedProduct(null);
@@ -233,6 +233,12 @@ export default function AdminPage() {
               >
                 Equipamentos Táticos
               </button>
+              <button
+                className={`${styles.typeButton} ${selectedProductType === 'esportivos' ? styles.active : ''}`}
+                onClick={() => setSelectedProductType('esportivos')}
+              >
+                Equipamentos Esportivos
+              </button>
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -244,7 +250,7 @@ export default function AdminPage() {
                   required
                 >
                   <option value="">Selecione um produto</option>
-                  {(selectedProductType === 'preConfigured' ? preConfiguredProducts : tacticalEquipment).map((product) => (
+                  {(selectedProductType === 'preConfigured' ? preConfiguredProducts : selectedProductType === 'tactical' ? tacticalEquipment : sportEquipment).map((product) => (
                     <option key={product.id} value={product.id}>
                       {product.name}
                     </option>
@@ -267,13 +273,14 @@ export default function AdminPage() {
                 <label>Local de Exibição:</label>
                 <select
                   value={displayLocation}
-                  onChange={(e) => setDisplayLocation(e.target.value as 'header' | 'destaques' | 'recomendados' | 'taticos')}
+                  onChange={(e) => setDisplayLocation(e.target.value as 'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos')}
                   required
                 >
                   <option value="header">Header</option>
                   <option value="destaques">Destaques</option>
                   <option value="recomendados">Recomendados</option>
                   <option value="taticos">Equipamentos Táticos</option>
+                  <option value="esportivos">Equipamentos Esportivos</option>
                 </select>
               </div>
 

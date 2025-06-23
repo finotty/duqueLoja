@@ -16,8 +16,9 @@ import { auth } from "../../config/firebase";
 
 function getProductDataByName(name: string) {
   const preConfigured = produtosData.preConfiguredProducts.find((p: any) => p.name === name);
+  const esporte = produtosData.sportEquipment.find((p: any) => p.name === name);
   const tactical = produtosData.tacticalEquipment.find((p: any) => p.name === name);
-  return preConfigured || tactical;
+  return preConfigured || tactical || esporte;
 }
 
 const perguntasFrequentes = [
@@ -234,6 +235,7 @@ export default function Carrinho() {
           ))}
         </div>
         {/* Avaliações dos Clientes */}
+        {/*
         <div className={styles.avaliacoesBox}>
           <h3 className={styles.avaliacoesBoxTitle}>Avaliações dos Clientes</h3>
           <div className={styles.avaliacoesList}>
@@ -248,6 +250,8 @@ export default function Carrinho() {
             ))}
           </div>
         </div>
+        
+        */}
         {/* Novo: Seção de Procedimento para Compra de Arma de Fogo */}
         <div className={styles.purchaseProcedureSection}>
           <h2>Procedimento Compra de Arma de Fogo</h2>

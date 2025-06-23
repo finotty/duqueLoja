@@ -5,6 +5,7 @@ import FeaturedCategories from "../components/featured-categories";
 import EducationalContent from "../components/educational-content";
 import BrandsSection from "../components/BrandsSection";
 import { TacticalEquipment } from "@/components/tactical-equipment";
+import { TiroEsportivos } from "@/components/tiroEsportivo";
 
 export default function Home() {
   return (
@@ -13,9 +14,12 @@ export default function Home() {
       <FeaturedProducts />
       <BrandsSection />
       <TacticalEquipment/>
-      <Carousel />
+      <TiroEsportivos/>
+      {/*<Carousel />
       <FeaturedCategories />
       <EducationalContent />
+      
+      */}
     </>
   );
 }
