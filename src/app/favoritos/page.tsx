@@ -8,6 +8,7 @@ import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firesto
 import { db } from '@/config/firebase';
 import styles from './styles.module.scss';
 import { FaHeart, FaShoppingCart, FaTrash } from 'react-icons/fa';
+import ProductImage from '@/components/ProductImage';
 
 interface Product {
   id: string;
@@ -71,8 +72,19 @@ export default function FavoritesPage() {
           ...doc.data()
         })) as Product[];
 
+        // Buscar os produtos personalizados na coleção "customProducts"
+        const customProdutosCollection = collection(dados, "customProducts");
+        const customProdutosSnapshot = await getDocs(customProdutosCollection);
+        const customProdutos = customProdutosSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Product[];
+
+        // Combinar os dois arrays de produtos
+        const allProducts = [...produtos, ...customProdutos];
+
         // Filtrar apenas os produtos que estão nos favoritos usando o id do produto
-        const favoriteProducts = produtos.filter(product => 
+        const favoriteProducts = allProducts.filter(product => 
           favoriteIds.includes(product.id)
         );
         
@@ -137,7 +149,11 @@ export default function FavoritesPage() {
         <div className={styles.productsGrid}>
           {favoriteProducts.map((product) => (
             <div key={product.id} className={styles.productCard}>
-              <img src={product.image} alt={product.name} />
+              <ProductImage 
+                image={product.image} 
+                alt={product.name}
+                style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+              />
               <h3>{product.name}</h3>
               <p className={styles.price}>R$ {product.price.toFixed(2)}</p>
               {product.specifications && (

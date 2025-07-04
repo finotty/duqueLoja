@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./styles.module.scss";
-import Image from "next/image";
+import ProductImage from "../ProductImage";
 import { useRouter } from "next/navigation";
 import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -117,12 +117,14 @@ export function TacticalEquipment() {
               onClick={() => setSelectedProduct(product)}
             >
               <div className={styles.imageContainer}>
-                <Image
-                  src={product.image}
+                <ProductImage
+                  image={product.image}
                   alt={product.name}
-                  width={200}
-                  height={200}
-                  style={{ objectFit: 'contain' }}
+                  style={{ 
+                    width: '200px', 
+                    height: '200px', 
+                    objectFit: 'contain' 
+                  }}
                 />
                 <button 
                   className={styles.favoriteButton}
@@ -154,12 +156,14 @@ export function TacticalEquipment() {
         <div className={styles.modalOverlay} onClick={() => setSelectedProduct(null)}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalImageContainer}>
-              <Image
-                src={selectedProduct.image}
+              <ProductImage
+                image={selectedProduct.image}
                 alt={selectedProduct.name}
-                width={300}
-                height={300}
-                style={{ objectFit: 'contain' }}
+                style={{ 
+                  width: '300px', 
+                  height: '300px', 
+                  objectFit: 'contain' 
+                }}
               />
             </div>
             <div className={styles.modalContent}>

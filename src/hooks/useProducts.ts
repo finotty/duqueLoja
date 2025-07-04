@@ -12,9 +12,11 @@ export interface Product {
   location: string;
   displayLocation: string;
   category: string;
+  marca?: string;
+  firestoreId?: string;
 }
 
-type ProductCategory = 'destaques' | 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos';
+type ProductCategory = 'destaques' | 'pistolas' | 'revolveres' | 'espingardas' | 'acessorios' | 'taticos' | 'esporte';
 
 export function useProducts(location?: string) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -23,18 +25,38 @@ export function useProducts(location?: string) {
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
+      
+      // Buscar produtos da coleção 'products'
       const productsRef = collection(db, "products");
-      const q = location 
+      const productsQuery = location 
         ? query(productsRef, where('displayLocation', '==', location))
         : productsRef;
       
-      const querySnapshot = await getDocs(q);
-      const productsData = querySnapshot.docs.map(doc => ({
+      const productsSnapshot = await getDocs(productsQuery);
+      const productsData = productsSnapshot.docs.map(doc => ({
         id: doc.id,
+        firestoreId: doc.id,
         ...doc.data()
       })) as Product[];
 
-      setProducts(productsData);
+      // Buscar produtos personalizados da coleção 'customProducts'
+      const customProductsRef = collection(db, "customProducts");
+      const customProductsQuery = location 
+        ? query(customProductsRef, where('displayLocation', '==', location))
+        : customProductsRef;
+      
+      const customProductsSnapshot = await getDocs(customProductsQuery);
+      const customProductsData = customProductsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        firestoreId: doc.id,
+        ...doc.data()
+      })) as Product[];
+
+      // Combinar os dois arrays de produtos
+      const allProducts = [...productsData, ...customProductsData];
+      
+      setProducts(allProducts);
       setError(null);
     } catch (err) {
       setError("Erro ao carregar produtos");
@@ -44,7 +66,7 @@ export function useProducts(location?: string) {
     }
   };
 
-  const getProductsByLocation = (location: 'header' | 'destaques' | 'recomendados') => {
+  const getProductsByLocation = (location: 'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos') => {
     return products.filter(product => product.displayLocation === location);
   };
 

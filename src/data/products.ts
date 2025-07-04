@@ -14,7 +14,7 @@ export interface Product {
     [key: string]: string | undefined;
   };
   price: number;
-  displayLocation?: 'header' | 'destaques' | 'recomendados' | 'taticos';
+  displayLocation?: 'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos';
 }
 
 export const preConfiguredProducts: Product[] = [

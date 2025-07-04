@@ -852,4 +852,110 @@
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
   }
+}
+
+.specificationsInput {
+  margin-bottom: 1rem;
+
+  small {
+    color: #b0b0b0;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
+.specificationsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.specItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2a2d32;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #fff;
+  border: 1px solid #4a4f55;
+
+  span {
+    color: #b0b0b0;
+  }
+}
+
+.removeSpec {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #c0392b;
+  }
+}
+
+.imagePreview {
+  margin-top: 1rem;
+  text-align: center;
+
+  img {
+    border-radius: 8px;
+    border: 2px solid #4a4f55;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .submitButton {
+    background: #f0b63d;
+    color: #222;
+
+    &:hover {
+      background: #ffd966;
+    }
+  }
+
+  .cancelButton {
+    background: #6c757d;
+    color: #fff;
+
+    &:hover {
+      background: #5a6268;
+    }
+  }
 } 

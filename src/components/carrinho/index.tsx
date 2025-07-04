@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import ProdutosQuePodemInteressar from "../produtos-que-podem-interessar";
-import Image from "next/image";
+import ProductImage from "../ProductImage";
 import { useCart } from "../../context/CartContext";
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../../context/AuthContext";
@@ -144,7 +144,12 @@ export default function Carrinho() {
               return (
                 <div className={styles.productBox} key={idx}>
                   <div className={styles.productImageArea}>
-                    <Image src={item.image} alt={item.name} width={520} height={420} className={styles.productImageGrande} />
+                    <ProductImage 
+                      image={item.image} 
+                      alt={item.name} 
+                      className={styles.productImageGrande}
+                      style={{ width: '520px', height: '420px' }}
+                    />
                   </div>
                     
                   <div className={styles.productInfoArea}>

@@ -14,6 +14,7 @@ import { db } from "../../config/firebase";
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import { FaRegHeart } from "react-icons/fa";
+import ProductImage from "../ProductImage";
 
 const menuItems = [
   { label: "Pistolas", category: "pistolas" },
@@ -247,12 +248,18 @@ export default function Header() {
                           </div>
                         ) : (
                           <div className={styles.previewProduto}>
-                            <Image 
-                              src={hoveredPistola.image} 
+                            <ProductImage 
+                              image={hoveredPistola.image} 
                               alt={hoveredPistola.name} 
-                              width={180} 
-                              height={120}
-                              style={{ objectFit: 'contain' }}
+                              stylesCustom={{ 
+                                marginLeft:'20%',
+                                marginBottom:'10%'
+                              }}
+                              style={{ 
+                                width: '180px', 
+                                height: '120px', 
+                                objectFit: 'contain' 
+                              }}
                             />
                             <div className={styles.previewPreco}>
                               R$ {hoveredPistola.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -303,12 +310,14 @@ export default function Header() {
                   className={styles.searchResultItem}
                   onClick={() => handleSearchResultClick(product)}
                 >
-                  <Image
-                    src={product.image}
+                  <ProductImage
+                    image={product.image}
                     alt={product.name}
-                    width={40}
-                    height={40}
-                    style={{ objectFit: 'contain' }}
+                    style={{ 
+                      width: '40px', 
+                      height: '40px', 
+                      objectFit: 'contain' 
+                    }}
                   />
                   <div className={styles.searchResultInfo}>
                     <span className={styles.searchResultName}>{product.name}</span>
@@ -386,12 +395,14 @@ export default function Header() {
         <div className={styles.modalOverlay} onClick={() => setSelectedProduct(null)}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalImageContainer}>
-              <Image
-                src={selectedProduct.image}
+              <ProductImage
+                image={selectedProduct.image}
                 alt={selectedProduct.name}
-                width={300}
-                height={300}
-                style={{ objectFit: 'contain' }}
+                style={{ 
+                  width: '300px', 
+                  height: '300px', 
+                  objectFit: 'contain' 
+                }}
               />
             </div>
             <div className={styles.modalContent}>
