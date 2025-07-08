@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import ContactMessages from './components/ContactMessages';
 import { v4 as uuidv4 } from 'uuid';
+import { Timestamp } from "firebase/firestore";
 
 // Componente para renderizar imagem (URL ou SVG)
 const ProductImage = ({ image, alt, className }: { image: string; alt: string; className?: string }) => {
@@ -57,6 +58,9 @@ export default function AdminPage() {
   const [showCustomProductModal, setShowCustomProductModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [orders, setOrders] = useState<any[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -72,13 +76,24 @@ export default function AdminPage() {
 
   const fetchRegisteredProducts = async () => {
     try {
+      // Buscar produtos da coleção 'products'
       const querySnapshot = await getDocs(collection(db, "products"));
       const products = querySnapshot.docs.map(doc => ({
         id: doc.id,
         firestoreId: doc.id,
         ...doc.data()
       })) as Product[];
-      setRegisteredProducts(products);
+
+      // Buscar produtos personalizados da coleção 'customProducts'
+      const customSnapshot = await getDocs(collection(db, "customProducts"));
+      const customProducts = customSnapshot.docs.map(doc => ({
+        id: doc.id,
+        firestoreId: doc.id,
+        ...doc.data()
+      })) as Product[];
+
+      // Unir os dois arrays
+      setRegisteredProducts([...products, ...customProducts]);
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
       setMessage({ text: "Erro ao carregar produtos", type: "error" });
@@ -149,7 +164,11 @@ export default function AdminPage() {
       if (!selectedProductForEdit.firestoreId) {
         throw new Error("ID do documento não encontrado");
       }
-      const productRef = doc(db, "products", selectedProductForEdit.firestoreId);
+      // Verifica se o produto é personalizado (customProducts) ou padrão (products)
+      // Critério: se existe na lista customProducts
+      const isCustom = customProducts.some(p => p.id === selectedProductForEdit.id);
+      const collectionName = isCustom ? "customProducts" : "products";
+      const productRef = doc(db, collectionName, selectedProductForEdit.firestoreId);
       await updateDoc(productRef, {
         price: Number(editPrice)
       });
@@ -361,6 +380,23 @@ export default function AdminPage() {
       setMessage({ text: 'Erro ao cadastrar produto personalizado', type: 'error' });
     }
   };
+
+  // Buscar pedidos do Firestore
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "orders"));
+        const ordersData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setOrders(ordersData);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos:", error);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   if (loading) {
     return <div className={styles.loading}>Carregando...</div>;
@@ -598,7 +634,30 @@ export default function AdminPage() {
 
         <div className={styles.card}>
           <h2>Pedidos</h2>
-          <p>Visualizar e gerenciar pedidos</p>
+          {orders.length === 0 ? (
+            <p>Nenhum pedido encontrado.</p>
+          ) : (
+            <div className={styles.ordersList}>
+              {orders.map((order) => (
+                <div key={order.id} className={styles.productOrderCard} onClick={() => { setSelectedOrder(order); setShowOrderModal(true); }}>
+                  <div className={styles.productOrderCardHeader}>
+                    <span className={styles.productOrderCardTitle}>Cliente: {order.user?.nomeCompleto || order.user?.email}</span>
+                    <span className={styles.productOrderCardTotal}>Total: R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                    <span className={styles.productOrderCardStatus}>{order.status}</span>
+                  </div>
+                  <div className={styles.productOrderCardInfo}>
+                    <span>Data: {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
+                    <span>Forma de Pagamento: {order.formaPagamento}</span>
+                  </div>
+                  <div className={styles.productOrderCardProducts}>
+                    {order.products?.map((prod: any, idx: number) => (
+                      <span key={idx} className={styles.productOrderCardProduct}>{prod.name} (Qtd: {prod.quantity})</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -851,6 +910,85 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showOrderModal && selectedOrder && (
+        <div className={styles.modalOverlay} onClick={() => setShowOrderModal(false)}>
+          <div className={styles.adminOrderModal} onClick={e => e.stopPropagation()}>
+            <button className={styles.closeButton} onClick={() => setShowOrderModal(false)}>×</button>
+            <div className={styles.adminOrderModalTitle}>Detalhes do Pedido</div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Nome:</span>
+              <span className={styles.adminOrderModalValue}>{selectedOrder.user?.nomeCompleto}</span>
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Email:</span>
+              <span className={styles.adminOrderModalValue}>{selectedOrder.user?.email}</span>
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Telefone:</span>
+              <span className={styles.adminOrderModalValue}>{selectedOrder.user?.telefone}</span>
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Total:</span>
+              <span className={styles.adminOrderModalValue}>R$ {selectedOrder.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Data:</span>
+              <span className={styles.adminOrderModalValue}>{selectedOrder.createdAt?.seconds ? new Date(selectedOrder.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <span className={styles.adminOrderModalLabel}>Status:</span>
+              <span className={styles.adminOrderModalValue}>{selectedOrder.status}</span>
+            </div>
+            <div className={styles.adminOrderModalPagamento}>
+              Forma de Pagamento: {selectedOrder.formaPagamento}
+            </div>
+            <div className={styles.adminOrderModalSection}>
+              <div className={styles.adminOrderModalLabel} style={{marginBottom: 6}}>Produtos:</div>
+              <div className={styles.adminOrderModalProducts}>
+                {selectedOrder.products?.map((prod: any, idx: number) => (
+                  <div key={idx} className={styles.adminOrderModalProductCard}>
+                    <div className={styles.adminOrderModalProductImage}>
+                      <ProductImage image={prod.image} alt={prod.name} className={styles.adminOrderModalProductImg} />
+                    </div>
+                    <div className={styles.adminOrderModalProductInfo}>
+                      <strong>{prod.name}</strong>
+                      <div>Quantidade: <span className={styles.adminOrderModalValue}>{prod.quantity}</span></div>
+                      <div>Preço: <span className={styles.adminOrderModalValue}>{prod.price}</span></div>
+                      {selectedOrder.formaPagamento === 'Cartão de crédito' && (
+                        <div style={{color:'#1976d2', fontWeight:600, fontSize:'0.97rem'}}>Parcelas: {prod.parcelas}x de {(typeof prod.price === 'number' ? prod.price : parseFloat(String(prod.price).replace('R$', '').replace('.', '').replace(',', '.'))/prod.parcelas).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.adminOrderModalContato}>
+              <strong>Contato:</strong><br/>
+              Email: <a href={`mailto:${selectedOrder.user?.email}`}>{selectedOrder.user?.email}</a><br/>
+              WhatsApp: <a href={`https://wa.me/55${(selectedOrder.user?.telefone || '').replace(/\D/g, '')}?text=Olá! Vi seu pedido no site e gostaria de falar com você.`} target="_blank" rel="noopener noreferrer">Abrir WhatsApp</a>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 24 }}>
+              {selectedOrder.status !== 'Concluído' && (
+                <button
+                  className={styles.concluirVendaButton}
+                  onClick={async () => {
+                    const orderRef = doc(db, 'orders', selectedOrder.id);
+                    await updateDoc(orderRef, { status: 'Concluído' });
+                    setShowOrderModal(false);
+                    // Atualiza lista de pedidos
+                    const querySnapshot = await getDocs(collection(db, 'orders'));
+                    const ordersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setOrders(ordersData);
+                  }}
+                >
+                  Concluir Venda
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

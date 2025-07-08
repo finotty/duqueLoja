@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { FaBox, FaUser, FaHeart, FaSignOutAlt, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave, FaTimes, FaIdCard, FaAddressCard, FaCalendarAlt, FaHome, FaBuilding, FaMapPin, FaTrash, FaShoppingCart } from 'react-icons/fa';
+import { FaBox, FaUser, FaHeart, FaSignOutAlt, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave, FaTimes, FaIdCard, FaAddressCard, FaCalendarAlt, FaHome, FaBuilding, FaMapPin, FaTrash, FaShoppingCart, FaWhatsapp } from 'react-icons/fa';
 import { useFavorites } from '@/context/FavoritesContext';
 import { useCart } from '@/context/CartContext';
-import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc, query, where, updateDoc } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import Image from 'next/image';
 import styles from './styles.module.scss';
+import ProductImage from '@/components/ProductImage';
 
 interface UserData {
   nomeCompleto: string;
@@ -58,6 +59,9 @@ export default function Dashboard() {
   const [message, setMessage] = useState({ text: '', type: '' });
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [userOrders, setUserOrders] = useState<any[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -132,6 +136,30 @@ export default function Dashboard() {
 
     fetchFavoriteProducts();
   }, [user, favorites]);
+
+  // Buscar pedidos do usuário logado
+  useEffect(() => {
+    if (!user) return;
+    setOrdersLoading(true);
+    const fetchOrders = async () => {
+      try {
+        const dados = getFirestore(db.app);
+        const ordersRef = collection(dados, 'orders');
+        const q = query(ordersRef, where('user.uid', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+        const ordersData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setUserOrders(ordersData);
+      } catch (error) {
+        console.error('Erro ao buscar pedidos:', error);
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+    fetchOrders();
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -225,6 +253,22 @@ export default function Dashboard() {
     }, 0);
   };
 
+  // Função para cancelar pedido
+  const handleCancelOrder = async (orderId: string) => {
+    try {
+      const dados = getFirestore(db.app);
+      const orderRef = doc(dados, 'orders', orderId);
+      await updateDoc(orderRef, { status: 'Cancelado' });
+      setUserOrders(prev => prev.filter(o => o.id !== orderId));
+      if (selectedOrder && selectedOrder.id === orderId) {
+        setSelectedOrder(null);
+      }
+    } catch (error) {
+      alert('Erro ao cancelar pedido. Tente novamente.');
+      console.error('Erro ao cancelar pedido:', error);
+    }
+  };
+
   if (loading) {
     return <div className={styles.loading}>Carregando...</div>;
   }
@@ -280,9 +324,93 @@ export default function Dashboard() {
           <div className={styles.section}>
             <h2>Meus Pedidos</h2>
             <div className={styles.ordersList}>
-              {/* Aqui você listaria os pedidos do usuário */}
-              <p>Nenhum pedido encontrado.</p>
+              {ordersLoading ? (
+                <p>Carregando...</p>
+              ) : userOrders.length === 0 ? (
+                <p>Nenhum pedido encontrado.</p>
+              ) : (
+                userOrders.map((order) => (
+                  <div key={order.id} className={styles.orderCard} onClick={() => setSelectedOrder(order)}>
+                    <div className={styles.orderCardImageCol}>
+                      <img src={order.products?.[0]?.image} alt={order.products?.[0]?.name} />
+                    </div>
+                    <div className={styles.orderCardDetailsCol}>
+                      <div className={styles.orderCardInfoRow}>
+                        <span className={styles.orderCardDate}>Pedido em {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleDateString('pt-BR') : '--/--/----'}</span>
+                        <span className={styles.orderCardTotal}>Total: <strong style={{ color: '#f0b63d' }}>R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong></span>
+                        <span className={styles.orderCardStatus}>{order.status}</span>
+                      </div>
+                      <div style={{ color: '#b0b0b0', fontSize: 13, marginBottom: 2, textAlign: 'left' }}>Produtos:</div>
+                      <div className={styles.orderCardProductsList}>
+                        {order.products?.map((prod: any, idx: number) => (
+                          <span key={idx} className={styles.orderCardProductName}>{prod.name} (Qtd: {prod.quantity})</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.orderCardActionsCol}>
+                      <button className={styles.sendMsgBtn} onClick={e => { e.stopPropagation(); window.open(`https://wa.me/5521988086924?text=Olá! Gostaria de informações sobre meu pedido (${order.id})`, '_blank'); }}>
+                        <FaWhatsapp /> Enviar mensagem
+                      </button>
+                      {order.status === 'Pendente' && (
+                        <button className={styles.cancelOrderBtn} onClick={e => { e.stopPropagation(); handleCancelOrder(order.id); }}>
+                          Cancelar pedido
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
+            {/* Modal de detalhes do pedido */}
+            {selectedOrder && (
+              <div className={styles.modalOverlay} onClick={() => setSelectedOrder(null)}>
+                <div className={styles.modal} onClick={e => e.stopPropagation()}>
+                  <button className={styles.closeButton} onClick={() => setSelectedOrder(null)}>×</button>
+                  <div className={styles.modalTitle}>Detalhes do Pedido</div>
+                  <div className={styles.modalSection}>
+                    <span className={styles.modalLabel}>Data:</span>
+                    <span className={styles.modalValue}>{selectedOrder.createdAt?.seconds ? new Date(selectedOrder.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
+                  </div>
+                  <div className={styles.modalSection}>
+                    <span className={styles.modalLabel}>Status:</span>
+                    <span className={styles.modalValue}>{selectedOrder.status}</span>
+                  </div>
+                  <div className={styles.modalSection}>
+                    <span className={styles.modalLabel}>Total:</span>
+                    <span className={styles.modalValue}>R$ {selectedOrder.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className={styles.modalPagamento}>
+                    Forma de Pagamento: {selectedOrder.formaPagamento}
+                  </div>
+                  <div className={styles.modalSection}>
+                    <div className={styles.modalLabel} style={{marginBottom: 6}}>Produtos:</div>
+                    <div className={styles.modalOrderProducts}>
+                      {selectedOrder.products?.map((prod: any, idx: number) => (
+                        <div key={idx} className={styles.modalOrderProductCard}>
+                          <ProductImage image={prod.image} alt={prod.name} style={{ width: 60, height: 60, objectFit: 'contain', borderRadius: 4, background: '#fff' }} />
+                          <strong>{prod.name}</strong>
+                          <div>Qtd: <span className={styles.modalValue}>{prod.quantity}</span></div>
+                          <div>Preço: <span className={styles.modalValue}>{prod.price}</span></div>
+                          {selectedOrder.formaPagamento === 'Cartão de crédito' && (
+                            <div style={{color:'#1976d2', fontWeight:600, fontSize:'0.97rem'}}>Parcelas: {prod.parcelas}x de {(typeof prod.price === 'number' ? prod.price : parseFloat(String(prod.price).replace('R$', '').replace('.', '').replace(',', '.'))/prod.parcelas).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className={styles.modalContato}>
+                    <strong>Contato:</strong><br/>
+                    Email: <a href={`mailto:${selectedOrder.user?.email}`}>{selectedOrder.user?.email}</a><br/>
+                    WhatsApp: <a href={`https://wa.me/?text=Olá, vi seu pedido no site!`}>Abrir WhatsApp</a>
+                  </div>
+                  {selectedOrder.status === 'Pendente' && (
+                    <button className={styles.cancelOrderBtn} style={{ marginTop: 18 }} onClick={() => handleCancelOrder(selectedOrder.id)}>
+                      Cancelar pedido
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -323,6 +451,15 @@ export default function Dashboard() {
                   >
                     Finalizar Compra
                   </button>
+                  {cart.length > 1 && (
+                    <button 
+                      className={styles.checkoutButton}
+                      style={{ marginTop: 10, background: '#1976d2', color: '#fff' }}
+                      onClick={() => router.push('/checkout')}
+                    >
+                      Comprar todo o carrinho
+                    </button>
+                  )}
                 </div>
               </>
             )}

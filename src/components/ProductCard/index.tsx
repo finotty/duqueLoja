@@ -6,6 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import ProductImage from '../ProductImage';
 
 interface ProductCardProps {
   product: Product;
@@ -48,7 +49,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className={styles.productCard}>
-      <img src={product.image} alt={product.name} />
+      <ProductImage image={product.image} alt={product.name} 
+      style={{ width: '100%', height: 200, objectFit: 'contain' }} 
+      stylesCustom={{ 
+        marginLeft:'25%',
+        marginTop:'10%'
+      }}
+      />
       <h3>{product.name}</h3>
       <p className={styles.price}>R$ {product.price.toFixed(2)}</p>
       {product.specifications && (

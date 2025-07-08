@@ -168,6 +168,10 @@ export function FeaturedProducts() {
                   height: '300px', 
                   objectFit: 'contain' 
                 }}
+                stylesCustom={{ 
+                  marginLeft:'28%',
+                  marginTop:'13%'
+                }}
               />
             </div>
             <div className={styles.modalContent}>

@@ -9,10 +9,11 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from "../../context/AuthContext";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import * as produtosData from "../../data/products";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import emailjs from 'emailjs-com';
 
 function getProductDataByName(name: string) {
   const preConfigured = produtosData.preConfiguredProducts.find((p: any) => p.name === name);
@@ -54,13 +55,53 @@ const avaliacoesMock = [
   },
 ];
 
+// Função para enviar e-mail via EmailJS
+const sendOrderEmail = async (order: any) => {
+  // Substitua pelos seus IDs do EmailJS
+  const serviceID = 'SEU_SERVICE_ID';
+  const templateID = 'SEU_TEMPLATE_ID';
+  const userID = 'SEU_USER_ID';
+
+  // Montar mensagem do pedido
+  const productList = order.products.map((prod: any) => `- ${prod.name} (Qtd: ${prod.quantity})`).join('\n');
+  const templateParams = {
+    user_name: order.user.nomeCompleto,
+    user_email: order.user.email,
+    order_total: order.total,
+    order_products: productList,
+    order_date: order.createdAt.toLocaleString('pt-BR'),
+  };
+
+  try {
+    await emailjs.send(serviceID, templateID, templateParams, userID);
+  } catch (error) {
+    console.error('Erro ao enviar e-mail:', error);
+  }
+};
+
+// Função para enviar pedido para WhatsApp
+const sendOrderWhatsApp = (order: any) => {
+  // Substitua pelo número do WhatsApp do vendedor (apenas números, com DDI, ex: 5511999999999)
+  const phone = '+5521987604846';
+  const productList = order.products.map((prod: any) => `- ${prod.name} (Qtd: ${prod.quantity})`).join('%0A');
+  const msg = `Novo pedido no site!%0A%0ACliente: ${order.user.nomeCompleto}%0AEmail: ${order.user.email}%0ATotal: R$ ${order.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%0AProdutos:%0A${productList}%0AData: ${order.createdAt.toLocaleString('pt-BR')}`;
+  const url = `https://wa.me/${phone}?text=${msg}`;
+  window.open(url, '_blank');
+};
+
 export default function Carrinho() {
-  const { cart, handleQty, removeFromCart } = useCart();
+  const { cart, handleQty, removeFromCart, clearCart } = useCart();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [parcelasSelecionadas, setParcelasSelecionadas] = useState<{[key: number]: number}>({});
   const [nomeCompleto, setNomeCompleto] = useState<string | null>(null);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [orderData, setOrderData] = useState<any>(null);
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
+  const [formaPagamento, setFormaPagamento] = useState('Cartão de crédito');
+  const [parcelas, setParcelas] = useState(1);
+  const [telefone, setTelefone] = useState<string | null>(null);
 
   const handleLogout = async () => {
     try {
@@ -84,6 +125,7 @@ export default function Carrinho() {
             const userData = userSnapshot.data();
             console.log('Dados do usuário:', userData);
             setNomeCompleto(userData.nomeCompleto);
+            setTelefone(userData.telefone);
           } else {
             console.log('Documento do usuário não encontrado');
           }
@@ -107,16 +149,62 @@ export default function Carrinho() {
     return acc + price;
   }, 0);
 
-  const handleCheckout = () => {
+  // Valor total com desconto se for Pix/Boleto
+  const totalComDesconto = +(total * 0.85).toFixed(2);
+  const isDesconto = formaPagamento === 'Pix' || formaPagamento === 'Boleto';
+
+  const handleCheckout = async () => {
     if (!user) {
-      // Salvar o caminho atual no localStorage
       localStorage.setItem('redirectAfterLogin', '/carrinho');
-      // Redirecionar para o login
       window.location.href = '/login';
       return;
     }
-    // Prosseguir com o processo de compra
-    console.log('Usuário logado, prosseguindo com a compra.');
+
+    setLoadingCheckout(true);
+
+    // Coletar dados do usuário
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      nomeCompleto: nomeCompleto || '',
+      telefone: telefone || '',
+    };
+
+    // Coletar produtos do carrinho, incluindo parcelas por produto
+    const products = cart.map((item, idx) => ({
+      name: item.name,
+      image: item.image,
+      price: item.price,
+      quantity: item.quantity,
+      parcelas: formaPagamento === 'Cartão de crédito' ? (parcelasSelecionadas[idx] || 1) : 1,
+    }));
+
+    // Montar dados do pedido
+    const order = {
+      user: userData,
+      products,
+      total: isDesconto ? totalComDesconto : total,
+      createdAt: new Date(),
+      status: 'Pendente',
+      formaPagamento,
+    };
+
+    try {
+      // Salvar no Firestore
+      await addDoc(collection(db, 'orders'), order);
+      // Enviar e-mail
+      await sendOrderEmail(order);
+      // Enviar WhatsApp
+     // sendOrderWhatsApp(order);
+      setOrderData(order);
+      clearCart();
+      setShowOrderModal(true);
+    } catch (error) {
+      alert('Erro ao finalizar pedido. Tente novamente.');
+      console.error('Erro ao salvar pedido:', error);
+    } finally {
+      setLoadingCheckout(false);
+    }
   };
 
   if (authLoading) {
@@ -128,6 +216,23 @@ export default function Carrinho() {
     <div className={styles.wrapper}>
     
         <div className={styles.cartSectionProfissional}>
+          {cart.length > 1 && (
+            <button
+              className={styles.checkoutButtonGrande1}
+              style={{ marginBottom: 24, background: '#1976d2', color: '#fff', alignSelf: 'center', maxWidth: 340 }}
+              onClick={handleCheckout}
+              disabled={loadingCheckout}
+            >
+              {loadingCheckout ? (
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                  <span className={styles.spinner} />
+                  Finalizando...
+                </span>
+              ) : (
+                'Comprar todo o carrinho'
+              )}
+            </button>
+          )}
           {cart.length === 0 ? (
             <div className={styles.emptyCartMsg}>Seu carrinho está vazio.</div>
           ) : (
@@ -141,6 +246,7 @@ export default function Carrinho() {
                     .replace(/\./g, '')  // Remove pontos de milhar
                     .replace(',', '.')); // Substitui vírgula por ponto
               const parcelas = parcelasSelecionadas[idx] || 10;
+              const valorComDesconto = +(valorNumerico * 0.85).toFixed(2);
               return (
                 <div className={styles.productBox} key={idx}>
                   <div className={styles.productImageArea}>
@@ -164,14 +270,17 @@ export default function Carrinho() {
                     <div className={styles.productCode}>Cód: {productData?.id || '---'}</div>
                     <div className={styles.productPrice}>
                       <span>Por Apenas:</span>
-                      {item.price}
+                      {isDesconto
+                        ? valorComDesconto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                        : item.price}
                     </div>
                     <div className={styles.productInstallments}>
-                      <span className={styles.installment1}>Em até</span>
+                      <span className={styles.installment1 + (isDesconto ? ' ' + styles.installmentsDisabled : '')}>Em até</span>
                       <select
                         value={parcelas}
                         onChange={e => setParcelasSelecionadas({ ...parcelasSelecionadas, [idx]: Number(e.target.value) })}
-                        className={styles.selectParcelas}
+                        className={styles.selectParcelas + (isDesconto ? ' ' + styles.installmentsDisabled : '')}
+                        disabled={isDesconto}
                       >
                         {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
                           <option key={num} value={num}>
@@ -179,21 +288,51 @@ export default function Carrinho() {
                           </option>
                         ))}
                       </select>
-                      <span className={styles.installment1}>sem juros</span>
+                      <span className={styles.installment1 + (isDesconto ? ' ' + styles.installmentsDisabled : '')}>sem juros</span>
                     </div>
-                    <div className={styles.pix}>
-                      <span className={styles.pixText}>ou </span>
-                      <span className={styles.pixValue}>
-                        {((valorNumerico * 0.85).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))} 
-                      </span>
-                      <span className={styles.pixText}> no Pix, Boleto ou transferência à vista (15% desconto)</span>
+                    {isDesconto && (
+                      <div className={styles.pix}>
+                        <span className={styles.pixText}>Valor com desconto:</span>
+                        <span className={styles.pixValue}>
+                          {valorComDesconto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                        </span>
+                        <span className={styles.pixText}> no {formaPagamento} (15% desconto)</span>
+                      </div>
+                    )}
+                    {!isDesconto && (
+                      <div className={styles.pix}>
+                        <span className={styles.pixText}>ou </span>
+                        <span className={styles.pixValue}>
+                          {((valorNumerico * 0.85).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))} 
+                        </span>
+                        <span className={styles.pixText}> no Pix, Boleto ou transferência à vista (15% desconto)</span>
+                      </div>
+                    )}
+                    <div style={{ marginTop: 18, marginBottom: 8 }}>
+                      <label style={{ fontWeight: 600, color: '#23262b', marginRight: 12 }}>Forma de Pagamento:</label>
+                      <select value={formaPagamento} onChange={e => setFormaPagamento(e.target.value)} style={{ padding: 6, borderRadius: 6, border: '1px solid #ccc', fontSize: 16 }}>
+                        <option value="Cartão de crédito">Cartão de crédito</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Boleto">Boleto</option>
+                      </select>
                     </div>
                     <div className={styles.imgText}>
                       <span>IMAGENS MERAMENTE ILUSTRATIVAS.</span>
                     </div>
                  
-                    <button className={styles.checkoutButtonGrande} onClick={handleCheckout}>
-                      Finalizar Compra
+                    <button 
+                      className={styles.checkoutButtonGrande} 
+                      onClick={handleCheckout}
+                      disabled={loadingCheckout}
+                    >
+                      {loadingCheckout ? (
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                          <span className={styles.spinner} />
+                          Finalizando...
+                        </span>
+                      ) : (
+                        'Finalizar Compra'
+                      )}
                     </button>
                   </div>
                   
@@ -225,6 +364,7 @@ export default function Carrinho() {
                 </div>
               );
             })}
+        
           </div>
         )}
         {/* Perguntas Frequentes */}
@@ -276,6 +416,39 @@ export default function Carrinho() {
           </ol>
         </div>
         <ProdutosQuePodemInteressar/>
+        {showOrderModal && orderData && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <button className={styles.closeButton} onClick={() => { setShowOrderModal(false); setOrderData(null); clearCart(); }}>×</button>
+              <h2 style={{ color: '#23262b', fontWeight: 700, fontSize: '1.6rem', marginBottom: 8, textAlign: 'center' }}>Pedido realizado com sucesso!</h2>
+              <p style={{ color: '#444', fontSize: '1.08rem', marginBottom: 18, textAlign: 'center' }}>
+                Seu pedido está sendo analisado. Em breve um vendedor entrará em contato para finalizar a compra.
+              </p>
+              <h3 style={{ color: '#f0b63d', fontWeight: 700, fontSize: '1.18rem', margin: '10px 0 8px 0', textAlign: 'center' }}>Resumo do Pedido</h3>
+              <div className={styles.orderResumo}>
+                <div><strong>Nome:</strong> {orderData.user.nomeCompleto}</div>
+                <div><strong>Email:</strong> {orderData.user.email}</div>
+                <div><strong>Telefone:</strong> {orderData.user.telefone}</div>
+                <div><strong>Total:</strong> R$ {orderData.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                <div><strong>Forma de Pagamento:</strong> {orderData.formaPagamento}</div>
+                <div><strong>Produtos:</strong></div>
+                <div className={styles.orderProducts}>
+                  {orderData.products.map((prod: any, idx: number) => (
+                    <div key={idx} className={styles.orderProductCard}>
+                      <ProductImage image={prod.image} alt={prod.name} style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 6 }} />
+                      <div><strong>{prod.name}</strong></div>
+                      <div>Qtd: {prod.quantity}</div>
+                      <div>Preço: {prod.price}</div>
+                      {orderData.formaPagamento === 'Cartão de crédito' && (
+                        <div>Parcelas: {prod.parcelas}x de {(typeof prod.price === 'number' ? prod.price : parseFloat(String(prod.price).replace('R$', '').replace('.', '').replace(',', '.'))/prod.parcelas).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
  

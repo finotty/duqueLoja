@@ -16,14 +16,18 @@ interface CartContextType {
   addToCart: (product: CartProduct) => void;
   handleQty: (idx: number, delta: number) => void;
   removeFromCart: (idx: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartProduct[]>([]);
   const { user } = useAuth();
   const [isInitialized, setIsInitialized] = useState(false);
+
+  const clearCart = () => setCart([]);
 
   // Carregar carrinho do localStorage quando o componente montar
   useEffect(() => {
@@ -136,7 +140,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, handleQty, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, handleQty, removeFromCart,clearCart }}>
       {children}
     </CartContext.Provider>
   );
