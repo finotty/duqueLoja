@@ -42,7 +42,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         style: 'currency',
         currency: 'BRL'
       }).format(product.price),
-      quantity: 1
+      quantity: 1,
+      specifications: product.specifications
+        ? Object.fromEntries(Object.entries(product.specifications).filter(([_, v]) => typeof v === 'string' && v !== undefined)) as Record<string, string>
+        : undefined
     });
     router.push('/carrinho');
   };

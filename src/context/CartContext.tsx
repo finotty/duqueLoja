@@ -9,6 +9,7 @@ export interface CartProduct {
   name: string;
   price: string;
   quantity: number;
+  specifications?: Record<string, string>;
 }
 
 interface CartContextType {

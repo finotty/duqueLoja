@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import ProdutosQuePodemInteressar from "../produtos-que-podem-interessar";
 import ProductImage from "../ProductImage";
@@ -102,6 +102,31 @@ export default function Carrinho() {
   const [formaPagamento, setFormaPagamento] = useState('Cartão de crédito');
   const [parcelas, setParcelas] = useState(1);
   const [telefone, setTelefone] = useState<string | null>(null);
+
+  // Estados para o zoom
+  const [zoomActive, setZoomActive] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [zoomImage, setZoomImage] = useState<string | null>(null);
+  const [zoomType, setZoomType] = useState<'img' | 'svg' | null>(null);
+  const [svgViewBox, setSvgViewBox] = useState<{ width: number; height: number }>({ width: 520, height: 420 });
+  const imageRef = useRef<HTMLDivElement | null>(null);
+
+  // Função para extrair o viewBox do SVG
+  function extractViewBox(svgString: string): { width: number; height: number } {
+    const match = svgString.match(/viewBox=["'](\d+)[ ,]+(\d+)[ ,]+(\d+)[ ,]+(\d+)["']/);
+    if (match) {
+      const width = parseFloat(match[3]);
+      const height = parseFloat(match[4]);
+      return { width, height };
+    }
+    // fallback: tenta pegar width/height direto
+    const widthMatch = svgString.match(/width=["'](\d+)["']/);
+    const heightMatch = svgString.match(/height=["'](\d+)["']/);
+    if (widthMatch && heightMatch) {
+      return { width: parseFloat(widthMatch[1]), height: parseFloat(heightMatch[1]) };
+    }
+    return { width: 520, height: 420 };
+  }
 
   const handleLogout = async () => {
     try {
@@ -250,12 +275,87 @@ export default function Carrinho() {
               return (
                 <div className={styles.productBox} key={idx}>
                   <div className={styles.productImageArea}>
-                    <ProductImage 
-                      image={item.image} 
-                      alt={item.name} 
-                      className={styles.productImageGrande}
-                      style={{ width: '520px', height: '420px' }}
-                    />
+                    <div
+                      ref={imageRef}
+                      style={{ width: '520px', height: '420px', position: 'relative' }}
+                      onMouseEnter={() => {
+                        setZoomActive(true);
+                        setZoomImage(item.image);
+                        setZoomType(item.image.startsWith('<svg') ? 'svg' : 'img');
+                        if (item.image.startsWith('<svg')) {
+                          setSvgViewBox(extractViewBox(item.image));
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        setZoomActive(false);
+                        setZoomImage(null);
+                      }}
+                      onMouseMove={e => {
+                        const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        setZoomPosition({ x, y });
+                      }}
+                    >
+                      <ProductImage
+                        image={item.image}
+                        alt={item.name}
+                        className={styles.productImageGrande}
+                        style={{ width: '520px', height: '420px' }}
+                        
+                      />
+                      {/* Modal de Zoom */}
+                      {zoomActive && zoomImage === item.image && (
+                        <div className={styles.zoomModal} style={{ left: '540px', top: 0 }}>
+                          {zoomType === 'img' ? (
+                            <div
+                              className={styles.zoomImgBox}
+                              style={{
+                                backgroundImage: `url(${zoomImage})`,
+                                backgroundPosition: `${-zoomPosition.x * 2 + 150}px ${-zoomPosition.y * 2 + 150}px`,
+                                backgroundSize: '1040px 840px',
+                                width: 300,
+                                height: 300,
+                                borderRadius: 12,
+                                border: '2px solid #ffec70',
+                                boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                                backgroundRepeat: 'no-repeat',
+                              }}
+                            />
+                          ) : (
+                            <div
+                              className={styles.zoomImgBox}
+                              style={{
+                                width: 300,
+                                height: 300,
+                                borderRadius: 12,
+                                border: '2px solid #ffec70',
+                                boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                                overflow: 'hidden',
+                                background: '#fff',
+                                position: 'relative',
+                                pointerEvents: 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: svgViewBox.width,
+                                  height: svgViewBox.height,
+                                  transform: `scale(2)`,
+                                  transformOrigin: `${(zoomPosition.x / 520) * svgViewBox.width}px ${(zoomPosition.y / 420) * svgViewBox.height}px`,
+                                  pointerEvents: 'none',
+                                  display: 'block',
+                                }}
+                                dangerouslySetInnerHTML={{ __html: zoomImage || '' }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                     
                   <div className={styles.productInfoArea}>
@@ -347,13 +447,14 @@ export default function Carrinho() {
           <div className={styles.productDescriptionBox}>
             <h3 className={styles.productDescriptionBoxTitle}>Descrição do Produto</h3>
             {cart.map((item, idx) => {
-              const productData = getProductDataByName(item.name);
+              // Se o produto tem specifications no próprio item, use ele (personalizado)
+              const specs = item.specifications || getProductDataByName(item.name)?.specifications;
               return (
                 <div key={idx} className={styles.productDescription}>
                   <h4>{item.name}</h4>
-                  {productData?.specifications && (
+                  {specs && (
                     <div className={styles.specifications}>
-                      {Object.entries(productData.specifications).map(([key, value]) => (
+                      {Object.entries(specs).map(([key, value]) => (
                         <div key={key} className={styles.specification}>
                           <span className={styles.specLabel}>{key}:</span>
                           <span className={styles.specValue}>{value}</span>

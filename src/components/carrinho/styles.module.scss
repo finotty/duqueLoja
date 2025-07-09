@@ -284,7 +284,12 @@
   object-fit: contain;
   background: #fff;
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
 .productInfoArea {
   flex: 2 1 340px;
   display: flex;
@@ -805,4 +810,27 @@
   color: #888 !important;
   border-color: #ddd !important;
   pointer-events: none;
+}
+
+.zoomModal {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 540px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.zoomImgBox {
+  width: 300px;
+  height: 300px;
+  border-radius: 12px;
+  border: 2px solid #ffec70;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  background: #fff;
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
