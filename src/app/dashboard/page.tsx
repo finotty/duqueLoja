@@ -332,7 +332,7 @@ export default function Dashboard() {
                 userOrders.map((order) => (
                   <div key={order.id} className={styles.orderCard} onClick={() => setSelectedOrder(order)}>
                     <div className={styles.orderCardImageCol}>
-                      <img src={order.products?.[0]?.image} alt={order.products?.[0]?.name} />
+                      <ProductImage image={order.products?.[0]?.image} alt={order.products?.[0]?.name} style={{width: 120, height: 120}} />
                     </div>
                     <div className={styles.orderCardDetailsCol}>
                       <div className={styles.orderCardInfoRow}>

@@ -536,7 +536,9 @@ export default function Carrinho() {
                 <div className={styles.orderProducts}>
                   {orderData.products.map((prod: any, idx: number) => (
                     <div key={idx} className={styles.orderProductCard}>
-                      <ProductImage image={prod.image} alt={prod.name} style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 6 }} />
+                      <ProductImage image={prod.image} alt={prod.name} style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 6 }}
+                       
+                      />
                       <div><strong>{prod.name}</strong></div>
                       <div>Qtd: {prod.quantity}</div>
                       <div>Preço: {prod.price}</div>

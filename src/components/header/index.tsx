@@ -254,10 +254,7 @@ export default function Header() {
                             <ProductImage 
                               image={hoveredPistola.image} 
                               alt={hoveredPistola.name} 
-                              stylesCustom={{ 
-                                marginLeft:'20%',
-                                marginBottom:'10%'
-                              }}
+                             
                               style={{ 
                                 width: '180px', 
                                 height: '120px', 

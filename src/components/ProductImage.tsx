@@ -8,19 +8,45 @@ interface ProductImageProps {
   stylesCustom?: React.CSSProperties;
 }
 
+function svgToDataUrl(svg: string) {
+  // Remove quebras de linha e espaços extras
+  const cleaned = svg.replace(/\n/g, '').replace(/\s{2,}/g, ' ');
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(cleaned);
+}
+
 const ProductImage: React.FC<ProductImageProps> = ({ image, alt, className, style, stylesCustom }) => {
   if (image.startsWith('<svg')) {
-    // É um SVG
+    const dataUrl = svgToDataUrl(image);
     return (
-      <div 
-        dangerouslySetInnerHTML={{ __html: image }}
+      <img
+        src={dataUrl}
+        alt={alt}
         className={className}
-        style={{...style, ...stylesCustom}}
+        style={{
+          maxWidth: 520,
+          maxHeight: 420,
+          width: 'auto',
+          height: 'auto',
+          objectFit: 'contain',
+          display: 'block',
+          margin: '0 auto 6px auto',
+          ...style,
+          ...stylesCustom
+        }}
       />
     );
   } else {
-    // É uma URL
-    return <img src={image} alt={alt} className={className} style={style} />;
+    // É uma URL normal
+    return <img src={image} alt={alt} className={className} style={{
+      maxWidth: 520,
+      maxHeight: 420,
+      width: 'auto',
+      height: 'auto',
+      objectFit: 'contain',
+      display: 'block',
+      margin: '0 auto 6px auto',
+      ...style
+    }} />;
   }
 };
 
