@@ -10,23 +10,9 @@ import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import ContactMessages from './components/ContactMessages';
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp } from "firebase/firestore";
+import ProductImage from "../../components/ProductImage";
 
-// Componente para renderizar imagem (URL ou SVG)
-const ProductImage = ({ image, alt, className }: { image: string; alt: string; className?: string }) => {
-  if (image.startsWith('<svg')) {
-    // É um SVG
-    return (
-      <div 
-        dangerouslySetInnerHTML={{ __html: image }}
-        className={className}
-        style={{ display: 'inline-block' }}
-      />
-    );
-  } else {
-    // É uma URL
-    return <img src={image} alt={alt} className={className} />;
-  }
-};
+
 
 export default function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
@@ -61,6 +47,9 @@ export default function AdminPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [orderStatusFilter, setOrderStatusFilter] = useState('');
+  const [orderDateStart, setOrderDateStart] = useState('');
+  const [orderDateEnd, setOrderDateEnd] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -634,28 +623,76 @@ export default function AdminPage() {
 
         <div className={styles.card}>
           <h2>Pedidos</h2>
+          <div className={styles.ordersFilters}>
+            <select
+              value={orderStatusFilter}
+              onChange={e => setOrderStatusFilter(e.target.value)}
+              className={styles.categorySelect}
+              style={{maxWidth: 180, marginRight: 8, marginBottom: 8}}
+            >
+              <option value="">Todos os status</option>
+              <option value="Pendente">Pendente</option>
+              <option value="Concluído">Concluído</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+            <br/>
+            <input
+              type="date"
+              value={orderDateStart}
+              onChange={e => setOrderDateStart(e.target.value)}
+              className={styles.categorySelect}
+              style={{maxWidth: 180}}
+            />
+            <span style={{color:'#b0b0b0', margin: '0 8px'}}>até</span>
+            <input
+              type="date"
+              value={orderDateEnd}
+              onChange={e => setOrderDateEnd(e.target.value)}
+              className={styles.categorySelect}
+              style={{maxWidth: 180}}
+            />
+          </div>
           {orders.length === 0 ? (
             <p>Nenhum pedido encontrado.</p>
           ) : (
-            <div className={styles.ordersList}>
-              {orders.map((order) => (
-                <div key={order.id} className={styles.productOrderCard} onClick={() => { setSelectedOrder(order); setShowOrderModal(true); }}>
-                  <div className={styles.productOrderCardHeader}>
-                    <span className={styles.productOrderCardTitle}>Cliente: {order.user?.nomeCompleto || order.user?.email}</span>
-                    <span className={styles.productOrderCardTotal}>Total: R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                    <span className={styles.productOrderCardStatus}>{order.status}</span>
+            <div className={styles.ordersContainer}>
+              {[...orders]
+                .filter(order => order.createdAt && order.createdAt.seconds)
+                .filter(order => {
+                  if (!orderStatusFilter) return true;
+                  return order.status === orderStatusFilter;
+                })
+                .filter(order => {
+                  if (!orderDateStart && !orderDateEnd) return true;
+                  const orderDate = new Date(order.createdAt.seconds * 1000);
+                  if (orderDateStart && orderDate < new Date(orderDateStart)) return false;
+                  if (orderDateEnd && orderDate > new Date(orderDateEnd + 'T23:59:59')) return false;
+                  return true;
+                })
+                .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+                .map((order) => (
+                  <div key={order.id} className={styles.productOrderCard} onClick={() => { setSelectedOrder(order); setShowOrderModal(true); }}>
+                    <div className={styles.productOrderCardHeader}>
+                      <span className={styles.productOrderCardTitle}>Cliente: {order.user?.nomeCompleto || order.user?.email}</span>
+                      <span className={styles.productOrderCardTotal}>Total: R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                      <span className={
+                        `${styles.productOrderCardStatus} ` +
+                        (order.status === 'Concluído' ? styles.concluido : order.status === 'Cancelado' ? styles.cancelado : styles.pendente)
+                      }>
+                        {order.status}
+                      </span>
+                    </div>
+                    <div className={styles.productOrderCardInfo}>
+                      <span>Data: {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
+                      <span>Forma de Pagamento: {order.formaPagamento}</span>
+                    </div>
+                    <div className={styles.productOrderCardProducts}>
+                      {order.products?.map((prod: any, idx: number) => (
+                        <span key={idx} className={styles.productOrderCardProduct}>{prod.name} (Qtd: {prod.quantity})</span>
+                      ))}
+                    </div>
                   </div>
-                  <div className={styles.productOrderCardInfo}>
-                    <span>Data: {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
-                    <span>Forma de Pagamento: {order.formaPagamento}</span>
-                  </div>
-                  <div className={styles.productOrderCardProducts}>
-                    {order.products?.map((prod: any, idx: number) => (
-                      <span key={idx} className={styles.productOrderCardProduct}>{prod.name} (Qtd: {prod.quantity})</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
@@ -939,10 +976,8 @@ export default function AdminPage() {
               <span className={styles.adminOrderModalLabel}>Data:</span>
               <span className={styles.adminOrderModalValue}>{selectedOrder.createdAt?.seconds ? new Date(selectedOrder.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
             </div>
-            <div className={styles.adminOrderModalSection}>
-              <span className={styles.adminOrderModalLabel}>Status:</span>
-              <span className={styles.adminOrderModalValue}>{selectedOrder.status}</span>
-            </div>
+            <span className={styles.adminOrderModalLabel}>Status:</span>
+            <span className={styles.adminOrderModalValue}>{selectedOrder.status}</span>
             <div className={styles.adminOrderModalPagamento}>
               Forma de Pagamento: {selectedOrder.formaPagamento}
             </div>
@@ -952,7 +987,12 @@ export default function AdminPage() {
                 {selectedOrder.products?.map((prod: any, idx: number) => (
                   <div key={idx} className={styles.adminOrderModalProductCard}>
                     <div className={styles.adminOrderModalProductImage}>
-                      <ProductImage image={prod.image} alt={prod.name} className={styles.adminOrderModalProductImg} />
+                      <ProductImage 
+                       image={prod.image} 
+                       alt={prod.name} 
+                       className={styles.adminOrderModalProductImg}
+                       style={{width: 95, height: 95}}
+                       />
                     </div>
                     <div className={styles.adminOrderModalProductInfo}>
                       <strong>{prod.name}</strong>
@@ -972,7 +1012,7 @@ export default function AdminPage() {
               WhatsApp: <a href={`https://wa.me/55${(selectedOrder.user?.telefone || '').replace(/\D/g, '')}?text=Olá! Vi seu pedido no site e gostaria de falar com você.`} target="_blank" rel="noopener noreferrer">Abrir WhatsApp</a>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 24 }}>
-              {selectedOrder.status !== 'Concluído' && (
+              {selectedOrder.status !== 'Concluído' && selectedOrder.status !== 'Cancelado' && (
                 <button
                   className={styles.concluirVendaButton}
                   onClick={async () => {
@@ -986,6 +1026,25 @@ export default function AdminPage() {
                   }}
                 >
                   Concluir Venda
+                </button>
+              )}
+              {selectedOrder.status !== 'Cancelado' && selectedOrder.status !== 'Concluído' && (
+                <button
+                  className={styles.cancelarPedidoButton}
+                  style={{background:'#e74c3c', color:'#fff'}}
+                  onClick={async () => {
+                    if(window.confirm('Tem certeza que deseja cancelar este pedido?')) {
+                      const orderRef = doc(db, 'orders', selectedOrder.id);
+                      await updateDoc(orderRef, { status: 'Cancelado' });
+                      setShowOrderModal(false);
+                      // Atualiza lista de pedidos
+                      const querySnapshot = await getDocs(collection(db, 'orders'));
+                      const ordersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                      setOrders(ordersData);
+                    }
+                  }}
+                >
+                  Cancelar pedido
                 </button>
               )}
             </div>

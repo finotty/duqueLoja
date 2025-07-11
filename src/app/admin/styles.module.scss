@@ -997,11 +997,23 @@
 }
 .productOrderCardStatus {
   color: #fff;
-  background: #f0b63d;
+  background: #f0b63d; // padrão laranja (pendente)
   border-radius: 8px;
   padding: 2px 12px;
   font-weight: 600;
   font-size: 1rem;
+  &.pendente {
+    background: #f0b63d; // laranja
+    color: #fff;
+  }
+  &.concluido {
+    background: #4caf50; // verde
+    color: #fff;
+  }
+  &.cancelado {
+    background: #e74c3c; // vermelho
+    color: #fff;
+  }
 }
 .productOrderCardInfo {
   color: #23262b;
@@ -1150,16 +1162,42 @@
 }
 
 .concluirVendaButton {
-  background: #4CAF50;
+  background: #4caf50;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1.08rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+  &:hover {
+    background: #388e3c;
+    transform: translateY(-1px);
+  }
 }
-.concluirVendaButton:hover {
-  background: #388e3c;
+
+.cancelarPedidoButton {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(231,76,60,0.08);
+  &:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+  }
+} 
+
+.ordersContainer {
+  max-height: 720px;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-top: 12px;
 } 
