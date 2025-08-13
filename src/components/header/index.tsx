@@ -22,7 +22,6 @@ const menuItems = [
   { label: "Espingardas", category: "espingardas" },
   { label: "Acessórios", category: "acessorios" },
   { label: "Esportivo", category: "esporte" },
-  { label: "Treinamento" },
   { label: "Contato", href: "/contato" },
 ];
 
