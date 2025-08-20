@@ -516,7 +516,7 @@ export default function Carrinho() {
             </li>
           </ol>
         </div>
-        <ProdutosQuePodemInteressar/>
+       {/* <ProdutosQuePodemInteressar/> */}
         {showOrderModal && orderData && (
           <div className={styles.modalOverlay}>
             <div className={styles.modal}>

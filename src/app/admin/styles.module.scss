@@ -110,6 +110,74 @@
   }
 }
 
+.dropdown {
+  position: relative;
+}
+
+.dropdownToggle {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #4a4f55;
+  border-radius: 8px;
+  background: #2a2d32;
+  color: #fff;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #2a2d32;
+  border: 1px solid #4a4f55;
+  border-radius: 8px;
+  z-index: 20;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownSearchBox {
+  padding: 8px;
+  border-bottom: 1px solid #4a4f55;
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #41444a;
+    border: 1px solid #4a4f55;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.95rem;
+  }
+}
+
+.dropdownGroupLabel {
+  padding: 8px 12px;
+  color: #ffec70;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: #2f3237;
+  border-top: 1px solid #4a4f55;
+}
+
+.dropdownItem {
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: #2a2d32;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #363b41;
+  }
+}
+
 .productPreview {
   margin-top: 2rem;
   padding: 1.5rem;

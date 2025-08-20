@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { preConfiguredProducts, tacticalEquipment, Product, sportEquipment } from "../../data/products";
@@ -47,6 +47,10 @@ export default function AdminPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [productSelectSearch, setProductSelectSearch] = useState("");
+  const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
+  const productDropdownRef = useRef<HTMLDivElement | null>(null);
+  const productSearchInputRef = useRef<HTMLInputElement | null>(null);
   const [orderStatusFilter, setOrderStatusFilter] = useState('');
   const [orderDateStart, setOrderDateStart] = useState('');
   const [orderDateEnd, setOrderDateEnd] = useState('');
@@ -184,19 +188,27 @@ export default function AdminPage() {
         throw new Error("Produto não encontrado");
       }
       
-      // Verifica se o documento existe antes de tentar excluir
-      const productRef = doc(db, "products", product.firestoreId);
-      const productDoc = await getDoc(productRef);
-      
-      if (!productDoc.exists()) {
-        throw new Error("Produto não encontrado");
-      }
+      // Tenta excluir da coleção 'products'; se não existir, tenta em 'customProducts'
+      const productRefProducts = doc(db, "products", product.firestoreId);
+      const productDocProducts = await getDoc(productRefProducts);
 
-      await deleteDoc(productRef);
+      if (productDocProducts.exists()) {
+        await deleteDoc(productRefProducts);
+      } else {
+        const productRefCustom = doc(db, "customProducts", product.firestoreId);
+        const productDocCustom = await getDoc(productRefCustom);
+
+        if (productDocCustom.exists()) {
+          await deleteDoc(productRefCustom);
+        } else {
+          throw new Error("Produto não encontrado");
+        }
+      }
       
-      // Atualiza a lista de produtos imediatamente
+      // Atualiza as listas imediatamente
       const updatedProducts = registeredProducts.filter(p => p.id !== productId);
       setRegisteredProducts(updatedProducts);
+      setCustomProducts(prev => prev.filter(p => p.id !== productId));
       
       setMessage({ text: "Produto excluído com sucesso!", type: "success" });
       
@@ -229,6 +241,56 @@ export default function AdminPage() {
     const matchesSection = !searchSection || product.displayLocation === searchSection;
     return matchesSearch && matchesCategory && matchesSection;
   });
+
+  // Resetar busca do select ao trocar o tipo de produto
+  useEffect(() => {
+    setProductSelectSearch("");
+    setIsProductDropdownOpen(false);
+  }, [selectedProductType]);
+
+  // Fecha dropdown ao clicar fora
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (productDropdownRef.current && !productDropdownRef.current.contains(event.target as Node)) {
+        setIsProductDropdownOpen(false);
+      }
+    }
+    if (isProductDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProductDropdownOpen]);
+
+  // Foca o input de busca quando abrir o dropdown
+  useEffect(() => {
+    if (isProductDropdownOpen) {
+      setTimeout(() => {
+        productSearchInputRef.current?.focus();
+      }, 0);
+    }
+  }, [isProductDropdownOpen]);
+
+  // Listas filtradas para o select de produtos conforme a busca
+  const normalizedProductSearch = productSelectSearch.trim().toLowerCase();
+  const selectBaseProducts = (
+    selectedProductType === 'preConfigured'
+      ? preConfiguredProducts
+      : selectedProductType === 'tactical'
+        ? tacticalEquipment
+        : sportEquipment
+  ).filter(p => p.name.toLowerCase().includes(normalizedProductSearch));
+
+  const selectCustomProducts = customProducts
+    .filter(p => p.category === (
+      selectedProductType === 'preConfigured'
+        ? 'pistolas'
+        : selectedProductType === 'tactical'
+          ? 'taticos'
+          : 'esporte'
+    ))
+    .filter(p => p.name.toLowerCase().includes(normalizedProductSearch));
 
   const categories = Array.from(new Set(registeredProducts.map(p => p.category)));
 
@@ -443,27 +505,80 @@ export default function AdminPage() {
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.formGroup}>
                 <label>Selecione o Produto:</label>
-                <select
-                  value={isCustomProduct ? 'custom' : selectedProduct?.id || ""}
-                  onChange={(e) => handleProductSelect(e.target.value)}
-                  required
+                <div
+                  className={styles.dropdown}
+                  ref={productDropdownRef}
                 >
-                  <option value="">Selecione um produto</option>
-                  <option value="custom">Produto Personalizado</option>
-                  {(selectedProductType === 'preConfigured' ? preConfiguredProducts : selectedProductType === 'tactical' ? tacticalEquipment : sportEquipment)
-                    .map((product) => (
-                      <option key={product.id} value={product.id}>
-                        {product.name}
-                      </option>
-                    ))}
-                  {customProducts
-                    .filter(p => p.category === (selectedProductType === 'preConfigured' ? 'pistolas' : selectedProductType === 'tactical' ? 'taticos' : 'esporte'))
-                    .map((product) => (
-                      <option key={product.id} value={product.id}>
-                        {product.name} (Personalizado)
-                      </option>
-                    ))}
-                </select>
+                  <button
+                    type="button"
+                    className={styles.dropdownToggle}
+                    onClick={() => {
+                      setIsProductDropdownOpen(prev => {
+                        const next = !prev;
+                        if (next) setProductSelectSearch("");
+                        return next;
+                      });
+                    }}
+                  >
+                    {selectedProduct ? selectedProduct.name : 'Selecione um produto'}
+                  </button>
+                  {isProductDropdownOpen && (
+                    <div className={styles.dropdownMenu}>
+                      <div className={styles.dropdownSearchBox}>
+                        <input
+                          type="text"
+                          value={productSelectSearch}
+                          onChange={(e) => setProductSelectSearch(e.target.value)}
+                          placeholder="Pesquisar produto..."
+                          ref={productSearchInputRef}
+                        />
+                      </div>
+                      <div
+                        className={styles.dropdownItem}
+                        onClick={() => {
+                          setIsCustomProduct(true);
+                          setSelectedProduct(null);
+                          setIsProductDropdownOpen(false);
+                          setShowCustomProductModal(true);
+                        }}
+                      >
+                        Produto Personalizado
+                      </div>
+                      <div className={styles.dropdownGroupLabel}>Produtos Padrão</div>
+                      {selectBaseProducts.map(product => (
+                        <div
+                          key={product.id}
+                          className={styles.dropdownItem}
+                          onClick={() => {
+                            handleProductSelect(product.id);
+                            setIsProductDropdownOpen(false);
+                          }}
+                        >
+                          {product.name}
+                        </div>
+                      ))}
+                      {selectBaseProducts.length === 0 && (
+                        <div className={styles.dropdownItem} style={{opacity: 0.7, cursor: 'default'}}>Nenhum produto encontrado</div>
+                      )}
+                      <div className={styles.dropdownGroupLabel}>Personalizados</div>
+                      {selectCustomProducts.map(product => (
+                        <div
+                          key={product.id}
+                          className={styles.dropdownItem}
+                          onClick={() => {
+                            handleProductSelect(product.id);
+                            setIsProductDropdownOpen(false);
+                          }}
+                        >
+                          {product.name} (Personalizado)
+                        </div>
+                      ))}
+                      {selectCustomProducts.length === 0 && (
+                        <div className={styles.dropdownItem} style={{opacity: 0.7, cursor: 'default'}}>Nenhum produto encontrado</div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className={styles.formGroup}>
