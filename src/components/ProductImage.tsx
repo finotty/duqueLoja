@@ -38,8 +38,8 @@ const ProductImage: React.FC<ProductImageProps> = ({ image, alt, className, styl
   } else {
     // É uma URL normal
     return <img src={image} alt={alt} className={className} style={{
-      maxWidth: 180,
-      maxHeight: 180,
+      maxWidth: 480,
+      maxHeight: 480,
       width: 'auto',
       height: 'auto',
       objectFit: 'contain',

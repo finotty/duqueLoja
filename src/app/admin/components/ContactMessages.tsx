@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, query, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 import styles from '../styles.module.scss';
-import { FaEnvelope, FaEnvelopeOpen, FaReply } from 'react-icons/fa';
+import { FaEnvelope, FaEnvelopeOpen, FaReply, FaTrash } from 'react-icons/fa';
 
 interface ContactMessage {
   id: string;
@@ -73,6 +73,21 @@ export default function ContactMessages() {
     }
   };
 
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      const confirmed = window.confirm('Tem certeza que deseja excluir esta mensagem?');
+      if (!confirmed) return;
+      await deleteDoc(doc(db, 'contacts', messageId));
+      setMessages(prev => prev.filter(m => m.id !== messageId));
+      if (selectedMessage?.id === messageId) {
+        setShowModal(false);
+        setSelectedMessage(null);
+      }
+    } catch (error) {
+      console.error('Erro ao excluir mensagem:', error);
+    }
+  };
+
   if (loading) {
     return <div className={styles.loading}>Carregando mensagens...</div>;
   }
@@ -128,32 +143,32 @@ export default function ContactMessages() {
               </button>
             </div>
             <div className={styles.modalContent}>
-              <div className={styles.messageDetails}>
-                <p><strong>De:</strong> {selectedMessage.name}</p>
-                <p><strong>Email:</strong> {selectedMessage.email}</p>
-                <p><strong>Data:</strong> {formatDate(selectedMessage.createdAt)}</p>
-                <p><strong>Status:</strong> {
-                  selectedMessage.status === 'pending' ? 'Pendente' :
-                  selectedMessage.status === 'read' ? 'Lida' : 'Respondida'
-                }</p>
-              </div>
-              <div className={styles.messageBody}>
-                <h4>Mensagem:</h4>
-                <p>{selectedMessage.message}</p>
-              </div>
+              <div className={styles.messageDetailsContainer}>
+                <div className={styles.messageDetails}>
+                  <p><strong>De:</strong> {selectedMessage.name}</p>
+                  <p><strong>Email:</strong> {selectedMessage.email}</p>
+                  <p><strong>Data:</strong> {formatDate(selectedMessage.createdAt)}</p>
+                  <p><strong>Status:</strong> {
+                    selectedMessage.status === 'pending' ? 'Pendente' :
+                    selectedMessage.status === 'read' ? 'Lida' : 'Respondida'
+                  }</p>
+                </div>
+                
+
               <div className={styles.messageActions}>
-                {selectedMessage.status !== 'replied' && (
-                  <button
-                    className={styles.replyButton}
-                    onClick={() => {
-                      handleStatusChange(selectedMessage.id, 'replied');
-                      window.location.href = `mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`;
-                    }}
-                  >
-                    <FaReply /> Responder
-                  </button>
-                )}
+              
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => handleDeleteMessage(selectedMessage.id)}
+                >
+                  <FaTrash /> Excluir
+                </button>
               </div>
+              </div>
+                <div className={styles.messageBody}>
+                  <h4>Mensagem:</h4>
+                  <p>{selectedMessage.message}</p>
+                </div>
             </div>
           </div>
         </div>

@@ -728,7 +728,7 @@ export default function AdminPage() {
                     </div>
                   </div>
                   <div className={styles.productImage}>
-                    <ProductImage image={product.image} alt={product.name} />
+                    <ProductImage image={product.image} alt={product.name} style={{width: 70, height: 70}} />
                   </div>
                 </div>
               ))}
@@ -847,7 +847,7 @@ export default function AdminPage() {
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalContent}>
               <div className={styles.modalImage}>
-                <ProductImage image={selectedProductForEdit.image} alt={selectedProductForEdit.name} />
+                <ProductImage image={selectedProductForEdit.image} alt={selectedProductForEdit.name} style={{width: 200, height: 200, borderRadius: 12}} />
               </div>
               <div className={styles.modalDetails}>
                 <h3>{selectedProductForEdit.name}</h3>

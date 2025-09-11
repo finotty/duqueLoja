@@ -1,13 +1,13 @@
 ----------------- Admin -------------------------------------------------------- 
-1 - Ajustar imagem no card de "Produtos Cadastrados"
+1 - Ajustar imagem no card de "Produtos Cadastrados" (resolvido)
 
 2 - Permitir a criação de seção nova ou personalizada em "Cadastrar Produto"
 
-3 - Permitir exlusão de mensagens na pagina do admin
+3 - Permitir exlusão de mensagens na pagina do admin (resolvido)
 
 ---------------- Carrinho ------------------------------------------------------
 
-1- Ajustar imagem do item no carrinho
+1- Ajustar imagem do item no carrinho (resolvido)
 
 2- Ajustar informações do "Procedimento de compra" e criar Modal para exibir essas
 informações.
