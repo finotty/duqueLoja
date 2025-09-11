@@ -11,10 +11,7 @@ export default function Hero() {
         <p className={styles.description}>
           Explore nossa coleção de armamentos premium, projetados para precisão, confiabilidade e segurança inigualáveis.
         </p>
-        <div className={styles.buttons}>
-          <button className={styles.exploreBtn}>Explorar</button>
-          <button className={styles.infoBtn}>Mais Informações</button>
-        </div>
+       
       </div>
       <div className={styles.heroBg}>
         <Image src={bgImg} alt="Arma de precisão" fill priority className={styles.bgImage} />
