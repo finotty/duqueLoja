@@ -1,28 +1,58 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useProducts } from "@/hooks/useProducts";
-import { useCart } from "@/context/CartContext";
-import { useFavorites } from "@/context/FavoritesContext";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import styles from "./styles.module.scss";
 import ProductImage from "../ProductImage";
+import { ProductCard } from "../ProductCard";
 import { useRouter } from "next/navigation";
-import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export function TiroEsportivos() {
   const { products, loading } = useProducts('esportivos');
-  const { addToCart } = useCart();
-  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const { user, setRedirectPath } = useAuth();
+  const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
+  const [windowWidth, setWindowWidth] = useState(0);
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Inicializar largura da janela
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
+
+  // Recalcular quando a tela for redimensionada
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Função para calcular quantos cards cabem na tela baseado no espaço real
+  const calculateCardsPerView = () => {
+    if (!scrollRef.current || windowWidth === 0) return 1;
+    
+    const containerWidth = scrollRef.current.clientWidth;
+    const cardWidth = 250;
+    const gap = 35;
+    const padding = 110; // 55px de cada lado
+    
+    const availableWidth = containerWidth - padding;
+    const cardsPerView = Math.floor(availableWidth / (cardWidth + gap));
+    
+    return Math.max(1, cardsPerView);
+  };
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const cardWidth = 300; // Largura base do card
-      const gap = 35; // Espaçamento entre cards
-      const cardsPerView = 5; // Número máximo de cards visíveis
+      const cardWidth = 250; // Corrigido para 250px
+      const gap = 35;
+      const cardsPerView = calculateCardsPerView();
       const scrollAmount = (cardWidth + gap) * cardsPerView;
       
       const currentScroll = scrollRef.current.scrollLeft;
@@ -45,7 +75,18 @@ export function TiroEsportivos() {
     return null;
   }
 
-  const handleBuy = (product: typeof products[0]) => {
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(price);
+  };
+
+  const handleProductClick = (product: typeof products[0]) => {
+    setSelectedProduct(product);
+  };
+
+  const handleModalBuy = (product: typeof products[0]) => {
     if (!user) {
       localStorage.setItem('pendingProduct', JSON.stringify({
         image: product.image,
@@ -79,29 +120,6 @@ export function TiroEsportivos() {
     router.push('/carrinho');
   };
 
-  const handleFavorite = async (e: React.MouseEvent, productId: string) => {
-    e.stopPropagation();
-    
-    if (!user) {
-      setRedirectPath('/');
-      router.push('/login');
-      return;
-    }
-
-    if (isFavorite(productId)) {
-      await removeFromFavorites(productId);
-    } else {
-      await addToFavorites(productId);
-    }
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(price);
-  };
-
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Equipamentos Esportivos</h2>
@@ -114,37 +132,13 @@ export function TiroEsportivos() {
         </button>
         <div className={styles.productsScroll} ref={scrollRef}>
           {products.map((product) => (
-            <div
+            <ProductCard
               key={product.id}
-              className={styles.card}
-              onClick={() => setSelectedProduct(product)}
-            >
-              <div className={styles.imageContainer}>
-                <ProductImage
-                  image={product.image}
-                  alt={product.name}
-                  style={{ 
-                    width: '200px', 
-                    height: '200px', 
-                    objectFit: 'contain' 
-                  }}
-                />
-                <button 
-                  className={styles.favoriteButton}
-                  onClick={(e) => handleFavorite(e, product.id)}
-                  title={isFavorite(product.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
-                >
-                  {isFavorite(product.id) ? <FaHeart color="#e74c3c" /> : <FaRegHeart color="#000" />}
-                </button>
-              </div>
-              <div className={styles.content}>
-                <h3 className={styles.productName}>{product.name}</h3>
-                <div className={styles.price}>{formatPrice(product.price)}</div>
-                <div className={styles.installments}>
-                  Em até 10x de {formatPrice(product.price / 10)} sem juros
-                </div>
-              </div>
-            </div>
+              product={product}
+              onProductClick={handleProductClick}
+              showSpecs={true}
+              showBuyButton={true}
+            />
           ))}
         </div>
         <button 
@@ -187,7 +181,7 @@ export function TiroEsportivos() {
               </div>
               <button 
                 className={styles.modalBuyButton}
-                onClick={() => handleBuy(selectedProduct)}
+                onClick={() => handleModalBuy(selectedProduct)}
               >
                 Adicionar ao Carrinho
               </button>

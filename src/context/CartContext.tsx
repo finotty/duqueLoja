@@ -114,10 +114,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const idx = prev.findIndex(item => item.name === product.name);
       if (idx > -1) {
         const updated = [...prev];
-        updated[idx].quantity += 1;
+        updated[idx].quantity += product.quantity || 1;
         return updated;
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: product.quantity || 1 }];
     });
   };
 

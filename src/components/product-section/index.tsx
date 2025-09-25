@@ -9,8 +9,14 @@ import { ProductCard } from "../ProductCard";
 import { useRouter } from "next/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export function TacticalEquipment() {
-  const { products, loading } = useProducts('taticos');
+interface ProductSectionProps {
+  sectionName: string;
+  displayLocation: string;
+  title?: string;
+}
+
+export function ProductSection({ sectionName, displayLocation, title }: ProductSectionProps) {
+  const { products, loading } = useProducts(displayLocation);
   const { user, setRedirectPath } = useAuth();
   const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
@@ -50,7 +56,7 @@ export function TacticalEquipment() {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const cardWidth = 250; // Corrigido para 250px
+      const cardWidth = 250;
       const gap = 35;
       const cardsPerView = calculateCardsPerView();
       const scrollAmount = (cardWidth + gap) * cardsPerView;
@@ -68,7 +74,7 @@ export function TacticalEquipment() {
   };
 
   if (loading) {
-    return <div className={styles.loading}>Carregando equipamentos...</div>;
+    return <div className={styles.loading}>Carregando {sectionName.toLowerCase()}...</div>;
   }
 
   if (!products.length) {
@@ -122,7 +128,7 @@ export function TacticalEquipment() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Equipamentos Táticos</h2>
+      <h2 className={styles.title}>{title || sectionName}</h2>
       <div className={styles.scrollContainer}>
         <button 
           className={`${styles.scrollButton} ${styles.leftButton}`}
@@ -161,6 +167,11 @@ export function TacticalEquipment() {
                   height: '300px', 
                   objectFit: 'contain' 
                 }}
+                stylesCustom={{ 
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center'
+                }}
               />
             </div>
             <div className={styles.modalContent}>
@@ -197,4 +208,4 @@ export function TacticalEquipment() {
       )}
     </section>
   );
-} 
+}

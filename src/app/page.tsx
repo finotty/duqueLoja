@@ -6,6 +6,7 @@ import EducationalContent from "../components/educational-content";
 import BrandsSection from "../components/BrandsSection";
 import { TacticalEquipment } from "@/components/tactical-equipment";
 import { TiroEsportivos } from "@/components/tiroEsportivo";
+import { CustomSections } from "@/components/custom-sections";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <BrandsSection />
       <TacticalEquipment/>
       <TiroEsportivos/>
+      <CustomSections />
       {/*<Carousel />
       <FeaturedCategories />
       <EducationalContent />

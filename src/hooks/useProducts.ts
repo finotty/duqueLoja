@@ -66,7 +66,7 @@ export function useProducts(location?: string) {
     }
   };
 
-  const getProductsByLocation = (location: 'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos') => {
+  const getProductsByLocation = (location: string) => {
     return products.filter(product => product.displayLocation === location);
   };
 

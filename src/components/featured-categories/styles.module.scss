@@ -33,8 +33,9 @@
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .card:hover {
-  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-8px);
+    border-color: #ffec70;
+    box-shadow: 0 15px 25px rgba(255, 236, 112, 0.2);
 }
 .imgWrapper {
   position: absolute;

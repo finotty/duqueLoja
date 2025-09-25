@@ -19,7 +19,7 @@ export default function AdminPage() {
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [price, setPrice] = useState("");
-  const [displayLocation, setDisplayLocation] = useState<'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos'>('header');
+  const [displayLocation, setDisplayLocation] = useState<string>('header');
   const [message, setMessage] = useState({ text: "", type: "" });
   const [registeredProducts, setRegisteredProducts] = useState<Product[]>([]);
   const [selectedProductForEdit, setSelectedProductForEdit] = useState<Product | null>(null);
@@ -54,6 +54,14 @@ export default function AdminPage() {
   const [orderStatusFilter, setOrderStatusFilter] = useState('');
   const [orderDateStart, setOrderDateStart] = useState('');
   const [orderDateEnd, setOrderDateEnd] = useState('');
+  
+  // Novo estado para controlar qual seção está ativa
+  const [activeSection, setActiveSection] = useState<'pedidos' | 'cadastrar' | 'produtos'>('pedidos');
+  
+  // Estados para seções personalizadas
+  const [isCustomSection, setIsCustomSection] = useState(false);
+  const [customSectionName, setCustomSectionName] = useState('');
+  const [customSections, setCustomSections] = useState<string[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -65,7 +73,47 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchRegisteredProducts();
+    fetchCustomSections();
   }, []);
+
+  // Função para buscar seções personalizadas do Firebase
+  const fetchCustomSections = async () => {
+    try {
+      const customSectionsRef = collection(db, "customSections");
+      const customSectionsSnapshot = await getDocs(customSectionsRef);
+      const sections = customSectionsSnapshot.docs.map(doc => doc.data().name);
+      setCustomSections(sections);
+    } catch (error) {
+      console.error("Erro ao buscar seções personalizadas:", error);
+    }
+  };
+
+  // Função para criar uma nova seção personalizada
+  const createCustomSection = async (sectionName: string) => {
+    try {
+      // Verificar se a seção já existe
+      if (customSections.includes(sectionName)) {
+        setMessage({ text: "Esta seção já existe!", type: "error" });
+        return false;
+      }
+
+      // Criar a seção no Firebase
+      await addDoc(collection(db, "customSections"), {
+        name: sectionName,
+        createdAt: new Date(),
+        createdBy: user?.email
+      });
+
+      // Atualizar a lista local
+      setCustomSections([...customSections, sectionName]);
+      setMessage({ text: `Seção "${sectionName}" criada com sucesso!`, type: "success" });
+      return true;
+    } catch (error) {
+      console.error("Erro ao criar seção personalizada:", error);
+      setMessage({ text: "Erro ao criar seção personalizada", type: "error" });
+      return false;
+    }
+  };
 
   const fetchRegisteredProducts = async () => {
     try {
@@ -124,16 +172,27 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedProduct || !price || !displayLocation) {
+    if (!selectedProduct || !price || (!displayLocation && !isCustomSection)) {
       alert('Por favor, preencha todos os campos');
       return;
     }
 
     try {
+      let finalDisplayLocation = displayLocation;
+      
+      // Se for uma seção personalizada, criar a seção primeiro
+      if (isCustomSection && customSectionName.trim()) {
+        const sectionCreated = await createCustomSection(customSectionName.trim());
+        if (!sectionCreated) {
+          return; // Se não conseguiu criar a seção, para aqui
+        }
+        finalDisplayLocation = customSectionName.trim();
+      }
+
       const productData = {
         ...selectedProduct,
         price: parseFloat(price),
-        displayLocation,
+        displayLocation: finalDisplayLocation,
         createdAt: new Date()
       };
 
@@ -141,6 +200,8 @@ export default function AdminPage() {
       setSelectedProduct(null);
       setPrice('');
       setDisplayLocation('header');
+      setIsCustomSection(false);
+      setCustomSectionName('');
       fetchRegisteredProducts();
       setMessage({ text: "Produto cadastrado com sucesso!", type: "success" });
     } catch (error) {
@@ -475,11 +536,114 @@ export default function AdminPage() {
         Bem-vindo, {user.email}!
       </div>
 
+      {/* Botões de navegação */}
+      <div className={styles.navigationButtons}>
+        <button 
+          className={`${styles.navButton} ${activeSection === 'pedidos' ? styles.active : ''}`}
+          onClick={() => setActiveSection('pedidos')}
+        >
+          📦 Pedidos
+        </button>
+        <button 
+          className={`${styles.navButton} ${activeSection === 'cadastrar' ? styles.active : ''}`}
+          onClick={() => setActiveSection('cadastrar')}
+        >
+          ➕ Cadastrar Produto
+        </button>
+        <button 
+          className={`${styles.navButton} ${activeSection === 'produtos' ? styles.active : ''}`}
+          onClick={() => setActiveSection('produtos')}
+        >
+          📋 Produtos Cadastrados
+        </button>
+      </div>
+
       <div className={styles.content}>
-        <div className={styles.card}>
-          <h2>Cadastrar Produto</h2>
-          <div className={styles.productRegistration}>
-            <h2>Cadastro de Produtos</h2>
+        {/* Seção de Pedidos */}
+        {activeSection === 'pedidos' && (
+          <div className={styles.card}>
+            <h2>Pedidos</h2>
+            <div className={styles.ordersFilters}>
+              <select
+                value={orderStatusFilter}
+                onChange={e => setOrderStatusFilter(e.target.value)}
+                className={styles.categorySelect}
+                style={{maxWidth: 180, marginRight: 8, marginBottom: 8}}
+              >
+                <option value="">Todos os status</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+              <br/>
+              <input
+                type="date"
+                value={orderDateStart}
+                onChange={e => setOrderDateStart(e.target.value)}
+                className={styles.categorySelect}
+                style={{maxWidth: 180}}
+              />
+              <span style={{color:'#b0b0b0', margin: '0 8px'}}>até</span>
+              <input
+                type="date"
+                value={orderDateEnd}
+                onChange={e => setOrderDateEnd(e.target.value)}
+                className={styles.categorySelect}
+                style={{maxWidth: 180}}
+              />
+            </div>
+            {orders.length === 0 ? (
+              <p>Nenhum pedido encontrado.</p>
+            ) : (
+              <div className={styles.ordersContainer}>
+                {[...orders]
+                  .filter(order => order.createdAt && order.createdAt.seconds)
+                  .filter(order => {
+                    if (!orderStatusFilter) return true;
+                    return order.status === orderStatusFilter;
+                  })
+                  .filter(order => {
+                    if (!orderDateStart && !orderDateEnd) return true;
+                    const orderDate = new Date(order.createdAt.seconds * 1000);
+                    if (orderDateStart && orderDate < new Date(orderDateStart)) return false;
+                    if (orderDateEnd && orderDate > new Date(orderDateEnd + 'T23:59:59')) return false;
+                    return true;
+                  })
+                  .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+                  .map((order) => (
+                    <div key={order.id} className={styles.productOrderCard} onClick={() => { setSelectedOrder(order); setShowOrderModal(true); }}>
+                      <div className={styles.productOrderCardHeader}>
+                        <span className={styles.productOrderCardTitle}>Cliente: {order.user?.nomeCompleto || order.user?.email}</span>
+                        <span className={styles.productOrderCardTotal}>Total: R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                        <span className={
+                          `${styles.productOrderCardStatus} ` +
+                          (order.status === 'Concluído' ? styles.concluido : order.status === 'Cancelado' ? styles.cancelado : styles.pendente)
+                        }>
+                          {order.status}
+                        </span>
+                      </div>
+                      <div className={styles.productOrderCardInfo}>
+                        <span>Data: {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
+                        <span>Forma de Pagamento: {order.formaPagamento}</span>
+                      </div>
+                      <div className={styles.productOrderCardProducts}>
+                        {order.products?.map((prod: any, idx: number) => (
+                          <span key={idx} className={styles.productOrderCardProduct}>{prod.name} (Qtd: {prod.quantity})</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Seção de Cadastrar Produto */}
+        {activeSection === 'cadastrar' && (
+          <div className={styles.card}>
+            <h2>Cadastrar Produto</h2>
+            <div className={styles.productRegistration}>
+              <h2>Cadastro de Produtos</h2>
             
             <div className={styles.productTypeSelector}>
               <button
@@ -488,6 +652,8 @@ export default function AdminPage() {
               >
                 Produtos Padrão
               </button>
+              {/* 
+              
               <button
                 className={`${styles.typeButton} ${selectedProductType === 'tactical' ? styles.active : ''}`}
                 onClick={() => setSelectedProductType('tactical')}
@@ -500,6 +666,7 @@ export default function AdminPage() {
               >
                 Equipamentos Esportivos
               </button>
+              */}
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -594,17 +761,47 @@ export default function AdminPage() {
 
               <div className={styles.formGroup}>
                 <label>Local de Exibição:</label>
-                <select
-                  value={displayLocation}
-                  onChange={(e) => setDisplayLocation(e.target.value as 'header' | 'destaques' | 'recomendados' | 'taticos' | 'esportivos')}
-                  required
-                >
-                  <option value="header">Header</option>
-                  <option value="destaques">Destaques</option>
-                  <option value="recomendados">Recomendados</option>
-                  <option value="taticos">Equipamentos Táticos</option>
-                  <option value="esportivos">Equipamentos Esportivos</option>
-                </select>
+                <div className={styles.displayLocationContainer}>
+                  <select
+                    value={isCustomSection ? 'custom' : displayLocation}
+                    onChange={(e) => {
+                      if (e.target.value === 'custom') {
+                        setIsCustomSection(true);
+                      } else {
+                        setIsCustomSection(false);
+                        setDisplayLocation(e.target.value);
+                      }
+                    }}
+                    required
+                  >
+                    <option value="header">Header</option>
+                    <option value="destaques">Destaques</option>
+                    <option value="recomendados">Recomendados</option>
+                    <option value="taticos">Equipamentos Táticos</option>
+                    <option value="esportivos">Equipamentos Esportivos</option>
+                    <option value="custom">➕ Criar Seção Personalizada</option>
+                    {/* Seções personalizadas existentes */}
+                    {customSections.map(section => (
+                      <option key={section} value={section}>{section}</option>
+                    ))}
+                  </select>
+                  
+                  {isCustomSection && (
+                    <div className={styles.customSectionInput}>
+                      <input
+                        type="text"
+                        value={customSectionName}
+                        onChange={(e) => setCustomSectionName(e.target.value)}
+                        placeholder="Digite o nome da nova seção"
+                        className={styles.customSectionField}
+                        required
+                      />
+                      <small className={styles.customSectionHelp}>
+                        Esta seção aparecerá na página inicial do site
+                      </small>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {selectedProduct && (
@@ -613,12 +810,13 @@ export default function AdminPage() {
                     <h3>Preview do Produto</h3>
                     <div className={styles.previewContent}>
                       <div className={styles.productColumn}>
-                        <ProductImage image={selectedProduct.image} alt={selectedProduct.name} />
+                        <ProductImage image={selectedProduct.image} alt={selectedProduct.name} style={{width: 120, height: 120}} />
                         <div className={styles.brandInfo}>
                           <img 
                             src={`/img/marcas/${selectedProduct.marca.toLowerCase().replace(/\s+/g, '-')}.jpg`} 
                             alt={selectedProduct.marca}
                             className={styles.brandImage}
+                            style={{width: 120, height: 120}}
                           />
                         </div>
                       </div>
@@ -650,9 +848,12 @@ export default function AdminPage() {
             </form>
           </div>
         </div>
+        )}
 
-        <div className={styles.card}>
-          <h2>Produtos Cadastrados</h2>
+        {/* Seção de Produtos Cadastrados */}
+        {activeSection === 'produtos' && (
+          <div className={styles.card}>
+            <h2>Produtos Cadastrados</h2>
           <div className={styles.searchContainer}>
             <div className={styles.searchInput}>
               <FaSearch className={styles.searchIcon} />
@@ -735,82 +936,7 @@ export default function AdminPage() {
             </div>
           </div>
         </div>
-
-        <div className={styles.card}>
-          <h2>Pedidos</h2>
-          <div className={styles.ordersFilters}>
-            <select
-              value={orderStatusFilter}
-              onChange={e => setOrderStatusFilter(e.target.value)}
-              className={styles.categorySelect}
-              style={{maxWidth: 180, marginRight: 8, marginBottom: 8}}
-            >
-              <option value="">Todos os status</option>
-              <option value="Pendente">Pendente</option>
-              <option value="Concluído">Concluído</option>
-              <option value="Cancelado">Cancelado</option>
-            </select>
-            <br/>
-            <input
-              type="date"
-              value={orderDateStart}
-              onChange={e => setOrderDateStart(e.target.value)}
-              className={styles.categorySelect}
-              style={{maxWidth: 180}}
-            />
-            <span style={{color:'#b0b0b0', margin: '0 8px'}}>até</span>
-            <input
-              type="date"
-              value={orderDateEnd}
-              onChange={e => setOrderDateEnd(e.target.value)}
-              className={styles.categorySelect}
-              style={{maxWidth: 180}}
-            />
-          </div>
-          {orders.length === 0 ? (
-            <p>Nenhum pedido encontrado.</p>
-          ) : (
-            <div className={styles.ordersContainer}>
-              {[...orders]
-                .filter(order => order.createdAt && order.createdAt.seconds)
-                .filter(order => {
-                  if (!orderStatusFilter) return true;
-                  return order.status === orderStatusFilter;
-                })
-                .filter(order => {
-                  if (!orderDateStart && !orderDateEnd) return true;
-                  const orderDate = new Date(order.createdAt.seconds * 1000);
-                  if (orderDateStart && orderDate < new Date(orderDateStart)) return false;
-                  if (orderDateEnd && orderDate > new Date(orderDateEnd + 'T23:59:59')) return false;
-                  return true;
-                })
-                .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
-                .map((order) => (
-                  <div key={order.id} className={styles.productOrderCard} onClick={() => { setSelectedOrder(order); setShowOrderModal(true); }}>
-                    <div className={styles.productOrderCardHeader}>
-                      <span className={styles.productOrderCardTitle}>Cliente: {order.user?.nomeCompleto || order.user?.email}</span>
-                      <span className={styles.productOrderCardTotal}>Total: R$ {order.total?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                      <span className={
-                        `${styles.productOrderCardStatus} ` +
-                        (order.status === 'Concluído' ? styles.concluido : order.status === 'Cancelado' ? styles.cancelado : styles.pendente)
-                      }>
-                        {order.status}
-                      </span>
-                    </div>
-                    <div className={styles.productOrderCardInfo}>
-                      <span>Data: {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString('pt-BR') : ''}</span>
-                      <span>Forma de Pagamento: {order.formaPagamento}</span>
-                    </div>
-                    <div className={styles.productOrderCardProducts}>
-                      {order.products?.map((prod: any, idx: number) => (
-                        <span key={idx} className={styles.productOrderCardProduct}>{prod.name} (Qtd: {prod.quantity})</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
       <ContactMessages />

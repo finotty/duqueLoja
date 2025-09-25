@@ -1,7 +1,7 @@
 ----------------- Admin -------------------------------------------------------- 
 1 - Ajustar imagem no card de "Produtos Cadastrados" (resolvido)
 
-2 - Permitir a criação de seção nova ou personalizada em "Cadastrar Produto"
+2 - Permitir a criação de seção nova ou personalizada em "Cadastrar Produto" (Resolvido)
 
 3 - Permitir exlusão de mensagens na pagina do admin (resolvido)
 
@@ -26,11 +26,9 @@ dosumentação necessária, como comprar e rastreamento de pedidos.
 
 ---------------- Pagina inicial ------------------------------------------------
 
-1 - Decidir o que fazer com primeiro card com botão "explorar" e "Mais informações"
 
+1- verificar o fluxo : escolher produto -> fazer cadastro -> ir pro carrinho com o produto
 
-verificar o fluxo : escolher produto -> fazer cadastro -> ir pro carrinho com o produto
+2- implementar a avaliação de produtos
 
-implementar a avaliação de produtos
-
-após finalizar pedido , retornar para tela inicial
+3- após finalizar pedido , retornar para tela inicial
