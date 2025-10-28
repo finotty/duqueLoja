@@ -20,58 +20,27 @@ export function ProductSection({ sectionName, displayLocation, title }: ProductS
   const { user, setRedirectPath } = useAuth();
   const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
-  const [windowWidth, setWindowWidth] = useState(0);
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  // Inicializar largura da janela
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, []);
-
-  // Recalcular quando a tela for redimensionada
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Função para calcular quantos cards cabem na tela baseado no espaço real
-  const calculateCardsPerView = () => {
-    if (!scrollRef.current || windowWidth === 0) return 1;
-    
-    const containerWidth = scrollRef.current.clientWidth;
-    const cardWidth = 250;
-    const gap = 35;
-    const padding = 110; // 55px de cada lado
-    
-    const availableWidth = containerWidth - padding;
-    const cardsPerView = Math.floor(availableWidth / (cardWidth + gap));
-    
-    return Math.max(1, cardsPerView);
-  };
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const cardWidth = 250;
       const gap = 35;
-      const cardsPerView = calculateCardsPerView();
-      const scrollAmount = (cardWidth + gap) * cardsPerView;
-      
+      const scrollAmount = cardWidth + gap; // 285px por vez
+
       const currentScroll = scrollRef.current.scrollLeft;
-      const newScroll = direction === 'left' 
-        ? currentScroll - scrollAmount 
+      const newScroll = direction === 'left'
+        ? currentScroll - scrollAmount
         : currentScroll + scrollAmount;
-      
+
       scrollRef.current.scrollTo({
         left: newScroll,
         behavior: 'smooth'
       });
     }
   };
+
 
   if (loading) {
     return <div className={styles.loading}>Carregando {sectionName.toLowerCase()}...</div>;
