@@ -29,6 +29,8 @@ export function CustomSections() {
           sectionName={section.name}
           displayLocation={section.name}
           title={section.name}
+          subtitle={`Produtos selecionados da seção ${section.name}`}
+          viewAllHref={`/secoes/${encodeURIComponent(section.name)}`}
         />
       ))}
     </>

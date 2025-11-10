@@ -2,12 +2,48 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #3a3d42;
+  background: rgba(42, 45, 50, 0.95);
   padding: 0 32px;
   height: 70px;
   width: 100%;
-  position: relative;
-  z-index: 10;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  gap: 24px;
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobileToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 236, 112, 0.5);
+  background: transparent;
+  color: #ffec70;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 236, 112, 0.12);
+    transform: translateY(-1px);
+  }
+}
+
+.mobileToggle:focus-visible {
+  outline: 2px solid #ffec70;
+  outline-offset: 2px;
 }
 
 .logoArea {
@@ -51,7 +87,11 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  flex: 1;
+  justify-content: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
+
 .menuItem {
   color: #fff;
   font-size: 1rem;
@@ -60,12 +100,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  transition: color 0.2s;
+  transition: color 0.2s, background 0.2s;
   height: 70px;
-  padding: 0 8px;
+  padding: 0 12px;
+  background: none;
+  border: none;
 }
 .menuItem:hover,
-.menuItem.active {
+.menuItemActive {
   color: #3faaff;
 }
 .arrow {
@@ -189,6 +231,17 @@
   margin-left: 16px;
   position: relative;
 }
+.mobileSearchArea {
+  width: 100%;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: rgba(65, 68, 74, 0.85);
+}
+.mobileSearchContainer {
+  width: 100%;
+  margin-bottom: 16px;
+}
 .searchIcon {
   color: #b0b0b0;
   font-size: 1.1em;
@@ -261,6 +314,61 @@
   font-weight: 600;
 }
 
+.mobileDropdownContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 4px 4px 4px;
+}
+
+.mobileProductItem {
+  background: rgba(65, 68, 74, 0.7);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #fff;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #ffec70;
+    color: #ffec70;
+    background: rgba(65, 68, 74, 0.95);
+  }
+}
+
+.mobileActions {
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileAccountButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 236, 112, 0.5);
+  background: rgba(65, 68, 74, 0.9);
+  color: #ffec70;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 236, 112, 0.15);
+    transform: translateY(-1px);
+  }
+}
+
 @media (max-width: 900px) {
   .menu {
     gap: 12px;
@@ -285,6 +393,11 @@
 }
 
 .rightArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.actions {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -387,13 +500,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99999;
   padding: 20px;
   backdrop-filter: blur(4px);
+  
+  
 }
 
 .modal {
@@ -409,6 +524,7 @@
   max-height: 90vh;
   overflow-y: auto;
   z-index: 100000;
+  margin-top: 40rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -545,5 +661,110 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 0 18px;
+    gap: 16px;
+  }
+
+  .branding {
+    flex: 1;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
+
+  .menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(21, 23, 27, 0.98);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 24px 20px 32px 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+  }
+
+  .mobileMenu {
+    transform: translateY(-100%);
+  }
+
+  .mobileMenuOpen {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dropdownWrapper {
+    width: 100%;
+  }
+
+  .menuItem {
+    width: 100%;
+    height: auto;
+    justify-content: space-between;
+    padding: 14px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dropdown {
+    position: static;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .dropdownContent {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+  }
+
+  .pistolasList {
+    width: 100%;
+  }
+
+  .pistolaPreview {
+    display: none;
+  }
+
+  .rightArea {
+    gap: 8px;
+  }
+
+  .searchArea {
+    display: none;
+  }
+
+  .userName {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .logoArea :global(img) {
+    width: 180px;
+    height: auto;
+  }
+
+  .header {
+    height: 64px;
+  }
+
+  .menu {
+    top: 64px;
   }
 }

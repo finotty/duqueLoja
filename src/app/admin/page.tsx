@@ -56,12 +56,17 @@ export default function AdminPage() {
   const [orderDateEnd, setOrderDateEnd] = useState('');
   
   // Novo estado para controlar qual seção está ativa
-  const [activeSection, setActiveSection] = useState<'pedidos' | 'cadastrar' | 'produtos'>('pedidos');
+  const [activeSection, setActiveSection] = useState<'pedidos' | 'cadastrar' | 'produtos' | 'secoes'>('pedidos');
   
   // Estados para seções personalizadas
   const [isCustomSection, setIsCustomSection] = useState(false);
   const [customSectionName, setCustomSectionName] = useState('');
   const [customSections, setCustomSections] = useState<string[]>([]);
+  const [customSectionsData, setCustomSectionsData] = useState<Array<{id: string, name: string}>>([]);
+  const [showDeleteSectionModal, setShowDeleteSectionModal] = useState(false);
+  const [sectionToDelete, setSectionToDelete] = useState<string | null>(null);
+  const [productsInSection, setProductsInSection] = useState<Product[]>([]);
+  const [targetSectionForMove, setTargetSectionForMove] = useState<string>('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -82,7 +87,12 @@ export default function AdminPage() {
       const customSectionsRef = collection(db, "customSections");
       const customSectionsSnapshot = await getDocs(customSectionsRef);
       const sections = customSectionsSnapshot.docs.map(doc => doc.data().name);
+      const sectionsData = customSectionsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        name: doc.data().name
+      }));
       setCustomSections(sections);
+      setCustomSectionsData(sectionsData);
     } catch (error) {
       console.error("Erro ao buscar seções personalizadas:", error);
     }
@@ -98,7 +108,7 @@ export default function AdminPage() {
       }
 
       // Criar a seção no Firebase
-      await addDoc(collection(db, "customSections"), {
+      const docRef = await addDoc(collection(db, "customSections"), {
         name: sectionName,
         createdAt: new Date(),
         createdBy: user?.email
@@ -106,6 +116,7 @@ export default function AdminPage() {
 
       // Atualizar a lista local
       setCustomSections([...customSections, sectionName]);
+      setCustomSectionsData([...customSectionsData, { id: docRef.id, name: sectionName }]);
       setMessage({ text: `Seção "${sectionName}" criada com sucesso!`, type: "success" });
       return true;
     } catch (error) {
@@ -113,6 +124,155 @@ export default function AdminPage() {
       setMessage({ text: "Erro ao criar seção personalizada", type: "error" });
       return false;
     }
+  };
+
+  // Função para verificar produtos em uma seção
+  const getProductsInSection = (sectionName: string): Product[] => {
+    return registeredProducts.filter(product => product.displayLocation === sectionName);
+  };
+
+  // Função para mover produtos para outra seção
+  const moveProductsToSection = async (products: Product[], targetSection: string) => {
+    try {
+      for (const product of products) {
+        if (!product.firestoreId) continue;
+        
+        // Verificar se o produto está em 'products' ou 'customProducts'
+        const productRefProducts = doc(db, "products", product.firestoreId);
+        const productDocProducts = await getDoc(productRefProducts);
+        
+        if (productDocProducts.exists()) {
+          await updateDoc(productRefProducts, { displayLocation: targetSection });
+        } else {
+          const productRefCustom = doc(db, "customProducts", product.firestoreId);
+          const productDocCustom = await getDoc(productRefCustom);
+          if (productDocCustom.exists()) {
+            await updateDoc(productRefCustom, { displayLocation: targetSection });
+          }
+        }
+      }
+      
+      // Atualizar lista de produtos
+      await fetchRegisteredProducts();
+      setMessage({ text: `Produtos movidos para "${targetSection}" com sucesso!`, type: "success" });
+      return true;
+    } catch (error) {
+      console.error("Erro ao mover produtos:", error);
+      setMessage({ text: "Erro ao mover produtos", type: "error" });
+      return false;
+    }
+  };
+
+  // Função para excluir seção personalizada
+  const handleDeleteSection = async (sectionName: string) => {
+    try {
+      // Verificar se há produtos na seção
+      const products = getProductsInSection(sectionName);
+      
+      if (products.length > 0) {
+        // Se houver produtos, mostrar modal
+        setSectionToDelete(sectionName);
+        setProductsInSection(products);
+        setShowDeleteSectionModal(true);
+        return;
+      }
+      
+      // Se não houver produtos, excluir diretamente
+      await deleteSectionFromFirebase(sectionName);
+    } catch (error) {
+      console.error("Erro ao excluir seção:", error);
+      setMessage({ text: "Erro ao excluir seção", type: "error" });
+    }
+  };
+
+  // Função para excluir seção do Firebase
+  const deleteSectionFromFirebase = async (sectionName: string) => {
+    try {
+      // Primeiro, tentar encontrar no estado local
+      let sectionId = customSectionsData.find(s => s.name === sectionName)?.id;
+      
+      // Se não encontrar no estado local, buscar diretamente no Firebase
+      if (!sectionId) {
+        const customSectionsRef = collection(db, "customSections");
+        const customSectionsSnapshot = await getDocs(customSectionsRef);
+        const sectionDoc = customSectionsSnapshot.docs.find(
+          doc => doc.data().name === sectionName
+        );
+        
+        if (!sectionDoc) {
+          setMessage({ text: "Seção não encontrada no Firebase", type: "error" });
+          return;
+        }
+        
+        sectionId = sectionDoc.id;
+      }
+
+      // Excluir o documento
+      await deleteDoc(doc(db, "customSections", sectionId));
+      
+      // Atualizar listas locais
+      setCustomSections(customSections.filter(s => s !== sectionName));
+      setCustomSectionsData(customSectionsData.filter(s => s.name !== sectionName));
+      
+      // Recarregar seções do Firebase para garantir sincronização
+      await fetchCustomSections();
+      
+      setMessage({ text: `Seção "${sectionName}" excluída com sucesso!`, type: "success" });
+      
+      // Fechar modal se estiver aberto
+      if (showDeleteSectionModal) {
+        setShowDeleteSectionModal(false);
+        setSectionToDelete(null);
+        setProductsInSection([]);
+        setTargetSectionForMove('');
+      }
+    } catch (error) {
+      console.error("Erro ao excluir seção do Firebase:", error);
+      setMessage({ 
+        text: error instanceof Error ? error.message : "Erro ao excluir seção", 
+        type: "error" 
+      });
+    }
+  };
+
+  // Função para confirmar exclusão após mover produtos
+  const confirmDeleteAfterMove = async () => {
+    if (!sectionToDelete) return;
+    
+    // Buscar produtos atualizados diretamente do Firestore para garantir verificação correta
+    const updatedProductsQuery = await getDocs(collection(db, "products"));
+    const updatedCustomQuery = await getDocs(collection(db, "customProducts"));
+    
+    const allUpdatedProducts = [
+      ...updatedProductsQuery.docs.map(doc => ({
+        id: doc.id,
+        firestoreId: doc.id,
+        ...doc.data()
+      })),
+      ...updatedCustomQuery.docs.map(doc => ({
+        id: doc.id,
+        firestoreId: doc.id,
+        ...doc.data()
+      }))
+    ] as Product[];
+    
+    // Verificar se ainda há produtos na seção
+    const remainingProducts = allUpdatedProducts.filter(
+      product => product.displayLocation === sectionToDelete
+    );
+    
+    if (remainingProducts.length > 0) {
+      setMessage({ 
+        text: `Ainda há ${remainingProducts.length} produto(s) nesta seção. Mova todos os produtos antes de excluir.`, 
+        type: "error" 
+      });
+      setProductsInSection(remainingProducts);
+      setRegisteredProducts(allUpdatedProducts);
+      return;
+    }
+    
+    // Excluir seção
+    await deleteSectionFromFirebase(sectionToDelete);
   };
 
   const fetchRegisteredProducts = async () => {
@@ -530,35 +690,63 @@ export default function AdminPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <h1>Painel Administrativo</h1>
-      <div className={styles.welcome}>
-        Bem-vindo, {user.email}!
-      </div>
+    <div className={styles.adminLayout}>
+      {/* Sidebar */}
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarHeader}>
+          <h1 className={styles.sidebarTitle}>Painel Admin</h1>
+          <div className={styles.sidebarUser}>
+            <span className={styles.userEmail}>{user.email}</span>
+          </div>
+        </div>
+        
+        <nav className={styles.sidebarNav}>
+          <button 
+            className={`${styles.navButton} ${activeSection === 'pedidos' ? styles.active : ''}`}
+            onClick={() => setActiveSection('pedidos')}
+          >
+            <span className={styles.navIcon}>📦</span>
+            <span className={styles.navLabel}>Pedidos</span>
+          </button>
+          <button 
+            className={`${styles.navButton} ${activeSection === 'cadastrar' ? styles.active : ''}`}
+            onClick={() => setActiveSection('cadastrar')}
+          >
+            <span className={styles.navIcon}>➕</span>
+            <span className={styles.navLabel}>Cadastrar Produto</span>
+          </button>
+          <button 
+            className={`${styles.navButton} ${activeSection === 'produtos' ? styles.active : ''}`}
+            onClick={() => setActiveSection('produtos')}
+          >
+            <span className={styles.navIcon}>📋</span>
+            <span className={styles.navLabel}>Produtos Cadastrados</span>
+          </button>
+          <button 
+            className={`${styles.navButton} ${activeSection === 'secoes' ? styles.active : ''}`}
+            onClick={() => setActiveSection('secoes')}
+          >
+            <span className={styles.navIcon}>📁</span>
+            <span className={styles.navLabel}>Gerenciar Seções</span>
+          </button>
+        </nav>
+      </aside>
 
-      {/* Botões de navegação */}
-      <div className={styles.navigationButtons}>
-        <button 
-          className={`${styles.navButton} ${activeSection === 'pedidos' ? styles.active : ''}`}
-          onClick={() => setActiveSection('pedidos')}
-        >
-          📦 Pedidos
-        </button>
-        <button 
-          className={`${styles.navButton} ${activeSection === 'cadastrar' ? styles.active : ''}`}
-          onClick={() => setActiveSection('cadastrar')}
-        >
-          ➕ Cadastrar Produto
-        </button>
-        <button 
-          className={`${styles.navButton} ${activeSection === 'produtos' ? styles.active : ''}`}
-          onClick={() => setActiveSection('produtos')}
-        >
-          📋 Produtos Cadastrados
-        </button>
-      </div>
+      {/* Conteúdo Principal */}
+      <main className={styles.mainContent}>
+        <div className={styles.contentHeader}>
+          <h2 className={styles.pageTitle}>
+            {activeSection === 'pedidos' && '📦 Pedidos'}
+            {activeSection === 'cadastrar' && '➕ Cadastrar Produto'}
+            {activeSection === 'produtos' && '📋 Produtos Cadastrados'}
+            {activeSection === 'secoes' && '📁 Gerenciar Seções'}
+          </h2>
+          <div className={styles.welcome}>
+            Bem-vindo, {user.email}!
+          </div>
+        </div>
 
-      <div className={styles.content}>
+        <div className={styles.content}>
         {/* Seção de Pedidos */}
         {activeSection === 'pedidos' && (
           <div className={styles.card}>
@@ -777,8 +965,8 @@ export default function AdminPage() {
                     <option value="header">Header</option>
                     <option value="destaques">Destaques</option>
                     <option value="recomendados">Recomendados</option>
-                    <option value="taticos">Equipamentos Táticos</option>
-                    <option value="esportivos">Equipamentos Esportivos</option>
+                    {/*<option value="taticos">Equipamentos Táticos</option>
+                    <option value="esportivos">Equipamentos Esportivos</option>*/}
                     <option value="custom">➕ Criar Seção Personalizada</option>
                     {/* Seções personalizadas existentes */}
                     {customSections.map(section => (
@@ -937,10 +1125,47 @@ export default function AdminPage() {
           </div>
         </div>
         )}
-      </div>
 
-      <ContactMessages />
+        {/* Seção de Gerenciar Seções Personalizadas */}
+        {activeSection === 'secoes' && (
+          <div className={styles.card}>
+            <h2>Gerenciar Seções Personalizadas</h2>
+            <div className={styles.sectionsList}>
+              {customSections.length === 0 ? (
+                <p>Nenhuma seção personalizada cadastrada.</p>
+              ) : (
+                customSections.map((section) => {
+                  const productsInThisSection = registeredProducts.filter(
+                    product => product.displayLocation === section
+                  );
+                  const productsCount = productsInThisSection.length;
+                  return (
+                    <div key={section} className={styles.sectionItem}>
+                      <div className={styles.sectionInfo}>
+                        <h3>{section}</h3>
+                        <p className={styles.sectionProductCount}>
+                          {productsCount} {productsCount === 1 ? 'produto' : 'produtos'} cadastrado{productsCount !== 1 ? 's' : ''}
+                        </p>
+                      </div>
+                      <button
+                        className={styles.deleteSectionButton}
+                        onClick={() => handleDeleteSection(section)}
+                      >
+                        <FaTrash /> Excluir
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+        </div>
 
+        <ContactMessages />
+      </main>
+
+      {/* Modais */}
       {showEditModal && selectedProductForEdit && (
         <div className={styles.modalOverlay} onClick={() => setShowEditModal(false)}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
@@ -979,7 +1204,7 @@ export default function AdminPage() {
                 <h3>{selectedProductForEdit.name}</h3>
                 <p className={styles.modalPrice}>{formatPrice(selectedProductForEdit.price)}</p>
                 <div className={styles.modalSpecs}>
-                  {Object.entries(selectedProductForEdit.specifications).map(([key, value]) => (
+                  {selectedProductForEdit.specifications && Object.entries(selectedProductForEdit.specifications).map(([key, value]) => (
                     <div key={key} className={styles.modalSpec}>
                       <span className={styles.specLabel}>{key}:</span>
                       <span className={styles.specValue}>{value}</span>
@@ -1122,7 +1347,7 @@ export default function AdminPage() {
                   <small>Pressione Enter para adicionar cada especificação</small>
                 </div>
                 <div className={styles.specificationsList}>
-                  {customProductData.specifications && Object.entries(customProductData.specifications).map(([key, val]) => (
+                  {customProductData.specifications && Object.entries(customProductData.specifications || {}).map(([key, val]) => (
                     <div key={key} className={styles.specItem}>
                       <span>{key}: {val}</span>
                       <button 
@@ -1288,6 +1513,170 @@ export default function AdminPage() {
                   Cancelar pedido
                 </button>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para excluir seção com produtos */}
+      {showDeleteSectionModal && sectionToDelete && (
+        <div className={styles.modalOverlay} onClick={() => setShowDeleteSectionModal(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()} style={{maxWidth: '800px'}}>
+            <h3>Excluir Seção: {sectionToDelete}</h3>
+            <p style={{color: '#ffec70', marginBottom: '20px'}}>
+              Esta seção possui {productsInSection.length} {productsInSection.length === 1 ? 'produto' : 'produtos'} cadastrado{productsInSection.length !== 1 ? 's' : ''}. 
+              Mova os produtos para outra seção antes de excluir.
+            </p>
+            
+            <div className={styles.productsToMoveList}>
+              <h4 style={{marginBottom: '12px', color: '#fff'}}>Produtos nesta seção:</h4>
+              <div className={styles.productsListContainer}>
+                {productsInSection.map((product) => (
+                  <div key={product.id} className={styles.productToMoveItem}>
+                    <ProductImage 
+                      image={product.image} 
+                      alt={product.name} 
+                      style={{width: 60, height: 60}} 
+                    />
+                    <div className={styles.productToMoveInfo}>
+                      <strong>{product.name}</strong>
+                      <span>{formatPrice(product.price)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.moveProductsSection}>
+              <label style={{display: 'block', marginBottom: '8px', color: '#fff'}}>
+                Mover todos os produtos para:
+              </label>
+              <select
+                value={targetSectionForMove}
+                onChange={(e) => setTargetSectionForMove(e.target.value)}
+                className={styles.categorySelect}
+                style={{width: '100%', marginBottom: '16px'}}
+              >
+                <option value="">Selecione uma seção...</option>
+                <option value="header">Menu Principal</option>
+                <option value="destaques">Produtos em Destaque</option>
+                <option value="recomendados">Produtos Recomendados</option>
+                <option value="taticos">Equipamentos Táticos</option>
+                <option value="esportivos">Equipamentos Esportivos</option>
+                {customSections
+                  .filter(s => s !== sectionToDelete)
+                  .map(section => (
+                    <option key={section} value={section}>{section}</option>
+                  ))}
+              </select>
+            </div>
+
+            <div className={styles.modalActions}>
+              <button
+                onClick={async () => {
+                  if (!targetSectionForMove) {
+                    setMessage({ text: "Selecione uma seção para mover os produtos", type: "error" });
+                    return;
+                  }
+                  
+                  const success = await moveProductsToSection(productsInSection, targetSectionForMove);
+                  if (success) {
+                    // Atualizar lista de produtos registrados
+                    await fetchRegisteredProducts();
+                    
+                    // Buscar produtos atualizados diretamente do Firestore para garantir dados corretos
+                    const updatedProductsQuery = await getDocs(collection(db, "products"));
+                    const updatedCustomQuery = await getDocs(collection(db, "customProducts"));
+                    
+                    const allUpdatedProducts = [
+                      ...updatedProductsQuery.docs.map(doc => ({
+                        id: doc.id,
+                        firestoreId: doc.id,
+                        ...doc.data()
+                      })),
+                      ...updatedCustomQuery.docs.map(doc => ({
+                        id: doc.id,
+                        firestoreId: doc.id,
+                        ...doc.data()
+                      }))
+                    ] as Product[];
+                    
+                    if (sectionToDelete) {
+                      const remainingProducts = allUpdatedProducts.filter(
+                        product => product.displayLocation === sectionToDelete
+                      );
+                      setProductsInSection(remainingProducts);
+                      
+                      // Se não há mais produtos, mostrar mensagem
+                      if (remainingProducts.length === 0) {
+                        setMessage({ 
+                          text: "Todos os produtos foram movidos. Agora você pode excluir a seção.", 
+                          type: "success" 
+                        });
+                      }
+                    }
+                  }
+                }}
+                className={styles.submitButton}
+                disabled={!targetSectionForMove}
+              >
+                Mover Produtos
+              </button>
+              <button
+                onClick={async () => {
+                  if (!sectionToDelete) return;
+                  
+                  // Buscar produtos atualizados diretamente do Firestore
+                  const updatedProductsQuery = await getDocs(collection(db, "products"));
+                  const updatedCustomQuery = await getDocs(collection(db, "customProducts"));
+                  
+                  const allUpdatedProducts = [
+                    ...updatedProductsQuery.docs.map(doc => ({
+                      id: doc.id,
+                      firestoreId: doc.id,
+                      ...doc.data()
+                    })),
+                    ...updatedCustomQuery.docs.map(doc => ({
+                      id: doc.id,
+                      firestoreId: doc.id,
+                      ...doc.data()
+                    }))
+                  ] as Product[];
+                  
+                  const remainingProducts = allUpdatedProducts.filter(
+                    product => product.displayLocation === sectionToDelete
+                  );
+                  
+                  if (remainingProducts.length > 0) {
+                    setMessage({ 
+                      text: `Ainda há ${remainingProducts.length} produto(s) nesta seção. Mova todos antes de excluir.`, 
+                      type: "error" 
+                    });
+                    setProductsInSection(remainingProducts);
+                    // Atualizar também o estado de produtos registrados
+                    setRegisteredProducts(allUpdatedProducts);
+                    return;
+                  }
+                  
+                  // Se não há produtos, confirmar exclusão
+                  await confirmDeleteAfterMove();
+                }}
+                className={styles.deleteButton}
+                style={{background: '#e74c3c'}}
+              >
+                Excluir Seção
+              </button>
+              <button
+                onClick={() => {
+                  setShowDeleteSectionModal(false);
+                  setSectionToDelete(null);
+                  setProductsInSection([]);
+                  setTargetSectionForMove('');
+                }}
+                className={styles.cancelButton}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>

@@ -7,7 +7,8 @@ import styles from "./styles.module.scss";
 import ProductImage from "../ProductImage";
 import { ProductCard } from "../ProductCard";
 import { useRouter } from "next/navigation";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 export function FeaturedProducts() {
   const { products, loading } = useProducts('destaques');
@@ -17,23 +18,7 @@ export function FeaturedProducts() {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const cardWidth = 250;
-      const gap = 35;
-      const scrollAmount = cardWidth + gap; // 285px por vez
-
-      const currentScroll = scrollRef.current.scrollLeft;
-      const newScroll = direction === 'left'
-        ? currentScroll - scrollAmount
-        : currentScroll + scrollAmount;
-
-      scrollRef.current.scrollTo({
-        left: newScroll,
-        behavior: 'smooth'
-      });
-    }
-  };
+  // Mantém o container rolável no touch/scroll natural sem botões
 
 
   if (loading) {
@@ -91,14 +76,19 @@ export function FeaturedProducts() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Produtos em Destaque</h2>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Produtos em Destaque</h2>
+        <Link href="/destaques" className={styles.viewAllButton}>
+          Ver Todos
+          <FaArrowRight />
+        </Link>
+      </div>
+      <div className={styles.subtitleContainer}>
+        <p className={styles.subtitle}>
+          Os melhores produtos selecionados para você
+        </p>
+      </div>
       <div className={styles.scrollContainer}>
-        <button 
-          className={`${styles.scrollButton} ${styles.leftButton}`}
-          onClick={() => scroll('left')}
-        >
-          <FaChevronLeft />
-        </button>
         <div className={styles.productsScroll} ref={scrollRef}>
           {products.map((product) => (
             <ProductCard
@@ -110,12 +100,6 @@ export function FeaturedProducts() {
             />
           ))}
         </div>
-        <button 
-          className={`${styles.scrollButton} ${styles.rightButton}`}
-          onClick={() => scroll('right')}
-        >
-          <FaChevronRight />
-        </button>
       </div>
 
       {selectedProduct && (

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
@@ -7,40 +7,32 @@ import styles from "./styles.module.scss";
 import ProductImage from "../ProductImage";
 import { ProductCard } from "../ProductCard";
 import { useRouter } from "next/navigation";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 interface ProductSectionProps {
   sectionName: string;
   displayLocation: string;
   title?: string;
+  subtitle?: string;
+  viewAllHref?: string;
+  viewAllLabel?: string;
 }
 
-export function ProductSection({ sectionName, displayLocation, title }: ProductSectionProps) {
+export function ProductSection({ 
+  sectionName, 
+  displayLocation, 
+  title,
+  subtitle,
+  viewAllHref,
+  viewAllLabel
+}: ProductSectionProps) {
   const { products, loading } = useProducts(displayLocation);
   const { user, setRedirectPath } = useAuth();
   const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const cardWidth = 250;
-      const gap = 35;
-      const scrollAmount = cardWidth + gap; // 285px por vez
-
-      const currentScroll = scrollRef.current.scrollLeft;
-      const newScroll = direction === 'left'
-        ? currentScroll - scrollAmount
-        : currentScroll + scrollAmount;
-
-      scrollRef.current.scrollTo({
-        left: newScroll,
-        behavior: 'smooth'
-      });
-    }
-  };
-
 
   if (loading) {
     return <div className={styles.loading}>Carregando {sectionName.toLowerCase()}...</div>;
@@ -97,14 +89,21 @@ export function ProductSection({ sectionName, displayLocation, title }: ProductS
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>{title || sectionName}</h2>
+      <div className={styles.header}>
+        <h2 className={styles.title}>{title || sectionName}</h2>
+        {viewAllHref && (
+          <Link href={viewAllHref} className={styles.viewAllButton}>
+            {viewAllLabel || "Ver Todos"}
+            <FaArrowRight />
+          </Link>
+        )}
+      </div>
+      {subtitle && (
+        <div className={styles.subtitleContainer}>
+          <p className={styles.subtitle}>{subtitle}</p>
+        </div>
+      )}
       <div className={styles.scrollContainer}>
-        <button 
-          className={`${styles.scrollButton} ${styles.leftButton}`}
-          onClick={() => scroll('left')}
-        >
-          <FaChevronLeft />
-        </button>
         <div className={styles.productsScroll} ref={scrollRef}>
           {products.map((product) => (
             <ProductCard
@@ -116,12 +115,6 @@ export function ProductSection({ sectionName, displayLocation, title }: ProductS
             />
           ))}
         </div>
-        <button 
-          className={`${styles.scrollButton} ${styles.rightButton}`}
-          onClick={() => scroll('right')}
-        >
-          <FaChevronRight />
-        </button>
       </div>
 
       {selectedProduct && (
