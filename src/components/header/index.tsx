@@ -8,7 +8,7 @@ import { useProducts, Product } from "../../hooks/useProducts";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
-import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog, FaTachometerAlt, FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import { FaUser, FaShoppingCart, FaHeart, FaSignOutAlt, FaCog, FaTachometerAlt, FaSearch, FaBars, FaTimes, FaBullseye } from "react-icons/fa";
 import { getFirestore, doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useCart } from "../../context/CartContext";
@@ -424,20 +424,22 @@ export default function Header() {
                       <div className={styles.dropdownContent}>
                         <div className={styles.pistolasList}>
                           <div className={styles.pistolasTitle}>
-                            <span>🪖</span> Todos em {item.label}
+                            <FaBullseye /> Todos em {item.label}
                           </div>
                           <div className={styles.pistolasDivider}></div>
-                          {sectionProducts.map((product) => (
-                            <div
-                              key={product.id}
-                              className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
-                              onMouseEnter={() => !isMobile && setHoveredPistola(product)}
-                              onMouseLeave={() => !isMobile && setHoveredPistola(null)}
-                              onClick={() => handleProductClick(product)}
-                            >
-                              {product.name}
-                            </div>
-                          ))}
+                          <div className={styles.pistolasItemsContainer}>
+                              {sectionProducts.map((product) => (
+                              <div
+                                key={product.id}
+                                className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
+                                onMouseEnter={() => !isMobile && setHoveredPistola(product)}
+                                onMouseLeave={() => !isMobile && setHoveredPistola(null)}
+                                onClick={() => handleProductClick(product)}
+                              >
+                                {product.name}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                         <div className={styles.pistolaPreview}>
                           {hoveredPistola === null ? (
@@ -500,20 +502,22 @@ export default function Header() {
                       <div className={styles.dropdownContent}>
                         <div className={styles.pistolasList}>
                           <div className={styles.pistolasTitle}>
-                            <span>🪖</span> Todos em {item.label}
+                            <FaBullseye /> Todos em {item.label}
                           </div>
                           <div className={styles.pistolasDivider}></div>
-                          {products.map((product) => (
-                            <div
-                              key={product.id}
-                              className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
-                              onMouseEnter={() => !isMobile && setHoveredPistola(product)}
-                              onMouseLeave={() => !isMobile && setHoveredPistola(null)}
-                              onClick={() => handleProductClick(product)}
-                            >
-                              {product.name}
-                            </div>
-                          ))}
+                          <div className={styles.pistolasItemsContainer}>
+                            {products.map((product) => (
+                              <div
+                                key={product.id}
+                                className={styles.pistolaItem + (hoveredPistola?.id === product.id ? ' ' + styles.pistolaItemActive : '')}
+                                onMouseEnter={() => !isMobile && setHoveredPistola(product)}
+                                onMouseLeave={() => !isMobile && setHoveredPistola(null)}
+                                onClick={() => handleProductClick(product)}
+                              >
+                                {product.name}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                         <div className={styles.pistolaPreview}>
                           {hoveredPistola === null ? (
