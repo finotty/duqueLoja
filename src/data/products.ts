@@ -23,7 +23,7 @@ export interface Product {
 export const preConfiguredProducts: Product[] = [
   {
     id: 'pistola-taurus-pt58-hc-plus-carbono-fosco',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -38,7 +38,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt58-hc-plus-verde',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS Verde',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-verde.jpg',
     marca: 'Taurus',
@@ -53,7 +53,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt58-hc-plus-fde',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS FDE',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-fde.jpg',
     marca: 'Taurus',
@@ -68,7 +68,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt58-hc-plus-tungstenio',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS Tungstenio',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-tungstenio.jpg',
     marca: 'Taurus',
@@ -83,7 +83,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt58-hc-plus-sand',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS Sand',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-sand.jpg',
     marca: 'Taurus',
@@ -98,7 +98,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt58-hc-plus-inox-fosco',
-    name: 'Pistola Taurus PT 58 HC PLUS',
+    name: 'Pistola Taurus PT 58 HC PLUS Inox Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt58-hc-plus-inox-fosco.jpg',
     marca: 'Taurus',
@@ -113,7 +113,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-verde',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S Verde',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-verde.jpg',
     marca: 'Taurus',
@@ -128,7 +128,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-fde',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S FDE',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-fde.jpg',
     marca: 'Taurus',
@@ -143,7 +143,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-tungstenio',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S Tungstenio',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-tungstenio.jpg',
     marca: 'Taurus',
@@ -158,7 +158,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-sand',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S Sand',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-sand.jpg',
     marca: 'Taurus',
@@ -173,7 +173,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-oxidado-fosco',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S Oxidado Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-oxidado-fosco.jpg',
     marca: 'Taurus',
@@ -188,7 +188,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-czarelho-oxidado-fosco',
-    name: 'Pistola Taurus PT59S C/Zarelho',
+    name: 'Pistola Taurus PT59S C/Zarelho Oxidado Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-czarelho-oxidado-fosco.jpg',
     marca: 'Taurus',
@@ -203,7 +203,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-inox-fosco',
-    name: 'Pistola Taurus PT59S',
+    name: 'Pistola Taurus PT59S Inox Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-inox-fosco.jpg',
     marca: 'Taurus',
@@ -218,7 +218,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt59s-czarelho-inox-fosco',
-    name: 'Pistola Taurus PT59S C/Zarelho',
+    name: 'Pistola Taurus PT59S C/Zarelho Inox Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt59s-czarelho-inox-fosco.jpg',
     marca: 'Taurus',
@@ -233,7 +233,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt838c-teneferizado',
-    name: 'Pistola Taurus PT838C',
+    name: 'Pistola Taurus PT838C Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt838c-teneferizado.jpg',
     marca: 'Taurus',
@@ -248,7 +248,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt938-carbono-fosco',
-    name: 'Pistola Taurus PT 938',
+    name: 'Pistola Taurus PT 938 Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt938-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -263,7 +263,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt938-inox',
-    name: 'Pistola Taurus PT 938',
+    name: 'Pistola Taurus PT 938 Inox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt938-inox.jpg',
     marca: 'Taurus',
@@ -278,7 +278,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th380-grafeno-elite-gray',
-    name: 'Pistola Taurus TH380 Grafeno',
+    name: 'Pistola Taurus TH380 Grafeno Elite Gray',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th380-grafeno-elite-gray.jpg',
     marca: 'Taurus',
@@ -293,7 +293,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th380-grafeno-black',
-    name: 'Pistola Taurus TH380 Grafeno',
+    name: 'Pistola Taurus TH380 Grafeno Black',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th380-grafeno-black.jpg',
     marca: 'Taurus',
@@ -308,7 +308,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th380c-grafeno-elite-gray',
-    name: 'Pistola Taurus TH380C Grafeno',
+    name: 'Pistola Taurus TH380C Grafeno Elite Gray',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th380c-grafeno-elite-gray.jpg',
     marca: 'Taurus',
@@ -323,7 +323,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th380c-grafeno-black',
-    name: 'Pistola Taurus TH380C Grafeno',
+    name: 'Pistola Taurus TH380C Grafeno Black',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th380c-grafeno-black.jpg',
     marca: 'Taurus',
@@ -338,7 +338,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th380-carbono-tenox',
-    name: 'Pistola Taurus TH380',
+    name: 'Pistola Taurus TH380 Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th380-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -353,7 +353,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-38tpc-oxidado',
-    name: 'Pistola Taurus G2C',
+    name: 'Pistola Taurus G2C .38 TPC Oxidado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-38tpc-oxidado.jpg',
     marca: 'Taurus',
@@ -368,7 +368,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-gx4-carry-grafeno',
-    name: 'Pistola Taurus GX4 Carry',
+    name: 'Pistola Taurus GX4 Carry Grafeno',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-gx4-carry-grafeno.jpg',
     marca: 'Taurus',
@@ -383,7 +383,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-40sw-carbono-fosco',
-    name: 'Pistola Taurus G2C',
+    name: 'Pistola Taurus G2C .40 S&W Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-40sw-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -398,7 +398,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-40sw-inox-fosco',
-    name: 'Pistola Taurus G2C',
+    name: 'Pistola Taurus G2C .40 S&W Inox Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-40sw-inox-fosco.jpg',
     marca: 'Taurus',
@@ -413,7 +413,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th40-teneferizado',
-    name: 'Pistola Taurus TH40',
+    name: 'Pistola Taurus TH40 Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th40-teneferizado.jpg',
     marca: 'Taurus',
@@ -428,7 +428,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th40c-teneferizado',
-    name: 'Pistola Taurus TH40C',
+    name: 'Pistola Taurus TH40C Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th40c-teneferizado.jpg',
     marca: 'Taurus',
@@ -443,7 +443,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt100-afd-teneferizado',
-    name: 'Pistola Taurus PT 100 AF-D',
+    name: 'Pistola Taurus PT 100 AF-D Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt100-afd-teneferizado.jpg',
     marca: 'Taurus',
@@ -458,7 +458,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th45-carbono-tenox',
-    name: 'Pistola Taurus TH45',
+    name: 'Pistola Taurus TH45 Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th45-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -473,7 +473,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt845-teneferizado',
-    name: 'Pistola Taurus PT845',
+    name: 'Pistola Taurus PT845 Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt845-teneferizado.jpg',
     marca: 'Taurus',
@@ -488,7 +488,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-officer-9mm-carbono-tenox',
-    name: 'Pistola Taurus 1911 Officer',
+    name: 'Pistola Taurus 1911 Officer 9mm Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-officer-9mm-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -503,7 +503,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-commander-9mm-carbono-tenox',
-    name: 'Pistola Taurus 1911 Commander',
+    name: 'Pistola Taurus 1911 Commander 9mm Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-commander-9mm-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -518,7 +518,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-9mm-carbono-tenox',
-    name: 'Pistola Taurus 1911',
+    name: 'Pistola Taurus 1911 9mm Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-9mm-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -533,7 +533,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-45acp-carbono-fosco',
-    name: 'Pistola Taurus 1911',
+    name: 'Pistola Taurus 1911 .45 ACP Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-45acp-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -548,7 +548,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-officer-45acp-carbono-fosco',
-    name: 'Pistola Taurus 1911 Officer',
+    name: 'Pistola Taurus 1911 Officer .45 ACP Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-officer-45acp-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -563,7 +563,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-1911-tactical-carbono-fosco',
-    name: 'Pistola Taurus 1911 Tactical',
+    name: 'Pistola Taurus 1911 Tactical Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-1911-tactical-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -578,7 +578,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-9mm-carbono-fosco',
-    name: 'Pistola Taurus G2C',
+    name: 'Pistola Taurus G2C 9mm Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-9mm-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -593,7 +593,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-roxo-claro',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Roxo Claro',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-roxo-claro.jpg',
     marca: 'Taurus',
@@ -608,7 +608,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-cinza',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Cinza',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-cinza.jpg',
     marca: 'Taurus',
@@ -623,7 +623,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-verde',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Verde',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-verde.jpg',
     marca: 'Taurus',
@@ -638,7 +638,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-ciano',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Ciano',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-ciano.jpg',
     marca: 'Taurus',
@@ -653,7 +653,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-bege',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Bege',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-bege.jpg',
     marca: 'Taurus',
@@ -668,7 +668,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-marrom',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Marrom',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-marrom.jpg',
     marca: 'Taurus',
@@ -683,7 +683,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g2c-colors-roxo-escuro',
-    name: 'Pistola Taurus G2C Colors',
+    name: 'Pistola Taurus G2C Colors Roxo Escuro',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g2c-colors-roxo-escuro.jpg',
     marca: 'Taurus',
@@ -698,7 +698,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g3-xl-carbono-tenox',
-    name: 'Pistola Taurus G3 XL',
+    name: 'Pistola Taurus G3 XL Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3-xl-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -713,7 +713,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g3-tactical-carbono-preto',
-    name: 'Pistola Taurus G3 Tactical',
+    name: 'Pistola Taurus G3 Tactical Carbono Preto',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3-tactical-carbono-preto.jpg',
     marca: 'Taurus',
@@ -728,7 +728,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g3-tactical-carbono-verde',
-    name: 'Pistola Taurus G3 Tactical',
+    name: 'Pistola Taurus G3 Tactical Carbono Verde',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3-tactical-carbono-verde.jpg',
     marca: 'Taurus',
@@ -744,7 +744,7 @@ export const preConfiguredProducts: Product[] = [
   //primeiros 50 termina aqui
   {
     id: 'pistola-taurus-g3-tactical-carbono-black',
-    name: 'Pistola Taurus G3 Tactical',
+    name: 'Pistola Taurus G3 Tactical Carbono Black',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3-tactical-carbono-black.jpg',
     marca: 'Taurus',
@@ -759,7 +759,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g3c-carbono-tenox',
-    name: 'Pistola Taurus G3C',
+    name: 'Pistola Taurus G3C Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3c-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -774,7 +774,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-g3-carbono-tenox',
-    name: 'Pistola Taurus G3',
+    name: 'Pistola Taurus G3 Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-g3-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -789,7 +789,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-gx4-grafeno-cerakote',
-    name: 'Pistola Taurus GX4 Grafeno',
+    name: 'Pistola Taurus GX4 Grafeno Cerakote',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-gx4-grafeno-cerakote.jpg',
     marca: 'Taurus',
@@ -804,7 +804,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-gx4xl-grafeno-cerakote',
-    name: 'Pistola Taurus GX4XL Grafeno',
+    name: 'Pistola Taurus GX4XL Grafeno Cerakote',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-gx4xl-grafeno-cerakote.jpg',
     marca: 'Taurus',
@@ -819,7 +819,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt917c-carbono-fosco',
-    name: 'Pistola Taurus PT 917 C',
+    name: 'Pistola Taurus PT 917 C Carbono Fosco',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt917c-carbono-fosco.jpg',
     marca: 'Taurus',
@@ -834,7 +834,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt92-afd-teneferizado',
-    name: 'Pistola Taurus PT 92 AF-D',
+    name: 'Pistola Taurus PT 92 AF-D Teneferizado',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt92-afd-teneferizado.jpg',
     marca: 'Taurus',
@@ -849,7 +849,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-pt92-afsd-inox',
-    name: 'Pistola Taurus PT92 AFS-D',
+    name: 'Pistola Taurus PT92 AFS-D Inox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-pt92-afsd-inox.jpg',
     marca: 'Taurus',
@@ -864,7 +864,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-ts9-grafeno',
-    name: 'Pistola Taurus TS9',
+    name: 'Pistola Taurus TS9 Grafeno',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-ts9-grafeno.jpg',
     marca: 'Taurus',
@@ -879,7 +879,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-ts9c-grafeno',
-    name: 'Pistola Taurus TS9C',
+    name: 'Pistola Taurus TS9C Grafeno',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-ts9c-grafeno.jpg',
     marca: 'Taurus',
@@ -894,7 +894,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th9-carbono-tenox',
-    name: 'Pistola Taurus TH9',
+    name: 'Pistola Taurus TH9 Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th9-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -909,7 +909,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th9c-carbono-tenox',
-    name: 'Pistola Taurus TH9C',
+    name: 'Pistola Taurus TH9C Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th9c-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -924,7 +924,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-th10-carbono-tenox',
-    name: 'Pistola Taurus TH10',
+    name: 'Pistola Taurus TH10 Carbono Tenox',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-th10-carbono-tenox.jpg',
     marca: 'Taurus',
@@ -939,7 +939,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-tx22-black',
-    name: 'Pistola Taurus TX22',
+    name: 'Pistola Taurus TX22 Black',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-tx22-black.jpg',
     marca: 'Taurus',
@@ -954,7 +954,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-tx22-verde',
-    name: 'Pistola Taurus TX22',
+    name: 'Pistola Taurus TX22 Verde',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-tx22-verde.jpg',
     marca: 'Taurus',
@@ -969,7 +969,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-tx22-tan',
-    name: 'Pistola Taurus TX22',
+    name: 'Pistola Taurus TX22 Tan',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-tx22-tan.jpg',
     marca: 'Taurus',
@@ -984,7 +984,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-taurus-tx22-competition-black',
-    name: 'Pistola Taurus TX22 Competition',
+    name: 'Pistola Taurus TX22 Competition Black',
     category: 'pistolas',
     image: '/img/products/pistola-taurus-tx22-competition-black.jpg',
     marca: 'Taurus',
@@ -999,7 +999,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g44-dlc',
-    name: 'Pistola Glock G44',
+    name: 'Pistola Glock G44 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g44-dlc.jpg',
     marca: 'Glock',
@@ -1014,7 +1014,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g25-dlc',
-    name: 'Pistola Glock G25',
+    name: 'Pistola Glock G25 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g25-dlc.jpg',
     marca: 'Glock',
@@ -1029,7 +1029,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g28-dlc',
-    name: 'Pistola Glock G28',
+    name: 'Pistola Glock G28 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g28-dlc.jpg',
     marca: 'Glock',
@@ -1044,7 +1044,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g42-dlc',
-    name: 'Pistola Glock G42',
+    name: 'Pistola Glock G42 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g42-dlc.jpg',
     marca: 'Glock',
@@ -1059,7 +1059,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-p80-dlc',
-    name: 'Pistola Glock P80',
+    name: 'Pistola Glock P80 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-p80-dlc.jpg',
     marca: 'Glock',
@@ -1074,7 +1074,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g19-gen3-dlc',
-    name: 'Pistola Glock G19 Gen 3',
+    name: 'Pistola Glock G19 Gen 3 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g19-gen3-dlc.jpg',
     marca: 'Glock',
@@ -1089,7 +1089,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g17-gen3-dlc',
-    name: 'Pistola Glock G17 Gen 3',
+    name: 'Pistola Glock G17 Gen 3 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g17-gen3-dlc.jpg',
     marca: 'Glock',
@@ -1104,7 +1104,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g17-gen5-dlc',
-    name: 'Pistola Glock G17 Gen 5',
+    name: 'Pistola Glock G17 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g17-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1119,7 +1119,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g19-gen5-dlc',
-    name: 'Pistola Glock G19 Gen 5',
+    name: 'Pistola Glock G19 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g19-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1134,7 +1134,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g26-gen5-dlc',
-    name: 'Pistola Glock G26 Gen 5',
+    name: 'Pistola Glock G26 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g26-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1149,7 +1149,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g43-gen5-dlc',
-    name: 'Pistola Glock G43 Gen 5',
+    name: 'Pistola Glock G43 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g43-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1164,7 +1164,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g34-mos-dlc',
-    name: 'Pistola Glock G34 MOS',
+    name: 'Pistola Glock G34 MOS DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g34-mos-dlc.jpg',
     marca: 'Glock',
@@ -1179,7 +1179,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g17-mos-dlc',
-    name: 'Pistola Glock G17 MOS',
+    name: 'Pistola Glock G17 MOS DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g17-mos-dlc.jpg',
     marca: 'Glock',
@@ -1194,7 +1194,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g19-mos-dlc',
-    name: 'Pistola Glock G19 MOS',
+    name: 'Pistola Glock G19 MOS DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g19-mos-dlc.jpg',
     marca: 'Glock',
@@ -1209,7 +1209,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g26-mos-dlc',
-    name: 'Pistola Glock G26 MOS',
+    name: 'Pistola Glock G26 MOS DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g26-mos-dlc.jpg',
     marca: 'Glock',
@@ -1224,7 +1224,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g19x-dlc',
-    name: 'Pistola Glock G19X',
+    name: 'Pistola Glock G19X DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g19x-dlc.jpg',
     marca: 'Glock',
@@ -1239,7 +1239,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g43x-dlc',
-    name: 'Pistola Glock G43X',
+    name: 'Pistola Glock G43X DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g43x-dlc.jpg',
     marca: 'Glock',
@@ -1254,7 +1254,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g43x-mos-dlc',
-    name: 'Pistola Glock G43X MOS',
+    name: 'Pistola Glock G43X MOS DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g43x-mos-dlc.jpg',
     marca: 'Glock',
@@ -1269,7 +1269,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g22-gen5-dlc',
-    name: 'Pistola Glock G22 Gen 5',
+    name: 'Pistola Glock G22 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g22-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1284,7 +1284,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g23-gen5-dlc',
-    name: 'Pistola Glock G23 Gen 5',
+    name: 'Pistola Glock G23 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g23-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1299,7 +1299,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g27-gen5-dlc',
-    name: 'Pistola Glock G27 Gen 5',
+    name: 'Pistola Glock G27 Gen 5 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g27-gen5-dlc.jpg',
     marca: 'Glock',
@@ -1314,7 +1314,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g35-gen4-dlc',
-    name: 'Pistola Glock G35 Gen 4',
+    name: 'Pistola Glock G35 Gen 4 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g35-gen4-dlc.jpg',
     marca: 'Glock',
@@ -1329,7 +1329,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'pistola-glock-g20-gen4-dlc',
-    name: 'Pistola Glock G20 Gen 4',
+    name: 'Pistola Glock G20 Gen 4 DLC',
     category: 'pistolas',
     image: '/img/products/pistola-glock-g20-gen4-dlc.jpg',
     marca: 'Glock',
@@ -1344,7 +1344,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt942-dual-tone',
-    name: 'Revolver Taurus RT942',
+    name: 'Revolver Taurus RT942 Dual Tone',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt942-dual-tone.jpg',
     marca: 'Taurus',
@@ -1359,7 +1359,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt96-oxidado',
-    name: 'Revolver Taurus RT96',
+    name: 'Revolver Taurus RT96 Oxidado',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt96-oxidado.jpg',
     marca: 'Taurus',
@@ -1374,7 +1374,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt970-inox-fosco',
-    name: 'Revolver Taurus RT970',
+    name: 'Revolver Taurus RT970 Inox Fosco',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt970-inox-fosco.jpg',
     marca: 'Taurus',
@@ -1389,7 +1389,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt941-inox-fosco',
-    name: 'Revolver Taurus RT941',
+    name: 'Revolver Taurus RT941 Inox Fosco',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt941-inox-fosco.jpg',
     marca: 'Taurus',
@@ -1404,7 +1404,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt410-the-judge-inox-3in',
-    name: 'Revolver Taurus The Judge RT410',
+    name: 'Revolver Taurus The Judge RT410 Inox 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt410-the-judge-inox-3in.jpg',
     marca: 'Taurus',
@@ -1419,7 +1419,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt410-the-judge-inox-6.5in',
-    name: 'Revolver Taurus The Judge RT410',
+    name: 'Revolver Taurus The Judge RT410 Inox 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt410-the-judge-inox-6.5in.jpg',
     marca: 'Taurus',
@@ -1434,7 +1434,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt410-the-judge-oxidado-3in',
-    name: 'Revolver Taurus The Judge RT410',
+    name: 'Revolver Taurus The Judge RT410 Oxidado 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt410-the-judge-oxidado-3in.jpg',
     marca: 'Taurus',
@@ -1449,7 +1449,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt38h-inox-fosco',
-    name: 'Revolver Taurus RT38H',
+    name: 'Revolver Taurus RT38H Inox Fosco',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt38h-inox-fosco.jpg',
     marca: 'Taurus',
@@ -1464,7 +1464,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt38sa-oxidado-fosco',
-    name: 'Revolver Taurus RT38SA',
+    name: 'Revolver Taurus RT38SA Oxidado Fosco',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt38sa-oxidado-fosco.jpg',
     marca: 'Taurus',
@@ -1480,7 +1480,7 @@ export const preConfiguredProducts: Product[] = [
   // começo do pdf 3
   {
     id: 'revolver-taurus-rt38sa-oxidado-fosco-5in',
-    name: 'Revolver Taurus RT38SA',
+    name: 'Revolver Taurus RT38SA Oxidado Fosco 5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt38sa-oxidado-fosco-5in.jpg',
     marca: 'Taurus',
@@ -1495,7 +1495,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt38sa-madeira-4in',
-    name: 'Revolver Taurus RT38SA',
+    name: 'Revolver Taurus RT38SA Madeira 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt38sa-madeira-4in.jpg',
     marca: 'Taurus',
@@ -1510,7 +1510,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt38sa-madeira-5in',
-    name: 'Revolver Taurus RT38SA',
+    name: 'Revolver Taurus RT38SA Madeira 5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt38sa-madeira-5in.jpg',
     marca: 'Taurus',
@@ -1525,7 +1525,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt82-oxidado-fosco-4in',
-    name: 'Revolver Taurus RT82',
+    name: 'Revolver Taurus RT82 Oxidado Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt82-oxidado-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1540,7 +1540,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt82-czarelho-oxidado-fosco-4in',
-    name: 'Revolver Taurus RT82 C/Zarelho',
+    name: 'Revolver Taurus RT82 C/Zarelho Oxidado Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt82-czarelho-oxidado-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1555,7 +1555,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt82s-oxidado-fosco-4in',
-    name: 'Revolver Taurus RT82S',
+    name: 'Revolver Taurus RT82S Oxidado Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt82s-oxidado-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1570,7 +1570,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt82s-czarelho-oxidado-fosco-4in',
-    name: 'Revolver Taurus RT82S C/Zarelho',
+    name: 'Revolver Taurus RT82S C/Zarelho Oxidado Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt82s-czarelho-oxidado-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1585,7 +1585,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt82s-inox-4in',
-    name: 'Revolver Taurus RT82S',
+    name: 'Revolver Taurus RT82S Inox 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt82s-inox-4in.jpg',
     marca: 'Taurus',
@@ -1600,7 +1600,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt85-oxidado-fosco-4in',
-    name: 'Revolver Taurus RT85',
+    name: 'Revolver Taurus RT85 Oxidado Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt85-oxidado-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1615,7 +1615,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt85s-oxidado-fosco-2in',
-    name: 'Revolver Taurus RT85S',
+    name: 'Revolver Taurus RT85S Oxidado Fosco 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt85s-oxidado-fosco-2in.jpg',
     marca: 'Taurus',
@@ -1630,7 +1630,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt85s-oxidado-2in',
-    name: 'Revolver Taurus RT85S',
+    name: 'Revolver Taurus RT85S Oxidado 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt85s-oxidado-2in.jpg',
     marca: 'Taurus',
@@ -1645,7 +1645,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt85s-inox-2in',
-    name: 'Revolver Taurus RT85S',
+    name: 'Revolver Taurus RT85S Inox 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt85s-inox-2in.jpg',
     marca: 'Taurus',
@@ -1660,7 +1660,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt85s-inox-fosco-2in',
-    name: 'Revolver Taurus RT85S',
+    name: 'Revolver Taurus RT85S Inox Fosco 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt85s-inox-fosco-2in.jpg',
     marca: 'Taurus',
@@ -1675,7 +1675,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt88-oxidado-3in',
-    name: 'Revolver Taurus RT88',
+    name: 'Revolver Taurus RT88 Oxidado 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt88-oxidado-3in.jpg',
     marca: 'Taurus',
@@ -1690,7 +1690,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt88-inox-3in',
-    name: 'Revolver Taurus RT88',
+    name: 'Revolver Taurus RT88 Inox 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt88-inox-3in.jpg',
     marca: 'Taurus',
@@ -1705,7 +1705,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt86-oxidado-6in',
-    name: 'Revolver Taurus RT86',
+    name: 'Revolver Taurus RT86 Oxidado 6"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt86-oxidado-6in.jpg',
     marca: 'Taurus',
@@ -1720,7 +1720,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt817-inox-2in',
-    name: 'Revolver Taurus RT817',
+    name: 'Revolver Taurus RT817 Inox 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt817-inox-2in.jpg',
     marca: 'Taurus',
@@ -1735,7 +1735,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt832-inox-fosco-3in',
-    name: 'Revolver Taurus RT832',
+    name: 'Revolver Taurus RT832 Inox Fosco 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt832-inox-fosco-3in.jpg',
     marca: 'Taurus',
@@ -1750,7 +1750,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt832-inox-fosco-6.5in',
-    name: 'Revolver Taurus RT832',
+    name: 'Revolver Taurus RT832 Inox Fosco 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt832-inox-fosco-6.5in.jpg',
     marca: 'Taurus',
@@ -1765,7 +1765,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt838-inox-4in',
-    name: 'Revolver Taurus RT838',
+    name: 'Revolver Taurus RT838 Inox 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt838-inox-4in.jpg',
     marca: 'Taurus',
@@ -1780,7 +1780,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt838-inox-fosco-6.5in',
-    name: 'Revolver Taurus RT838',
+    name: 'Revolver Taurus RT838 Inox Fosco 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt838-inox-fosco-6.5in.jpg',
     marca: 'Taurus',
@@ -1795,7 +1795,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt838-inox-6.5in',
-    name: 'Revolver Taurus RT838',
+    name: 'Revolver Taurus RT838 Inox 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt838-inox-6.5in.jpg',
     marca: 'Taurus',
@@ -1810,7 +1810,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt856-oxidado-fosco-3in',
-    name: 'Revolver Taurus RT856',
+    name: 'Revolver Taurus RT856 Oxidado Fosco 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt856-oxidado-fosco-3in.jpg',
     marca: 'Taurus',
@@ -1825,7 +1825,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt856-inox-fosco-3in',
-    name: 'Revolver Taurus RT856',
+    name: 'Revolver Taurus RT856 Inox Fosco 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt856-inox-fosco-3in.jpg',
     marca: 'Taurus',
@@ -1840,7 +1840,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt889-inox-4in',
-    name: 'Revolver Taurus RT889',
+    name: 'Revolver Taurus RT889 Inox 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt889-inox-4in.jpg',
     marca: 'Taurus',
@@ -1855,7 +1855,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt889-inox-fosco-4in',
-    name: 'Revolver Taurus RT889',
+    name: 'Revolver Taurus RT889 Inox Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt889-inox-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1870,7 +1870,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt889-inox-6in',
-    name: 'Revolver Taurus RT889',
+    name: 'Revolver Taurus RT889 Inox 6"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt889-inox-6in.jpg',
     marca: 'Taurus',
@@ -1885,7 +1885,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt044-inox-fosco-4in',
-    name: 'Revolver Taurus RT044',
+    name: 'Revolver Taurus RT044 Inox Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt044-inox-fosco-4in.jpg',
     marca: 'Taurus',
@@ -1900,7 +1900,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt44h-carbono-fosco-8in',
-    name: 'Revolver Taurus RT44H',
+    name: 'Revolver Taurus RT44H Carbono Fosco 8"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt44h-carbono-fosco-8in.jpg',
     marca: 'Taurus',
@@ -1915,7 +1915,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt44h-dual-tone-8in',
-    name: 'Revolver Taurus RT44H',
+    name: 'Revolver Taurus RT44H Dual Tone 8"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt44h-dual-tone-8in.jpg',
     marca: 'Taurus',
@@ -1930,7 +1930,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt444-inox-fosco-6.5in',
-    name: 'Revolver Taurus RT444',
+    name: 'Revolver Taurus RT444 Inox Fosco 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt444-inox-fosco-6.5in.jpg',
     marca: 'Taurus',
@@ -1945,7 +1945,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt444-inox-fosco-8in',
-    name: 'Revolver Taurus RT444',
+    name: 'Revolver Taurus RT444 Inox Fosco 8"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt444-inox-fosco-8in.jpg',
     marca: 'Taurus',
@@ -1960,7 +1960,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt45sa-oxidado-4in',
-    name: 'Revolver Taurus RT45SA',
+    name: 'Revolver Taurus RT45SA Oxidado 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt45sa-oxidado-4in.jpg',
     marca: 'Taurus',
@@ -1975,7 +1975,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt45sa-oxidado-5in',
-    name: 'Revolver Taurus RT45SA',
+    name: 'Revolver Taurus RT45SA Oxidado 5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt45sa-oxidado-5in.jpg',
     marca: 'Taurus',
@@ -1990,7 +1990,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt45sa-madeira-4in',
-    name: 'Revolver Taurus RT45SA',
+    name: 'Revolver Taurus RT45SA Madeira 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt45sa-madeira-4in.jpg',
     marca: 'Taurus',
@@ -2005,7 +2005,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt45sa-madeira-5in',
-    name: 'Revolver Taurus RT45SA',
+    name: 'Revolver Taurus RT45SA Madeira 5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt45sa-madeira-5in.jpg',
     marca: 'Taurus',
@@ -2020,7 +2020,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt605-carbono-fosco-2in',
-    name: 'Revolver Taurus RT605',
+    name: 'Revolver Taurus RT605 Carbono Fosco 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt605-carbono-fosco-2in.jpg',
     marca: 'Taurus',
@@ -2035,7 +2035,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt605-inox-fosco-2in',
-    name: 'Revolver Taurus RT605',
+    name: 'Revolver Taurus RT605 Inox Fosco 2"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt605-inox-fosco-2in.jpg',
     marca: 'Taurus',
@@ -2050,7 +2050,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt627-inox-fosco-4in',
-    name: 'Revolver Taurus RT627',
+    name: 'Revolver Taurus RT627 Inox Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt627-inox-fosco-4in.jpg',
     marca: 'Taurus',
@@ -2065,7 +2065,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt608-inox-fosco-6.5in',
-    name: 'Revolver Taurus RT608',
+    name: 'Revolver Taurus RT608 Inox Fosco 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt608-inox-fosco-6.5in.jpg',
     marca: 'Taurus',
@@ -2080,7 +2080,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt608-inox-6.5in',
-    name: 'Revolver Taurus RT608',
+    name: 'Revolver Taurus RT608 Inox 6.5"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt608-inox-6.5in.jpg',
     marca: 'Taurus',
@@ -2095,7 +2095,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt065-carbono-fosco-4in',
-    name: 'Revolver Taurus RT065',
+    name: 'Revolver Taurus RT065 Carbono Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt065-carbono-fosco-4in.jpg',
     marca: 'Taurus',
@@ -2110,7 +2110,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt065-inox-fosco-4in',
-    name: 'Revolver Taurus RT065',
+    name: 'Revolver Taurus RT065 Inox Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt065-inox-fosco-4in.jpg',
     marca: 'Taurus',
@@ -2125,7 +2125,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt066-inox-fosco-4in',
-    name: 'Revolver Taurus RT066',
+    name: 'Revolver Taurus RT066 Inox Fosco 4"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt066-inox-fosco-4in.jpg',
     marca: 'Taurus',
@@ -2140,7 +2140,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt066-inox-fosco-6in',
-    name: 'Revolver Taurus RT066',
+    name: 'Revolver Taurus RT066 Inox Fosco 6"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt066-inox-fosco-6in.jpg',
     marca: 'Taurus',
@@ -2155,7 +2155,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt357h-carbono-fosco-6.7in',
-    name: 'Revolver Taurus RT357H',
+    name: 'Revolver Taurus RT357H Carbono Fosco 6.7"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt357h-carbono-fosco-6.7in.jpg',
     marca: 'Taurus',
@@ -2170,7 +2170,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt692-inox-fosco-3in',
-    name: 'Revolver Taurus RT692',
+    name: 'Revolver Taurus RT692 Inox Fosco 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt692-inox-fosco-3in.jpg',
     marca: 'Taurus',
@@ -2185,7 +2185,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt357h-carbono-fosco-5.1in',
-    name: 'Revolver Taurus RT357H',
+    name: 'Revolver Taurus RT357H Carbono Fosco 5.1"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt357h-carbono-fosco-5.1in.jpg',
     marca: 'Taurus',
@@ -2200,7 +2200,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt357h-carbono-fosco-8.3in',
-    name: 'Revolver Taurus RT357H',
+    name: 'Revolver Taurus RT357H Carbono Fosco 8.3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt357h-carbono-fosco-8.3in.jpg',
     marca: 'Taurus',
@@ -2217,7 +2217,7 @@ export const preConfiguredProducts: Product[] = [
 
   {
     id: 'revolver-taurus-rt357h-dual-tone-5-1in',
-    name: 'Revolver Taurus RT357H',
+    name: 'Revolver Taurus RT357H Dual Tone 5.1"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt357h-dual-tone-5-1in.jpg',
     marca: 'Taurus',
@@ -2232,7 +2232,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt357h-dual-tone-8-3in',
-    name: 'Revolver Taurus RT357H',
+    name: 'Revolver Taurus RT357H Dual Tone 8.3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt357h-dual-tone-8-3in.jpg',
     marca: 'Taurus',
@@ -2247,7 +2247,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt380-inox-cerakote-3in',
-    name: 'Revolver Taurus RT380',
+    name: 'Revolver Taurus RT380 Inox Cerakote 3"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt380-inox-cerakote-3in.jpg',
     marca: 'Taurus',
@@ -2262,7 +2262,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'revolver-taurus-rt454-inox-fosco-8in',
-    name: 'Revolver Taurus RT454',
+    name: 'Revolver Taurus RT454 Inox Fosco 8"',
     category: 'revolveres',
     image: '/img/products/revolver-taurus-rt454-inox-fosco-8in.jpg',
     marca: 'Taurus',
@@ -2277,7 +2277,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-taurus-circuit-judge-36ga-oxidado',
-    name: 'Carabina Taurus Circuit Judge',
+    name: 'Carabina Taurus Circuit Judge .36 GA Oxidado',
     category: 'carabinas',
     image: '/img/products/carabina-taurus-circuit-judge-36ga-oxidado.jpg',
     marca: 'Taurus',
@@ -2292,7 +2292,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-taurus-ct9-9mm-oxidado',
-    name: 'Carabina Taurus CT9',
+    name: 'Carabina Taurus CT9 9mm Oxidado',
     category: 'carabinas',
     image: '/img/products/carabina-taurus-ct9-9mm-oxidado.jpg',
     marca: 'Taurus',
@@ -2307,7 +2307,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-taurus-ctt40-40sw-oxidado',
-    name: 'Carabina Taurus CTT40',
+    name: 'Carabina Taurus CTT40 .40 S&W Oxidado',
     category: 'carabinas',
     image: '/img/products/carabina-taurus-ctt40-40sw-oxidado.jpg',
     marca: 'Taurus',
@@ -2322,7 +2322,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-taurus-bmf9-cerakote-black',
-    name: 'Carabina Taurus BM-F-9',
+    name: 'Carabina Taurus BM-F-9 Cerakote Black',
     category: 'carabinas',
     image: '/img/products/carabina-taurus-bmf9-cerakote-black.jpg',
     marca: 'Taurus',
@@ -2337,7 +2337,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-taurus-bmf9-cerakote-fde',
-    name: 'Carabina Taurus BM-F-9',
+    name: 'Carabina Taurus BM-F-9 Cerakote FDE',
     category: 'carabinas',
     image: '/img/products/carabina-taurus-bmf9-cerakote-fde.jpg',
     marca: 'Taurus',
@@ -2352,7 +2352,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-38spl-oxidado-20in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .38 SPL Oxidado 20"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-38spl-oxidado-20in.jpg',
     marca: 'Rossi',
@@ -2367,7 +2367,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-38spl-inox-20in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .38 SPL Inox 20"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-38spl-inox-20in.jpg',
     marca: 'Rossi',
@@ -2382,7 +2382,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-tactical-357mag-black',
-    name: 'Carabina Rossi Puma Táctica',
+    name: 'Carabina Rossi Puma Táctica .357 MAG Black',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-tactical-357mag-black.jpg',
     marca: 'Rossi',
@@ -2397,7 +2397,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-triple-black-357mag',
-    name: 'Carabina Rossi Puma Triple Black',
+    name: 'Carabina Rossi Puma Triple Black .357 MAG',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-triple-black-357mag.jpg',
     marca: 'Rossi',
@@ -2412,7 +2412,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-357mag-inox-20in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .357 MAG Inox 20"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-357mag-inox-20in.jpg',
     marca: 'Rossi',
@@ -2427,7 +2427,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-44-40win-oxidado-20in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .44-40 WIN Oxidado 20"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-44-40win-oxidado-20in.jpg',
     marca: 'Rossi',
@@ -2442,7 +2442,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-44-40win-inox-20in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .44-40 WIN Inox 20"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-44-40win-inox-20in.jpg',
     marca: 'Rossi',
@@ -2457,7 +2457,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-38spl-oxidado-16in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .38 SPL Oxidado 16"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-38spl-oxidado-16in.jpg',
     marca: 'Rossi',
@@ -2472,7 +2472,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-38spl-oxidado-24in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .38 SPL Oxidado 24"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-38spl-oxidado-24in.jpg',
     marca: 'Rossi',
@@ -2487,7 +2487,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-38spl-inox-24in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .38 SPL Inox 24"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-38spl-inox-24in.jpg',
     marca: 'Rossi',
@@ -2502,7 +2502,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-357mag-inox-24in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .357 MAG Inox 24"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-357mag-inox-24in.jpg',
     marca: 'Rossi',
@@ -2517,7 +2517,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'carabina-rossi-puma-44mag-inox-24in',
-    name: 'Carabina Rossi Puma',
+    name: 'Carabina Rossi Puma .44 MAG Inox 24"',
     category: 'carabinas',
     image: '/img/products/carabina-rossi-puma-44mag-inox-24in.jpg',
     marca: 'Rossi',
@@ -2532,7 +2532,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'fuzil-taurus-t4-556-anodizado-preto-11-5in',
-    name: 'Fuzil Taurus T4',
+    name: 'Fuzil Taurus T4 5.56 NATO Anodizado Preto 11.5"',
     category: 'fuzis',
     image: '/img/products/fuzil-taurus-t4-556-anodizado-preto-11-5in.jpg',
     marca: 'Taurus',
@@ -2547,7 +2547,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'fuzil-taurus-t4-556-anodizado-preto-14-5in',
-    name: 'Fuzil Taurus T4',
+    name: 'Fuzil Taurus T4 5.56 NATO Anodizado Preto 14.5"',
     category: 'fuzis',
     image: '/img/products/fuzil-taurus-t4-556-anodizado-preto-14-5in.jpg',
     marca: 'Taurus',
@@ -2562,7 +2562,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'fuzil-taurus-t4-mlok-300blk-anodizado-preto-9in',
-    name: 'Fuzil Taurus T4 MLOK',
+    name: 'Fuzil Taurus T4 MLOK .300 BLK Anodizado Preto 9"',
     category: 'fuzis',
     image: '/img/products/fuzil-taurus-t4-mlok-300blk-anodizado-preto-9in.jpg',
     marca: 'Taurus',
@@ -2577,7 +2577,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'fuzil-taurus-t4-mlok-300blk-anodizado-preto-16in',
-    name: 'Fuzil Taurus T4 MLOK',
+    name: 'Fuzil Taurus T4 MLOK .300 BLK Anodizado Preto 16"',
     category: 'fuzis',
     image: '/img/products/fuzil-taurus-t4-mlok-300blk-anodizado-preto-16in.jpg',
     marca: 'Taurus',
@@ -2592,7 +2592,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-way-22lr-oxidado',
-    name: 'Rifle CBC 7022 WAY',
+    name: 'Rifle CBC 7022 WAY .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-way-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2607,7 +2607,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-way-22lr-tan',
-    name: 'Rifle CBC 7022 WAY',
+    name: 'Rifle CBC 7022 WAY .22 LR Tan',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-way-22lr-tan.jpg',
     marca: 'CBC',
@@ -2622,7 +2622,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-way-22lr-sublimado',
-    name: 'Rifle CBC 7022 WAY',
+    name: 'Rifle CBC 7022 WAY .22 LR Sublimado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-way-22lr-sublimado.jpg',
     marca: 'CBC',
@@ -2637,7 +2637,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-std-22lr-oxidado',
-    name: 'Rifle CBC 7022 STD',
+    name: 'Rifle CBC 7022 STD .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-std-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2652,7 +2652,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-std-22lr-tan',
-    name: 'Rifle CBC 7022 STD',
+    name: 'Rifle CBC 7022 STD .22 LR Tan',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-std-22lr-tan.jpg',
     marca: 'CBC',
@@ -2667,7 +2667,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7022-std-22lr-madeira',
-    name: 'Rifle CBC 7022 STD',
+    name: 'Rifle CBC 7022 STD .22 LR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7022-std-22lr-madeira.jpg',
     marca: 'CBC',
@@ -2682,7 +2682,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-tactical-22lr-oxidado',
-    name: 'Rifle CBC Tactical',
+    name: 'Rifle CBC Tactical .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-tactical-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2697,7 +2697,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-tactical-22lr-tan',
-    name: 'Rifle CBC Tactical',
+    name: 'Rifle CBC Tactical .22 LR Tan',
     category: 'rifles',
     image: '/img/products/rifle-cbc-tactical-22lr-tan.jpg',
     marca: 'CBC',
@@ -2712,7 +2712,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-delta-22lr-oxidado',
-    name: 'Rifle CBC Delta',
+    name: 'Rifle CBC Delta .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-delta-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2727,7 +2727,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-delta-22lr-tan',
-    name: 'Rifle CBC Delta',
+    name: 'Rifle CBC Delta .22 LR Tan',
     category: 'rifles',
     image: '/img/products/rifle-cbc-delta-22lr-tan.jpg',
     marca: 'CBC',
@@ -2742,7 +2742,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-way-22lr-oxidado',
-    name: 'Rifle CBC 8122 WAY',
+    name: 'Rifle CBC 8122 WAY .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-way-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2757,7 +2757,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-std-22lr-oxidado',
-    name: 'Rifle CBC 8122 STD',
+    name: 'Rifle CBC 8122 STD .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-std-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2772,7 +2772,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-std-22lr-madeira',
-    name: 'Rifle CBC 8122 STD',
+    name: 'Rifle CBC 8122 STD .22 LR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-std-22lr-madeira.jpg',
     marca: 'CBC',
@@ -2787,7 +2787,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-std-22lr-tungstenio',
-    name: 'Rifle CBC 8122 STD',
+    name: 'Rifle CBC 8122 STD .22 LR Tungstenio',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-std-22lr-tungstenio.jpg',
     marca: 'CBC',
@@ -2802,7 +2802,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-way-22lr-tungstenio',
-    name: 'Rifle CBC 8122 WAY',
+    name: 'Rifle CBC 8122 WAY .22 LR Tungstenio',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-way-22lr-tungstenio.jpg',
     marca: 'CBC',
@@ -2817,7 +2817,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122-std-22lr-sublimado',
-    name: 'Rifle CBC 8122 STD',
+    name: 'Rifle CBC 8122 STD .22 LR Sublimado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122-std-22lr-sublimado.jpg',
     marca: 'CBC',
@@ -2832,7 +2832,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8117-17hmr-oxidado',
-    name: 'Rifle CBC 8117',
+    name: 'Rifle CBC 8117 .17 HMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8117-17hmr-oxidado.jpg',
     marca: 'CBC',
@@ -2847,7 +2847,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-pump-action-22lr-oxidado',
-    name: 'Rifle CBC Pump Action',
+    name: 'Rifle CBC Pump Action .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-pump-action-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2862,7 +2862,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-pump-action-22lr-madeira',
-    name: 'Rifle CBC Pump Action',
+    name: 'Rifle CBC Pump Action .22 LR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-pump-action-22lr-madeira.jpg',
     marca: 'CBC',
@@ -2877,7 +2877,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-rio-bravo-22lr-oxidado',
-    name: 'Rifle CBC Rio Bravo',
+    name: 'Rifle CBC Rio Bravo .22 LR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-rio-bravo-22lr-oxidado.jpg',
     marca: 'CBC',
@@ -2892,7 +2892,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-rio-bravo-22lr-madeira',
-    name: 'Rifle CBC Rio Bravo',
+    name: 'Rifle CBC Rio Bravo .22 LR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-rio-bravo-22lr-madeira.jpg',
     marca: 'CBC',
@@ -2907,7 +2907,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-pump-action-22wmr-oxidado',
-    name: 'Rifle CBC Pump Action',
+    name: 'Rifle CBC Pump Action .22 WMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-pump-action-22wmr-oxidado.jpg',
     marca: 'CBC',
@@ -2922,7 +2922,7 @@ export const preConfiguredProducts: Product[] = [
   },
    {
     id: 'rifle-cbc-pump-action-22wmr-madeira',
-    name: 'Rifle CBC Pump Action',
+    name: 'Rifle CBC Pump Action .22 WMR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-pump-action-22wmr-madeira.jpg',
     marca: 'CBC',
@@ -2937,7 +2937,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-rio-bravo-22wmr-oxidado',
-    name: 'Rifle CBC Rio Bravo',
+    name: 'Rifle CBC Rio Bravo .22 WMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-rio-bravo-22wmr-oxidado.jpg',
     marca: 'CBC',
@@ -2952,7 +2952,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-rio-bravo-22wmr-madeira',
-    name: 'Rifle CBC Rio Bravo',
+    name: 'Rifle CBC Rio Bravo .22 WMR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-rio-bravo-22wmr-madeira.jpg',
     marca: 'CBC',
@@ -2967,7 +2967,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7122m-22wmr-oxidado',
-    name: 'Rifle CBC 7122M',
+    name: 'Rifle CBC 7122M .22 WMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7122m-22wmr-oxidado.jpg',
     marca: 'CBC',
@@ -2982,7 +2982,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-7122m-22wmr-madeira',
-    name: 'Rifle CBC 7122M',
+    name: 'Rifle CBC 7122M .22 WMR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-7122m-22wmr-madeira.jpg',
     marca: 'CBC',
@@ -2997,7 +2997,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122m-22wmr-oxidado',
-    name: 'Rifle CBC 8122M',
+    name: 'Rifle CBC 8122M .22 WMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122m-22wmr-oxidado.jpg',
     marca: 'CBC',
@@ -3012,7 +3012,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122m-22wmr-madeira',
-    name: 'Rifle CBC 8122M',
+    name: 'Rifle CBC 8122M .22 WMR Madeira',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122m-22wmr-madeira.jpg',
     marca: 'CBC',
@@ -3027,7 +3027,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-8122m-22wmr-tungstenio',
-    name: 'Rifle CBC 8122M',
+    name: 'Rifle CBC 8122M .22 WMR Tungstenio',
     category: 'rifles',
     image: '/img/products/rifle-cbc-8122m-22wmr-tungstenio.jpg',
     marca: 'CBC',
@@ -3042,7 +3042,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-delta-22wmr-oxidado',
-    name: 'Rifle CBC Delta',
+    name: 'Rifle CBC Delta .22 WMR Oxidado',
     category: 'rifles',
     image: '/img/products/rifle-cbc-delta-22wmr-oxidado.jpg',
     marca: 'CBC',
@@ -3057,7 +3057,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'rifle-cbc-delta-22wmr-tungstenio',
-    name: 'Rifle CBC Delta',
+    name: 'Rifle CBC Delta .22 WMR Tungstenio',
     category: 'rifles',
     image: '/img/products/rifle-cbc-delta-22wmr-tungstenio.jpg',
     marca: 'CBC',
@@ -3072,7 +3072,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-12ga-oxidado-16in',
-    name: 'Espingarda CBC Military 3.0',
+    name: 'Espingarda CBC Military 3.0 .12 GA Oxidado 16"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-12ga-oxidado-16in.jpg',
     marca: 'CBC',
@@ -3087,7 +3087,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-12ga-oxidado-19in',
-    name: 'Espingarda CBC Military 3.0',
+    name: 'Espingarda CBC Military 3.0 .12 GA Oxidado 19"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-12ga-oxidado-19in.jpg',
     marca: 'CBC',
@@ -3102,7 +3102,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-12ga-oxidado-14in',
-    name: 'Espingarda CBC Military 3.0',
+    name: 'Espingarda CBC Military 3.0 .12 GA Oxidado 14"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-12ga-oxidado-14in.jpg',
     marca: 'CBC',
@@ -3117,7 +3117,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-12ga-oxidado-24in',
-    name: 'Espingarda CBC Military 3.0',
+    name: 'Espingarda CBC Military 3.0 .12 GA Oxidado 24"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-12ga-oxidado-24in.jpg',
     marca: 'CBC',
@@ -3132,7 +3132,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-retratil-12ga-oxidado-14in',
-    name: 'Espingarda CBC Military 3.0 Coronha Retrátil',
+    name: 'Espingarda CBC Military 3.0 Coronha Retrátil .12 GA Oxidado 14"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-retratil-12ga-oxidado-14in.jpg',
     marca: 'CBC',
@@ -3147,7 +3147,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-retratil-12ga-oxidado-16in',
-    name: 'Espingarda CBC Military 3.0 Coronha Retrátil',
+    name: 'Espingarda CBC Military 3.0 Coronha Retrátil .12 GA Oxidado 16"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-retratil-12ga-oxidado-16in.jpg',
     marca: 'CBC',
@@ -3162,7 +3162,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-retratil-12ga-oxidado-19in',
-    name: 'Espingarda CBC Military 3.0 Coronha Retrátil',
+    name: 'Espingarda CBC Military 3.0 Coronha Retrátil .12 GA Oxidado 19"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-retratil-12ga-oxidado-19in.jpg',
     marca: 'CBC',
@@ -3177,7 +3177,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-retratil-12ga-oxidado-24in',
-    name: 'Espingarda CBC Military 3.0 Coronha Retrátil',
+    name: 'Espingarda CBC Military 3.0 Coronha Retrátil .12 GA Oxidado 24"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-retratil-12ga-oxidado-24in.jpg',
     marca: 'CBC',
@@ -3192,7 +3192,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-oxidado-14in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Oxidado 14"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-oxidado-14in.jpg',
     marca: 'CBC',
@@ -3207,7 +3207,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-14in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Tungstenio 14"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-14in.jpg',
     marca: 'CBC',
@@ -3222,7 +3222,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-tan-14in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Tan 14"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-tan-14in.jpg',
     marca: 'CBC',
@@ -3237,7 +3237,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-oxidado-16in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Oxidado 16"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-oxidado-16in.jpg',
     marca: 'CBC',
@@ -3252,7 +3252,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-16in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Tungstenio 16"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-16in.jpg',
     marca: 'CBC',
@@ -3267,7 +3267,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-oxidado-19in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Oxidado 19"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-oxidado-19in.jpg',
     marca: 'CBC',
@@ -3282,7 +3282,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-19in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Tungstenio 19"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-19in.jpg',
     marca: 'CBC',
@@ -3297,7 +3297,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-oxidado-24in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Oxidado 24"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-oxidado-24in.jpg',
     marca: 'CBC',
@@ -3312,7 +3312,7 @@ export const preConfiguredProducts: Product[] = [
   },
   {
     id: 'espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-24in',
-    name: 'Espingarda CBC Military 3.0 Com Acessórios',
+    name: 'Espingarda CBC Military 3.0 Com Acessórios .12 GA Tungstenio 24"',
     category: 'espingardas',
     image: '/img/products/espingarda-cbc-military-3-0-acessorios-12ga-tungstenio-24in.jpg',
     marca: 'CBC',
